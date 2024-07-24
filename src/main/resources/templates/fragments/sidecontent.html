@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="ISO-8859-1">
+<title>Loan Pricing System</title>
+</head>
+<body>
+
+	<div th:fragment="content">
+		<div class="side-content">
+             <ul class="nav-main">
+                 <li>
+                     <a class="active" href="/"><i class="si si-home"></i><span class="sidebar-mini-hide">Home</span></a>
+                 </li>
+                 <!-- Start Sub-Menu 1 -->
+                 <!-- li class="nav-main-heading"><span class="sidebar-mini-hide">Check Off</span></li-->                 
+                              
+                 <li>
+                     <a href="/quotes/generated"><i class="fa fa-file-pdf-o"></i><span class="sidebar-mini-hide">My Quotes</span></a>
+                 </li>
+                 <li>
+                     <a href="/pricing/unbanked"><i class="fa fa-list-ul"></i><span class="sidebar-mini-hide">UnBanked Rates</span></a>
+                 </li>
+                 <li>
+                 	<a href="/branches/index"><i class="fa fa-code-fork"></i><span class="sidebar-mini-hide">Branch Network</span></a>
+                 </li>
+                 
+                 <!-- Start Sub-Menu 4 -->
+                 <li class="nav-main-heading"><span class="sidebar-mini-hide">Admin</span></li>
+                 <li>
+                     <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-cogs"></i><span class="sidebar-mini-hide">Settings</span></a>
+                     <ul>
+                         <li>
+                             <a href="/pricing/index">Pricing Variables</a>
+                         </li>
+                         <li>
+                             <a href="/roles/index">User Roles</a>
+                         </li>                        
+                     </ul>
+                 </li>
+                 <li>
+                 <a href="/users/index"><i class="si si-users"></i><span class="sidebar-mini-hide">User Management</span></a>
+                 </li>
+                 <!-- Start Sub-Menu 4 -->
+             </ul>
+         </div>	
+	</div>
+
+</body>
+</html>

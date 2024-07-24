@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html class="no-focus" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- Delete Modal Prompt -->
+	<div th:fragment="delete-modal">
+		<div class="modal fade" id="modal-popin" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-popin">
+                <div class="modal-content">
+                    <div class="block block-themed block-transparent remove-margin-b">
+                        <div class="block-header bg-primary-light">
+                            <ul class="block-options">
+                                <li>
+                                    <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Delete Record</h3>
+                        </div>
+                        <div class="block-content">
+                             <p id="prompt">Delete?</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-sm btn-default" type="button">Nope</button>
+                        <a href="" id="btnDelete" class="btn btn-sm btn-primary" type="button" ><i class="fa fa-check"></i> Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	<!-- End Delete Modal Prompt -->
+	<!-- Comment Modal -->
+	<div th:fragment="comment-modal">
+		<div class="modal fade" id="modal-comment" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-popin">
+                <div class="modal-content">
+                    <div class="block block-themed block-transparent remove-margin-b">
+                        <div class="block-header bg-amethyst-dark">
+                            <ul class="block-options">
+                                <li>
+                                    <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Add Comments/Notes</h3>
+                        </div>
+                        <div class="block-content">
+                            <p>
+                        	    <!-- Material Forms Validation -->
+                                <div class="block-content">
+	                                    <form class="js-validation-material form-horizontal push-10-t" action="#" th:action="@{/comments/save}" th:object="${comment}" method="post">
+	                                        <div class="form-group"> 
+	                                        	<div class="col-xs-12">
+	                                            	<div class="form-material">
+	                                            	<textarea rows="4" cols="1" class="form-control" type="text" id="comments" name="comments"  th:field="*{comments}"></textarea>
+	                                            		<label for="comments">Comments/Notes <span class="text-danger">*</span></label>
+	                                            	</div>
+	                                            </div>                                          
+	                                        </div>
+	                                        <input hidden="hidden"  th:attr="value=${alert.id}" id="alert.id" name="alert.id">                                         
+	                                        <div class="form-group">
+	                                            <div class="col-xs-12">
+	                                                 <button class="btn btn-sm btn-primary fa fa-save" type="submit">&nbsp;&nbsp;Save Comment</button>
+	                                            </div>
+	                                        </div>
+	                                    </form>
+                                </div>
+                                <!-- Material Forms Validation -->
+							</p>
+						</div>						
+					</div>
+					<div class="modal-footer">
+                        <!-- button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                        <button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button-->
+                    </div>
+				</div>
+			</div>
+    	</div>
+    </div>	
+	<!-- End Comment Modal -->
+	<!-- Comments Modal -->
+	<div th:fragment="upload-document-modal">
+		<div class="modal fade" id="modal-upload-document" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-popin">
+                <div class="modal-content">
+                    <div class="block block-themed block-transparent remove-margin-b">
+                        <div class="block-header bg-amethyst-dark">
+                            <ul class="block-options">
+                                <li>
+                                    <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Upload Document</h3>
+                        </div>
+                        <div class="block-content">
+                            <!-- jQuery Validation (.js-validation-material class is initialized in js/pages/base_forms_validation.js) -->
+                            <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                            <form class="js-validation-material form-horizontal push-10-t" action="#" 
+                             th:action="@{/documents/save}" th:object="${document}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                   	<div class="col-xs-12">
+                                    	<div class="form-material floating">
+                                    		<input class="form-control" type="file" name="file" id="file" />
+                                    	</div>
+                                    </div> 
+                                 </div>
+                                <input hidden="hidden"  th:attr="value=${alert.id}" id="alertId" name="alertId">                                         
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                         <button class="btn btn-sm btn-primary fa fa-upload" type="submit">&nbsp;&nbsp;Upload Document</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- button data-dismiss="modal" class="btn btn-sm btn-default" type="button">Nope</button>
+                        <a href="" id="btnDelete" class="btn btn-sm btn-primary" type="button" ><i class="fa fa-check"></i> Yes</a-->
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	<!-- End Comments Modal -->
+	<!-- Mark Task as Complete Modal Prompt -->
+	<div th:fragment="complete-task-modal">
+		<div class="modal fade" id="complete-task-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-popin">
+                <div class="modal-content">
+                    <div class="block block-themed block-transparent remove-margin-b">
+                        <div class="block-header bg-primary-light">
+                            <ul class="block-options">
+                                <li>
+                                    <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                                </li>
+                            </ul>
+                            <h3 class="block-title">Close Task!</h3>
+                        </div>
+                        <div class="block-content">
+                             <p id="prompt">Do you wish to mark this task as closed?</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-sm btn-danger" type="button"><i class="fa fa-close"></i>&nbsp;&nbsp;Nope!</button>
+                        <a href="" id="btnDelete" class="btn btn-sm btn-success" type="button" ><i class="fa fa-check"></i> Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	<!-- End Mark Task as Complete Modal Prompt -->
+</body>
+</html>

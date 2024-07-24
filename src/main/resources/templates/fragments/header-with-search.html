@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="no-focus" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="ISO-8859-1">
+<title>Loan Pricing System</title>
+</head>
+<body>
+	<div th:fragment="content">
+		<header id="header-navbar" class="content-mini content-mini-full">
+            <!-- Header Navigation Right -->
+            <ul class="nav-header pull-right">
+                <li>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
+                            <img src="../assets/images/13.png" alt="">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-header">Profile</li>
+                             <li>
+                            	<a tabindex="-1" th:href="@{/users/view(id=*{session.userId})}">
+                            		<i class="si si-user pull-right"></i>
+                            		<span th:text="*{session.name + ' ('+session.role+')'}">AN Other</span>
+                            	</a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="/logout">
+                                    <i class="si si-logout pull-right"></i>Log out
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>                   
+            </ul>
+            <!-- END Header Navigation Right -->
+
+            <!-- Header Navigation Left -->
+            <ul class="nav-header pull-left">
+                <li class="hidden-md hidden-lg">
+                    <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                    <button class="btn btn-default" data-toggle="layout" data-action="sidebar_toggle" type="button">
+                        <i class="fa fa-navicon"></i>
+                    </button>
+                </li>
+                <li class="hidden-xs hidden-sm">
+                    <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                    <button class="btn btn-default" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </button>
+                </li>                   
+                <li class="visible-xs">
+                    <!-- Toggle class helper (for .js-header-search below), functionality initialized in App() -> uiToggleClass() -->
+                    <button class="btn btn-default" data-toggle="class-toggle" data-target=".js-header-search" data-class="header-search-xs-visible" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </li>
+                <li class="js-header-search header-search" style="width: 860px !important;">
+                    <form class="form-horizontal" action="#" method="post">                        	
+                        <div class="form-material form-material-primary input-group remove-margin-t remove-margin-b">
+                        	<div class="col-md-3" style="padding-right: 5px !important; padding-left: 5px !important;">
+                        		<select class="form-control col-sm-6" id="branchId" name="branchId">
+                                 <option value="0">Select Branch</option>
+                                 <option th:each="b : ${branches}" th:value="${b.id}" th:text="${b.name}">HTML</option>
+                             </select>
+                        	</div>
+                        	<div class="col-md-3"  style="padding-right: 5px !important; padding-left: 5px !important;">
+                        		<select class="form-control col-sm-6" id="statusId" name="statusId">
+                                 <option value="0">Select Status</option>
+                                 <option th:each="s : ${statuses}" th:value="${s.id}" th:text="${s.name}">HTML</option>	                                    
+                             </select>
+                        	</div>
+                        	<div class="col-md-6"  style="padding-right: 5px !important; padding-left: 5px !important;">
+                            	<div class="input-daterange input-group" data-date-format="yyyy-mm-dd">
+                                 <input class="form-control" type="text" id="date_from" name="date_from" placeholder="From">
+                                 <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                                 <input class="form-control" type="text" id="date_to" name="date_to" placeholder="To">
+                             </div>
+                            </div>
+                            <span class="input-group-addon btn btn-xs btn-rounded btn-primary" id="btnSearch" style="padding: 6px 6px !important;"><i class="si si-magnifier"></i></span>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+            <!-- END Header Navigation Left -->
+        </header>	
+	</div>
+</body>
+</html>
