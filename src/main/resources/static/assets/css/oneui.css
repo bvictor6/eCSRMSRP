@@ -6688,7 +6688,7 @@ body {
   outline: 0 !important;
 }
 a {
-  color: #5c90d2;
+  color: #09c;
   -webkit-transition: color 0.12s ease-out;
   transition: color 0.12s ease-out;
 }
@@ -6809,15 +6809,15 @@ h6,
 .h6 {
   font-size: 14px;
 }
-.page-heading-kcb {
+.page-heading-bcms {
   color: #ffffff;
   font-size: 28px;
   font-weight: 400;
 }
-.page-heading-kcb small {
+.page-heading-bcms small {
   margin-top: 5px;
   /*display: block;*/
-  color: #84bd00;
+  color: #000;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.4;
@@ -6915,7 +6915,7 @@ button.text-muted:focus {
   opacity: .75;
 }
 .text-primary {
-  color: #5c90d2;
+  color: #09c;
 }
 a.text-primary:hover,
 a.text-primary:active,
@@ -6923,7 +6923,7 @@ a.text-primary:focus,
 button.text-primary:hover,
 button.text-primary:active,
 button.text-primary:focus {
-  color: #5c90d2;
+  color: #09c;
   opacity: .75;
 }
 .text-primary-dark {
@@ -7322,11 +7322,11 @@ a.bg-gray-light:hover {
 a.bg-gray-lighter:hover {
   background-color: #e0e0e0;
 }
-.bg-dark-kcb {
-  background-color: #003d4c;
+.bg-dark-bcms {
+  background-color: #09c;
 }
-a.bg-dark-kcb:hover {
-  background-color: #84bd00;
+a.bg-dark-bcms:hover {
+  background-color: #fff;
 }
 .btn {
   font-weight: 600;
@@ -8161,7 +8161,7 @@ a.list-group-item:focus {
   padding: 0;
   font-family: "FontAwesome";
   /*color: rgba(0, 0, 0, 0.5);*/
-  color: #84bd00;
+  color: #000;
   content: "\f105";
   width: 20px;
   text-align: center;
@@ -11146,7 +11146,7 @@ a.list-group-item:focus {
 }
 #sidebar {
   width: 230px;
-  background-color: #003D4C;
+  background-color: #000;
 }
 .sidebar-l #sidebar {
   left: 0;
@@ -12383,12 +12383,12 @@ a.block.block-link-hover3:active {
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  color: #84bd00;
+  color: #09c;
 }
 .nav-main a {
   display: block;
   padding: 10px 35px 10px 20px;
-  color: #fff;
+  color: #09c;
 }
 .nav-main a:hover,
 .nav-main a:focus {
@@ -12401,15 +12401,15 @@ a.block.block-link-hover3:active {
 }
 .nav-main a.active,
 .nav-main a.active:hover {
-  color: #84bd00;
+  color: #fff;
 }
 .nav-main a.active > i,
 .nav-main a.active:hover > i {
-  color: #84bd00;
+  color: #09c;
 }
 .nav-main a > i {
   margin-right: 15px;
-  color: #84bd00;
+  color: #09c;
 }
 .nav-main a.nav-submenu {
   position: relative;
@@ -12424,7 +12424,7 @@ a.block.block-link-hover3:active {
   right: 15px;
   display: inline-block;
   font-family: 'FontAwesome';
-  color: #84bd00;
+  color: #09c;
   content: "\f104";
 }
 .nav-main a.nav-submenu:before.nav-main a.nav-submenu:before-fwidth {
@@ -12458,7 +12458,7 @@ a.block.block-link-hover3:active {
 }
 .nav-main ul a:hover,
 .nav-main ul a:focus {
-  color: #84bd00;
+  color: #09c;
   background-color: transparent;
 }
 .nav-main ul a > i {
@@ -12468,10 +12468,10 @@ a.block.block-link-hover3:active {
   padding-left: 12px;
 }
 .nav-main li.open > a.nav-submenu {
-  color: #84bd00;
+  color: #09c;
 }
 .nav-main li.open > a.nav-submenu > i {
-  color: #84bd00;
+  color: #09c;
 }
 .nav-main li.open > a.nav-submenu:before {
   content: "\f107";
@@ -16626,7 +16626,7 @@ div.tagsinput span.tag {
   height: 22px;
   line-height: 18px;
   color: #fff;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans","Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 600;
   background-color: #5c90d2;
   border: none;
@@ -16714,7 +16714,7 @@ div.tagsinput span.tag a:hover {
 .select2-container--default .select2-search--inline .select2-search__field {
   padding-right: 0;
   padding-left: 0;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans","Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -16723,7 +16723,7 @@ div.tagsinput span.tag a:hover {
 }
 .select2-search--dropdown .select2-search__field {
   padding: 6px 12px;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans","Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   border-radius: 3px;
   -webkit-box-shadow: none;
   box-shadow: none;

@@ -578,9 +578,9 @@ var App = function() {
         var $yearCopy   = jQuery('.js-year-copy');
 
         if ($date.getFullYear() === 2024) {
-            $yearCopy.html('2023');
+            $yearCopy.html('2024');
         } else {
-            $yearCopy.html('2023-' + $date.getFullYear().toString().substr(2,2));
+            $yearCopy.html('2024-' + $date.getFullYear().toString().substr(2,2));
         }
     };
 
