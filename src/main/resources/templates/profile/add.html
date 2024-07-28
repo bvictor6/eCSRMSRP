@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="ie9 no-focus"> <![endif]-->
+<!--[if gt IE 9]><!--> 
+<html class="no-focus" xmlns:th="http://www.thymeleaf.org" lang="en"> 
+<!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+
+ 		<!--  -->
+        <!--meta th:name="_csrf" th:content="${_csrf.token}"/>
+		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/-->
+	    <!-- ... -->
+	    
+        <title>Supplier Registration Portal</title>
+
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <link rel="shortcut icon" href="assets/img/favicons/favicon.png">
+
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-160x160.png" sizes="160x160">
+        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-192x192.png" sizes="192x192">
+
+        <link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="assets/img/favicons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="assets/img/favicons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon-180x180.png">
+        <!-- END Icons -->
+
+        <!-- Stylesheets -->
+        <!-- Web fonts -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+		<!--Start fontawesome css-->
+		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
+		<link href="../assets/css/brands.css" rel="stylesheet" />
+		<link href="../assets/css/solid.css" rel="stylesheet" />
+			<!--End fontawesome css-->
+        <!-- OneUI CSS framework -->
+        <link rel="stylesheet" id="css-main" href="../assets/css/oneui.css">
+
+        <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+        <link rel="stylesheet" id="css-theme" href="../assets/css/themes/city.min.css"> 
+        <!-- END Stylesheets -->
+    </head>
+    <body>
+        <!-- Page Container -->
+        <div id="page-container">
+            <!-- Main Container -->
+            <main id="main-container">
+                <!-- Page Header -->
+                <div class="content bg-image overflow-hidden" style="background-color: #09c;">
+					<div class="col-lg-4">&nbsp;</div>
+					<div class="col-lg-4 push-10">
+						<img 
+							src='../assets/images/botswana_logo_web.png'
+							height="150"
+							alt=""
+						/>
+                    </div>
+					<div class="col-lg-4">&nbsp;</div>
+                </div>
+                <!-- END Page Header -->				
+				               
+                <!-- Page Content -->
+                <div class="content">                	                  
+					<!-- Wizards with Validation -->                    
+                    <div class="row">
+						<div class="col-lg-2">&nbsp;</div>
+                        <div class="col-lg-8 col-sm-12">							
+							<div class="push-10">
+								<h2 class="content-heading">Welcome to the Supplier Self-Registration Page</h2>
+								<small class="text-muted">Welcome to the Supplier Self Registration Portal. this Portal serves as the initial point of entry for future vendors to do business.</small>
+							</div>
+                            <!-- Validation Wizard (.js-wizard-validation class is initialized in js/pages/base_forms_wizard.js) -->
+                            <!-- For more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/ -->
+                            <div class="js-wizard-validation block">
+                                <!-- Step Tabs -->
+                                <ul class="nav nav-tabs nav-tabs-alt nav-justified">
+                                    <li class="active">
+                                        <a class="inactive" href="#validation-step1" data-toggle="tab">1. Company Details</a>
+                                    </li>
+                                    <li>
+                                        <a class="inactive" href="#validation-step2" data-toggle="tab">2. Personal Details</a>
+                                    </li>
+                                    <li>
+                                        <a class="inactive" href="#validation-step3" data-toggle="tab">3. Account Details</a>
+                                    </li>
+                                </ul>
+                                <!-- END Step Tabs -->
+
+                                <!-- Form -->
+                                <!-- jQuery Validation (.js-form2 class is initialized in js/pages/base_forms_wizard.js) -->
+                                <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                                <form class="js-form2 form-horizontal" action="base_forms_wizard.html" method="post">
+                                    <!-- Steps Content -->
+                                    <div class="block-content tab-content">
+                                        <!-- Step 1 -->
+                                        <div class="tab-pane fade fade-right in push-30-t push-50 active" id="validation-step1">
+                                            <div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-name" name="validation-name" placeholder="Supplier Name">
+                                                        <label for="validation-name">Supplier Name</label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-contract-no" name="validation-contract-no" placeholder="Contract Number">
+                                                        <label for="validation-contrct-no">Contract No.</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-address" name="validation-address" placeholder="Physical Address">
+                                                        <label for="validation-address">Physical Address</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="tel" id="validation-tel" name="validation-tel" placeholder="Office Phone">
+                                                        <label for="validation-tel">Office Phone</label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-mobile" name="validation-mobile" placeholder="Mobile">
+                                                        <label for="validation-mobile">Mobile</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+											<div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-address" name="validation-address" placeholder="Postal Address">
+                                                        <label for="validation-address">Postal Address</label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-fax" name="validation-fax" placeholder="Fax">
+                                                        <label for="validation-fax">Fax</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+											<div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-city" name="validation-city" placeholder="Please enter your town/city">
+                                                        <label for="validation-city">Town/City</label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-country" name="validation-country" placeholder="Please enter your country">
+                                                        <label for="validation-mobile">Country</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END Step 1 -->
+
+                                        <!-- Step 2 -->
+                                        <div class="tab-pane fade fade-right push-30-t push-50" id="validation-step2">
+											<div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="email" id="validation-firstname" name="validation-firstname" placeholder="First Name">
+                                                        <label for="validation-firstname">First Name</label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-lastname" name="validation-lastname" placeholder="Last Name">
+                                                        <label for="validation-lastname">Last Name</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+											<div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-designation" name="validation-designation" placeholder="Designation">
+                                                        <label for="validation-designation">Designation</label>
+                                                    </div>
+                                                </div>												
+                                            </div>
+                                        </div>
+                                        <!-- END Step 2 -->
+
+                                        <!-- Step 3 -->
+                                        <div class="tab-pane fade fade-right push-30-t push-50" id="validation-step3">
+                                            <div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="validation-password" name="validation-password" placeholder="Password">
+                                                        <label for="validation-password">Password</label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="password" id="validation-confirm-password" name="validation-confirm-password" placeholder="Confirm password">
+                                                        <label for="validation-confirm-password">Confirm Password</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <div class="col-sm-8 col-sm-offset-2">
+                                                    <label class="css-input switch switch-sm switch-primary" for="validation-terms">
+                                                        <input type="checkbox" id="validation-terms" name="validation-terms"><span></span> Agree with the <a data-toggle="modal" data-target="#modal-terms" href="#">terms</a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END Step 3 -->
+                                    </div>
+                                    <!-- END Steps Content -->
+
+                                    <!-- Steps Navigation -->
+                                    <div class="block-content block-content-mini block-content-full border-t">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <button class="wizard-prev btn btn-warning" type="button"><i class="fa fa-arrow-circle-o-left"></i> Previous</button>
+                                            </div>
+                                            <div class="col-xs-6 text-right">
+                                                <button class="wizard-next btn btn-success" type="button">Next <i class="fa fa-arrow-circle-o-right"></i></button>
+                                                <button class="wizard-finish btn btn-primary" type="submit"><i class="fa fa-check-circle-o"></i> Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Steps Navigation -->
+                                </form>
+                                <!-- END Form -->
+                            </div>
+                            <!-- END Validation Wizard Wizard -->
+                        </div>
+						<div class="col-lg-2">&nbsp;</div>
+                    </div>
+                    <!-- END Wizards with Validation -->
+                </div>
+                <!-- END Page Content -->
+            </main>
+            <!-- END Main Container -->
+
+			<div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;
+	          	top:50%;left:50%;padding:2px;">
+	          	<img src="../assets/images/kcb_loader.gif" width="64" height="64" />                   	
+	          	<br>Working...
+          	</div>
+			
+            <!-- Footer -->
+            <div th:replace="fragments/footer::content"></div>
+            <!-- END Footer -->
+        </div>
+        <!-- END Page Container -->
+
+        
+        <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+        <script src="../assets/js/core/jquery.min.js"></script>
+        <script src="../assets/js/core/bootstrap.min.js"></script>
+        <script src="../assets/js/core/jquery.slimscroll.min.js"></script>
+        <script src="../assets/js/core/jquery.scrollLock.min.js"></script>
+        <script src="../assets/js/core/jquery.appear.min.js"></script>
+        <script src="../assets/js/core/jquery.countTo.min.js"></script>
+        <script src="../assets/js/core/jquery.placeholder.min.js"></script>
+        <script src="../assets/js/core/js.cookie.min.js"></script>
+        <script src="../assets/js/app.js"></script>
+
+        <!-- Page JS Plugins -->
+        <script src="../assets/js/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+        <script src="../assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+
+        <!-- Page JS Code -->
+        <script src="../assets/js/pages/base_forms_wizard.js"></script>        
+    </body>
+</html>
