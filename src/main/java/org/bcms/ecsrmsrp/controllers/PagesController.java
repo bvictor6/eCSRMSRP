@@ -17,10 +17,18 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class PagesController {
 	
-	@GetMapping(path = "/")
-	public String Home(Model model, HttpServletRequest request) {
+	@GetMapping(path = "/dashboard")
+	public String dashboard(Model model, HttpServletRequest request) {
 		
 		return "home/index";
 	}
+	
+	@GetMapping(path = "/")
+	public String login(Model model, HttpServletRequest request) {
+		
+		return "/auth/login";
+	}
+	
+	
 
 }

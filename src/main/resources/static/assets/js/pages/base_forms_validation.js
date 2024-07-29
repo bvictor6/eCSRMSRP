@@ -23,7 +23,7 @@ var BaseFormValidation = function()
                 jQuery(e).closest('.help-block').remove();
             },
             rules: {
-                'val-username': {
+                'val-name': {
                     required: true,
                     minlength: 3
                 },
@@ -67,7 +67,7 @@ var BaseFormValidation = function()
                 }
             },
             messages: {
-                'val-username': {
+                'val-name': {
                     required: 'Please enter a username',
                     minlength: 'Your username must consist of at least 3 characters'
                 },

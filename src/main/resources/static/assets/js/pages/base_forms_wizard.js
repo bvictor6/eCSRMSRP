@@ -132,45 +132,79 @@ var BaseFormWizard = function() {
                 jQuery(e).closest('.help-block').remove();
             },
             rules: {
-                'customerId': {
+                'contractNo': {
                     required: true,
                     minlength: 3
                 },
                 'name': {
                     required: true,
-                    minlength: 2
+                    minlength: 3
                 },
-                'validation-email': {
+                'physicalAddress':{
+					required: true,
+					minlength: 3
+				},
+				'phone':{
+					required: true,
+					minlength: 5
+				},
+				'mobile':{
+					required: true,
+					minlength: 8
+				},
+				'postalAddress':{
+					required: true
+				},
+                'email': {
                     required: true,
                     email: true
                 },
-                'validation-details': {
-                    required: true,
-                    minlength: 5
-                },
-                'tenure': {
+                'city': {
                     required: true
                 },
-                'loanType': {
+                'country': {
                     required: true
                 },
+                'firstname':{
+					required: true					
+				},
+				'lastname':{
+					required: true					
+				},
+				'designation':{
+					required: true					
+				},
+				'password':{
+					required: true
+				},
+				'confirmPassword':{
+					required: true
+				},
                 'validation-terms': {
                     required: true
                 }
             },
             messages: {
-                'customerId': {
-                    required: 'Please enter customer T24 ID',
-                    minlength: 'Customer T24 ID must consist of at least 3 characters'
-                },
                 'name': {
-                    required: 'Customer details not found!',
-                    minlength: 'Customer name must consist of at least 2 characters'
+                    required: 'Vendor name is required!',
+                    minlength: 'Vendor name must consist of at least 3 characters'
                 },
-                'validation-email': 'Please enter a valid email address',
-                'tenure': 'Please enter loan tenure!',
-                'loanType': 'Please select a loan type!',
-                'validation-terms': 'You must agree to the service terms!'
+                'contractNo': {
+                    required: 'Contract number is required!',
+                    minlength: 'Contract number must consist of at least 3 characters'
+                },
+                'email': 'Please enter a valid email address',
+                'physicalAddress': 'Physical address is required!',
+                'phone': 'Office telephone is required!',
+                'mobile': 'Mobile number is required!',
+                'postalAddress': 'Postal address is required!',
+                'city': 'Town/City is required!',
+                'country': 'Country is required!',
+                'firstname': 'Firstname is required!',
+                'lastname': 'Lastname is required!',
+                'designation': 'Designation is required!',
+                'password': 'Password is required',
+                'confirmPassword': 'Password is required!'
             }
         });
 

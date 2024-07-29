@@ -44,7 +44,9 @@
 		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
 		<link href="../assets/css/brands.css" rel="stylesheet" />
 		<link href="../assets/css/solid.css" rel="stylesheet" />
-			<!--End fontawesome css-->
+		<!--End fontawesome css-->
+		<link rel="stylesheet" href="../assets/js/plugins/select2/select2.min.css">
+		<link rel="stylesheet" href="../assets/js/plugins/select2/select2-bootstrap.css">
         <!-- OneUI CSS framework -->
         <link rel="stylesheet" id="css-main" href="../assets/css/oneui.css">
 
@@ -109,65 +111,78 @@
                                             <div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-name" name="validation-name" placeholder="Supplier Name">
-                                                        <label for="validation-name">Supplier Name</label>
+                                                        <input class="form-control" type="text" id="name" name="name" placeholder="Supplier Name">
+                                                        <label for="name">Supplier Name <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-contract-no" name="validation-contract-no" placeholder="Contract Number">
-                                                        <label for="validation-contrct-no">Contract No.</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-12">
-                                                    <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-address" name="validation-address" placeholder="Physical Address">
-                                                        <label for="validation-address">Physical Address</label>
+                                                        <input class="form-control" type="text" id="contractNo" name="contractNo" placeholder="Contract Number">
+                                                        <label for="contractNo">Contract No. <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="tel" id="validation-tel" name="validation-tel" placeholder="Office Phone">
-                                                        <label for="validation-tel">Office Phone</label>
+                                                        <input class="form-control" type="text" id="physicalAddress" name="physicalAddress" placeholder="Physical Address">
+                                                        <label for="physicalAddress">Physical Address <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-mobile" name="validation-mobile" placeholder="Mobile">
-                                                        <label for="validation-mobile">Mobile</label>
+                                                        <input class="form-control" type="text" id="email" name="email" placeholder="Email Address">
+                                                        <label for="email">Email Address <span class="text-danger">*</span></label>
+                                                    </div>
+                                                </div>												
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="tel" id="phone" name="phone" placeholder="Office Phone">
+                                                        <label for="phone">Office Phone <span class="text-danger">*</span></label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="tel" id="mobile" name="mobile" placeholder="Mobile">
+                                                        <label for="mobile">Mobile <span class="text-danger">*</span></label>
+                                                    </div>
+                                                </div>
+                                            </div> 
+											<div class="form-group">
+                                                <div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="postalAddress" name="postalAddress" placeholder="Postal Address">
+                                                        <label for="postalAddress">Postal Address <span class="text-danger">*</span></label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" type="text" id="fax" name="fax" placeholder="Fax">
+                                                        <label for="fax">Fax <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
                                             </div>
 											<div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-address" name="validation-address" placeholder="Postal Address">
-                                                        <label for="validation-address">Postal Address</label>
+                                                        <input class="form-control" type="text" id="city" name="city" placeholder="Please enter your town/city">
+                                                        <label for="city">Town/City <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
-                                                    <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-fax" name="validation-fax" placeholder="Fax">
-                                                        <label for="validation-fax">Fax</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-											<div class="form-group">
-                                                <div class="col-sm-6">
-                                                    <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-city" name="validation-city" placeholder="Please enter your town/city">
-                                                        <label for="validation-city">Town/City</label>
-                                                    </div>
-                                                </div>
-												<div class="col-sm-6">
-                                                    <div class="form-material">
+                                                    <!--div class="form-material">
                                                         <input class="form-control" type="text" id="validation-country" name="validation-country" placeholder="Please enter your country">
                                                         <label for="validation-mobile">Country</label>
-                                                    </div>
+                                                    </div-->
+													<div class="form-material floating">
+														<!--select class="js-select2 form-control" id="country" name="country"  th:field="*{country.id}" style="width: 100%;" data-placeholder="Choose one.."-->
+		                                           		<select class="js-select2 form-control" id="country" name="country"  style="width: 100%;" data-placeholder="Choose one..">
+		                                           			<option th:each="c:${countries}" th:value="${c.id}" th:text="${c.name}"></option>
+		                                           		</select>
+		                                           		<label for="country">Country <span class="text-danger">*</span></label>
+		                                           	</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -178,22 +193,22 @@
 											<div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="email" id="validation-firstname" name="validation-firstname" placeholder="First Name">
-                                                        <label for="validation-firstname">First Name</label>
+                                                        <input class="form-control" type="text" id="firstname" name="firstname" placeholder="First Name">
+                                                        <label for="firstname">First Name <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-lastname" name="validation-lastname" placeholder="Last Name">
-                                                        <label for="validation-lastname">Last Name</label>
+                                                        <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Last Name">
+                                                        <label for="lastname">Last Name <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
                                             </div>
 											<div class="form-group">
                                                 <div class="col-sm-12">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-designation" name="validation-designation" placeholder="Designation">
-                                                        <label for="validation-designation">Designation</label>
+                                                        <input class="form-control" type="text" id="designation" name="designation" placeholder="Designation">
+                                                        <label for="designation">Designation <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>												
                                             </div>
@@ -205,14 +220,14 @@
                                             <div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-password" name="validation-password" placeholder="Password">
-                                                        <label for="validation-password">Password</label>
+                                                        <input class="form-control" type="text" id="password" name="password" placeholder="Password">
+                                                        <label for="password">Password <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="password" id="validation-confirm-password" name="validation-confirm-password" placeholder="Confirm password">
-                                                        <label for="validation-confirm-password">Confirm Password</label>
+                                                        <input class="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
+                                                        <label for="confirmPassword">Confirm Password <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -257,7 +272,7 @@
 
 			<div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;
 	          	top:50%;left:50%;padding:2px;">
-	          	<img src="../assets/images/kcb_loader.gif" width="64" height="64" />                   	
+	          	<img src="../assets/images/circle_loader.gif" width="64" height="64" />                   	
 	          	<br>Working...
           	</div>
 			
@@ -265,8 +280,7 @@
             <div th:replace="fragments/footer::content"></div>
             <!-- END Footer -->
         </div>
-        <!-- END Page Container -->
-
+        <!-- END Page Container -->		 
         
         <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
         <script src="../assets/js/core/jquery.min.js"></script>
@@ -283,7 +297,17 @@
         <script src="../assets/js/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
         <script src="../assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 
-        <!-- Page JS Code -->
-        <script src="../assets/js/pages/base_forms_wizard.js"></script>        
+        <!-- Form Wizard JS Code -->
+        <script src="../assets/js/pages/base_forms_wizard.js"></script>  
+		
+		<script src="../assets/js/plugins/select2/select2.full.min.js"></script>
+         <!-- Dropdown JS Code -->
+        <script>
+            $(function () {
+                // Init page helpers (BS Datepicker + BS Colorpicker + Select2 + Masked Input + Tags Inputs plugins)
+                App.initHelpers(['select2']);
+            });
+        </script>    
+	
     </body>
 </html>

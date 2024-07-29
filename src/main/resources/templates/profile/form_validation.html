@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html class="no-focus" xmlns:th="http://www.thymeleaf.org" lang="en"> 
+<head></head>
+	<body>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+		/*
+		 *  Document   : base_forms_validation.js
+		 *  Author     : pixelcave
+		 *  Description: Custom JS code used in Form Validation Page
+		 */
+		
+		var BaseFormValidation = function() 
+		{
+		    
+		    // Init Material Forms Validation, for more examples you can check out https://github.com/jzaefferer/jquery-validation
+		    var initValidationMaterial = function(){
+		        jQuery('.js-validation-material').validate({
+		            errorClass: 'help-block text-right animated fadeInDown',
+		            errorElement: 'div',
+		            errorPlacement: function(error, e) {
+		                jQuery(e).parents('.form-group .form-material').append(error);
+		            },
+		            highlight: function(e) {
+		                jQuery(e).closest('.form-group').removeClass('has-error').addClass('has-error');
+		                jQuery(e).closest('.help-block').remove();
+		            },
+		            success: function(e) {
+		                jQuery(e).closest('.form-group').removeClass('has-error');
+		                jQuery(e).closest('.help-block').remove();
+		            },
+		            rules: {
+		            	'description': {
+		                    required: true,
+		                    minlength: 5
+		                },
+		                'name': {
+		                    required: true,
+		                    minlength: 5
+		                },
+		                'username': {
+		                    required: true,
+		                    minlength: 5
+		                },
+		                'email': {
+		                    required: true,
+		                    email: true
+		                },
+		                'division': {
+		                    required: true,
+		                    minlength: 5
+		                },
+		                'department': {
+		                    required: true,
+		                },
+		                'company': {
+		                    required: true
+		                },
+		                'staffid': {
+		                    required: true,
+		                }
+		            },
+		            messages: {
+		            	'description': {
+		                    required: 'Please enter person description',
+		                    minlength: 'Description must consist of at least 5 characters'
+		                },
+		                'name': {
+		                    required: 'Please enter persons name',
+		                    minlength: 'Persons name must consist of at least 3 characters'
+		                },
+		                'username': {
+		                    required: 'Please enter a username',
+		                    minlength: 'Username must consist of at least 5 characters'
+		                },
+		                'email': 'Please enter a valid email address!',
+		                'company': 'Please enter company!',
+		                'division': 'Please enter division!',
+		                'department': 'Please enter department!',
+		            }
+		        });
+		    };
+		
+		    return {
+		        init: function () {
+		            // Init Meterial Forms Validation
+		            initValidationMaterial();
+		        }
+		    };
+		}();
+		
+		// Initialize when page loads
+		jQuery(function(){ BaseFormValidation.init(); });
+		/*]]>*/
+		</script>	
+	</body>
+</html>
