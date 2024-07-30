@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * 
@@ -49,7 +50,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                 		.requestMatchers("/**").authenticated())
                 .authorizeHttpRequests(requests -> requests
-                		.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", 
+                		.requestMatchers("/api-docs/**", "/swagger-ui/**", 
                 				"/swagger-ui.html", "/actuator/**",
                 				"/api-documentation").permitAll())
                 .sessionManagement(management -> management
@@ -59,9 +60,15 @@ public class SecurityConfig {
                 //		UsernamePasswordAuthenticationFilter.class)
                 .formLogin((form) -> form
         				.loginPage("/login")
+        				.loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/dashboard")
         				.permitAll()
         			)
-        			.logout((logout) -> logout.permitAll())
+        			.logout(
+        					(logout) -> logout
+        					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        					.permitAll()
+        				)
                 .build(); 
     }
     

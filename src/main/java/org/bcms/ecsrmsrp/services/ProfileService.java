@@ -14,6 +14,8 @@ import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.repositories.CountryRepository;
 import org.bcms.ecsrmsrp.repositories.ProfileRepository;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProfileService {
+	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired CountryRepository countryRepository;
 	@Autowired ProfileRepository profileRepository;
 	@Autowired UserRepository userRepository;
@@ -35,7 +38,7 @@ public class ProfileService {
 		User user = new User();
 		user.setUsername(profile.getEmail());
 		user.setPassword(passwordEncoder.encode(data.getPassword()));
-		user.setCreatedDate(LocalDateTime.now());
+		user.setDateCreated(LocalDateTime.now());
 		user.setIsActive(false);
 		user.setIsEnabled(false);
 		user.setIsLocked(false);
@@ -45,9 +48,12 @@ public class ProfileService {
 		//
 		if(profileExists(profile)) {
 			profile = profileRepository.save(profile);
+			logger.info("Profile saved!");
 			user.setProfile(profile);
 			//
+			logger.info("Save user...");
 			userRepository.save(user);
+			logger.info("user saved!");
 		}else {
 			//exception
 		}
@@ -68,7 +74,7 @@ public class ProfileService {
 		profile.setContactPersonDesignation(data.getDesignation());
 		
 		profile.setCountry(countryRepository.findById(UUID.fromString(data.getCountry())).get());
-		profile.setCreatedDate(LocalDateTime.now());
+		profile.setDateCreated(LocalDateTime.now());
 		profile.setEmail(data.getEmail());
 		profile.setFax(data.getFax());
 		profile.setIsEnabled(false);

@@ -28,7 +28,7 @@ public class Title extends BaseEntity {
 
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "title")
-	private List<Profile> profiles;
+	/*@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "title")
+	private List<Profile> profiles;*/
 
 }

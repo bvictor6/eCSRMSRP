@@ -38,8 +38,8 @@ public class BaseEntity {
 	@Column(name = "last_modified_by")
 	private UUID lastModifiedBy;
 
-	@Column(name = "created_at", updatable = false)
-	private LocalDateTime createdDate;
+	@Column(name = "date_created", updatable = false)
+	private LocalDateTime dateCreated;
 
 	@Column(name = "date_last_modified")
 	private LocalDateTime lastModifiedDate;

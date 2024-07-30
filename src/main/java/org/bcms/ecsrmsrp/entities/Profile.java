@@ -39,9 +39,9 @@ public class Profile extends BaseEntity {
 	@OneToOne(mappedBy = "profile")
 	private User user;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	/*@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "contact_person_title_id")
-	private Title title;
+	private Title title;*/
 	
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "country_id")

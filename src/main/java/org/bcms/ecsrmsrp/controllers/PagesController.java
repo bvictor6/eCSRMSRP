@@ -24,7 +24,7 @@ public class PagesController {
 	}
 	
 	@GetMapping(path = "/login")
-	public String login(Model model, HttpServletRequest request) {
+	public String login() {
 		
 		return "/auth/login";
 	}
