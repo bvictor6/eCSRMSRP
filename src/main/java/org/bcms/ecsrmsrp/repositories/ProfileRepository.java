@@ -14,5 +14,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 
  */
 public interface ProfileRepository extends JpaRepository<Profile, UUID> {
-
+	Profile findByEmail(String email);
 }

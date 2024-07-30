@@ -29,6 +29,6 @@ public class Role extends BaseEntity {
 	private String name;
 	private String description;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "role", orphanRemoval = true)
-	private List<User> users;
+	/*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "role", orphanRemoval = true)
+	private List<User> users;*/
 }

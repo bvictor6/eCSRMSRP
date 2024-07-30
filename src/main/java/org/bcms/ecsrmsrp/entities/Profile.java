@@ -34,6 +34,7 @@ public class Profile extends BaseEntity {
 	private String phone;
 	private String fax;
 	private String mobileNo;
+	private Boolean termsAccepted;
 
 	@OneToOne(mappedBy = "profile")
 	private User user;
@@ -41,4 +42,8 @@ public class Profile extends BaseEntity {
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "contact_person_title_id")
 	private Title title;
+	
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name = "country_id")
+	private Country country;
 }

@@ -23,7 +23,7 @@ public class PagesController {
 		return "home/index";
 	}
 	
-	@GetMapping(path = "/")
+	@GetMapping(path = "/login")
 	public String login(Model model, HttpServletRequest request) {
 		
 		return "/auth/login";

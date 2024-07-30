@@ -146,11 +146,11 @@ var BaseFormWizard = function() {
 				},
 				'phone':{
 					required: true,
-					minlength: 5
+					digits: true
 				},
 				'mobile':{
 					required: true,
-					minlength: 8
+					digits: true
 				},
 				'postalAddress':{
 					required: true
@@ -178,9 +178,10 @@ var BaseFormWizard = function() {
 					required: true
 				},
 				'confirmPassword':{
-					required: true
+					required: true,
+					equalTo:"#password"
 				},
-                'validation-terms': {
+                'terms': {
                     required: true
                 }
             },
@@ -203,8 +204,16 @@ var BaseFormWizard = function() {
                 'firstname': 'Firstname is required!',
                 'lastname': 'Lastname is required!',
                 'designation': 'Designation is required!',
-                'password': 'Password is required',
-                'confirmPassword': 'Password is required!'
+                'password': {
+					required: 'Please provide a password',
+                    minlength: 'Your password must be at least 5 characters long'
+				},
+                'confirmPassword': {
+					required: 'Please provide a password',
+                    minlength: 'Your password must be at least 5 characters long',
+                    equalTo: 'Please enter the same password as above'
+				},
+				'terms': 'You must agree to the service terms!'
             }
         });
 

@@ -34,9 +34,9 @@ public class User extends BaseEntity {
 	private Boolean isActive;
 	private LocalDateTime lastLogin;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	/*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "role_id")
-	private Role role;
+	private Role role;*/
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "profile_id", referencedColumnName = "id")

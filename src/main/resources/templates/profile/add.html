@@ -63,11 +63,13 @@
                 <div class="content bg-image overflow-hidden" style="background-color: #09c;">
 					<div class="col-lg-4">&nbsp;</div>
 					<div class="col-lg-4 push-10">
-						<img 
-							src='../assets/images/botswana_logo_web.png'
-							height="150"
-							alt=""
-						/>
+						<a href="/">
+							<img 
+								src='../assets/images/botswana_logo_web.png'
+								height="150"
+								alt=""
+							/>
+						</a>						
                     </div>
 					<div class="col-lg-4">&nbsp;</div>
                 </div>
@@ -103,7 +105,7 @@
                                 <!-- Form -->
                                 <!-- jQuery Validation (.js-form2 class is initialized in js/pages/base_forms_wizard.js) -->
                                 <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                <form class="js-form2 form-horizontal" action="base_forms_wizard.html" method="post">
+                                <form class="js-form2 form-horizontal" action="#" th:action="@{/profile/save}" th:object="${user}" method="post">
                                     <!-- Steps Content -->
                                     <div class="block-content tab-content">
                                         <!-- Step 1 -->
@@ -171,11 +173,7 @@
                                                         <label for="city">Town/City <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
-												<div class="col-sm-6">
-                                                    <!--div class="form-material">
-                                                        <input class="form-control" type="text" id="validation-country" name="validation-country" placeholder="Please enter your country">
-                                                        <label for="validation-mobile">Country</label>
-                                                    </div-->
+												<div class="col-sm-6">                                                    
 													<div class="form-material floating">
 														<!--select class="js-select2 form-control" id="country" name="country"  th:field="*{country.id}" style="width: 100%;" data-placeholder="Choose one.."-->
 		                                           		<select class="js-select2 form-control" id="country" name="country"  style="width: 100%;" data-placeholder="Choose one..">
@@ -220,7 +218,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="password" name="password" placeholder="Password">
+                                                        <input class="form-control" type="password" id="password" name="password" placeholder="Password">
                                                         <label for="password">Password <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
@@ -234,8 +232,8 @@
                                             
                                             <div class="form-group">
                                                 <div class="col-sm-8 col-sm-offset-2">
-                                                    <label class="css-input switch switch-sm switch-primary" for="validation-terms">
-                                                        <input type="checkbox" id="validation-terms" name="validation-terms"><span></span> Agree with the <a data-toggle="modal" data-target="#modal-terms" href="#">terms</a>
+                                                    <label class="css-input switch switch-sm switch-primary" for="terms">
+                                                        <input type="checkbox" id="terms" name="terms"><span></span> I Agree with the <a data-toggle="modal" data-target="#modal-terms" href="#">terms</a>
                                                     </label>
                                                 </div>
                                             </div>
@@ -279,6 +277,9 @@
             <!-- Footer -->
             <div th:replace="fragments/footer::content"></div>
             <!-- END Footer -->
+			<!-- Terms & Conditions -->
+			<div th:replace="fragments/modal-terms::content"></div>
+			<!-- End Terms & Conditions -->
         </div>
         <!-- END Page Container -->		 
         
