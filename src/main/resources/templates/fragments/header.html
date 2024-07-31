@@ -20,7 +20,8 @@
                                 <li>
                                 	<a tabindex="-1" th:href="@{/users/view(id=*{session.userId})}">
                                 		<i class="si si-user pull-right"></i>
-                                		<span th:text="*{session.name}">AN Other</span>
+                                		<!--span th:text="*{session.name}">AN Other</span-->
+										My Profile
                                 	</a>
                                 </li>
 								<li>
@@ -28,6 +29,7 @@
                                         <i class="si si-envelope pull-right"></i>Notifications
                                     </a>
                                 </li>
+								
                                 <li>
                                     <a tabindex="-1" href="/logout">
                                         <i class="si si-logout pull-right"></i>Log out

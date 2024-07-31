@@ -37,6 +37,6 @@ public class Country {
 	private int phonecode;
 	
 	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, mappedBy = "country")
-	private List<Profile> profiles;
+	private List<VendorProfile> profiles;
 
 }

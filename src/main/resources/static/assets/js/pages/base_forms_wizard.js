@@ -136,6 +136,10 @@ var BaseFormWizard = function() {
                     required: true,
                     minlength: 3
                 },
+                'tenderNo': {
+					required: true,
+					minlength: 3
+				},
                 'name': {
                     required: true,
                     minlength: 3
@@ -174,8 +178,19 @@ var BaseFormWizard = function() {
 				'designation':{
 					required: true					
 				},
+				'contactPersonPhone':{
+					required: true,
+					digits: true
+				},
+				'contactPersonAddress': {
+					required: true
+				},
 				'password':{
 					required: true
+				},
+				'username': {
+					required: true,
+					email: true
 				},
 				'confirmPassword':{
 					required: true,
@@ -194,6 +209,10 @@ var BaseFormWizard = function() {
                     required: 'Contract number is required!',
                     minlength: 'Contract number must consist of at least 3 characters'
                 },
+                'tenderNo': {
+                    required: 'Tender number is required!',
+                    minlength: 'Tender number must consist of at least 3 characters'
+                },
                 'email': 'Please enter a valid email address',
                 'physicalAddress': 'Physical address is required!',
                 'phone': 'Office telephone is required!',
@@ -204,6 +223,12 @@ var BaseFormWizard = function() {
                 'firstname': 'Firstname is required!',
                 'lastname': 'Lastname is required!',
                 'designation': 'Designation is required!',
+                'contactPersonAddress': 'Contact Person address is required!',
+                'contactPersonPhone': 'Contact person phone is required!',
+                'username': {
+					required: 'Please provide a username',
+                    email: 'Username must be a valid email address!'
+				},
                 'password': {
 					required: 'Please provide a password',
                     minlength: 'Your password must be at least 5 characters long'

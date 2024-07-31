@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
 		
 		logger.info(username + " ...initialize session variables");
 		
-		request.getSession().setAttribute(Constants._SESSION_USER_NAME, user.getProfile().getName());
+		request.getSession().setAttribute(Constants._SESSION_USER_NAME, user.getUserProfile().getFirstname() + " " +user.getUserProfile().getLastname());
 		request.getSession().setAttribute(Constants._SESSION_USER_EMAIL, user.getUsername());
 		request.getSession().setAttribute(Constants._SESSION_USER_ROLE, "Supplier");
 		request.getSession().setAttribute(Constants._SESSION_USER_USER_ID, user.getId());

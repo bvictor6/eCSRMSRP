@@ -29,6 +29,13 @@ public class PagesController {
 		return "/auth/login";
 	}
 	
+	// Login form with error
+	@GetMapping("/login-error.html")
+	public String loginError(Model model) {
+		model.addAttribute("loginError", true);
+		return "/auth/login";
+	}
+	
 	
 
 }

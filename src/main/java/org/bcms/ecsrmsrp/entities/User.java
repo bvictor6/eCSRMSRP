@@ -8,6 +8,7 @@ package org.bcms.ecsrmsrp.entities;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -27,11 +28,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "srp_user")
 public class User extends BaseEntity {
+	@Column(unique = true, nullable = false)
 	private String username;
 	private String password;
+	private Boolean termsAccepted;
 	private Boolean isVerified;
 	private Boolean isLocked;
 	private Boolean isActive;
+	@Column(insertable = false, updatable = true)
 	private LocalDateTime lastLogin;
 	
 	/*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -39,6 +43,10 @@ public class User extends BaseEntity {
 	private Role role;*/
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "profile_id", referencedColumnName = "id")
-	private Profile profile;
+	@JoinColumn(name = "vendor_profile_id", referencedColumnName = "id")
+	private VendorProfile vendorProfile;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_profile_id", referencedColumnName = "id")
+	private UserProfile userProfile;
 }

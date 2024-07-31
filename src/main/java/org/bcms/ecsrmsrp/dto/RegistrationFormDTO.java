@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class RegistrationFormDTO {
 	private String name;
 	private String contractNo;
+	private String tenderNo;
 	private String physicalAddress;
 	private String email;
 	private String phone;
@@ -24,10 +25,13 @@ public class RegistrationFormDTO {
 	private String fax;
 	private String city;
 	private String country;
-	private String firstName;
-	private String lastName;
+	private String firstname;
+	private String lastname;
 	private String designation;
+	private String username;
 	private String password;
 	private Boolean terms;
+	private String contactPersonPhone;
+	private String contactPersonAddress;
 
 }

@@ -7,12 +7,12 @@ package org.bcms.ecsrmsrp.repositories;
 
 import java.util.UUID;
 
-import org.bcms.ecsrmsrp.entities.Profile;
+import org.bcms.ecsrmsrp.entities.VendorProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * 
  */
-public interface ProfileRepository extends JpaRepository<Profile, UUID> {
-	Profile findByEmail(String email);
+public interface VendorProfileRepository extends JpaRepository<VendorProfile, UUID> {
+	VendorProfile findByEmail(String email);
 }

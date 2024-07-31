@@ -46,7 +46,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/profile/register", "/profile/save","/dashboard", "/login","/assets/**", "/fa/**").permitAll())
+                        .requestMatchers("/profile/register", "/profile/save","/dashboard", "/login","/assets/**", "/fa/**","/favicon.ico").permitAll())
                 .authorizeHttpRequests(requests -> requests
                 		.requestMatchers("/**").authenticated())
                 .authorizeHttpRequests(requests -> requests
@@ -61,6 +61,7 @@ public class SecurityConfig {
                 .formLogin((form) -> form
         				.loginPage("/login")
         				.loginProcessingUrl("/login")
+        				.failureUrl("/login-error.html")
                         .defaultSuccessUrl("/dashboard")
         				.permitAll()
         			)

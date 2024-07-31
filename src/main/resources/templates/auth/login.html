@@ -92,7 +92,7 @@
 		                        <div class="block-content block-content-full block-content-narrow">
 		                            <!-- Login Title -->
 		                            <!-- END Login Title -->
-		
+									<p th:if="${loginError}" class="text-danger">Wrong user or password</p>
 		                            <!-- Login Form -->
 		                            <!-- jQuery Validation (.js-validation-login class is initialized in js/pages/base_pages_login.js) -->
 		                            <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
@@ -121,9 +121,14 @@
 		                                    </div>
 		                                </div-->
 		                                <div class="form-group">
-		                                    <div class="col-xs-12 col-sm-6 col-md-4">
+		                                    <div class="col-xs-6 col-sm-6 col-md-4">
 		                                        <button class="btn btn-block btn-primary" type="submit"><i class="si si-login pull-right"></i> Log in</button>
 		                                    </div>
+											<div class="col-xs-6 col-sm-6 col-md-4 col-md-offset-4">
+												<a href="/profile/register" title="Click to create new account">
+													<small class="text-small pull-right"> Register Account</small>
+												</a>
+											</div>
 		                                </div>
 		                            </form>
 		                            <!-- END Login Form -->
@@ -158,10 +163,9 @@
         <script src="../assets/js/app.js"></script>
 
         <!-- Page JS Plugins -->
-        <script src="../assets/js/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
         <script src="../assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 
-        <!-- Page JS Code -->
-        <script src="../assets/js/pages/base_forms_wizard.js"></script>        
+		<!-- Page JS Code -->
+		<script src="assets/js/pages/base_pages_login.js"></script>      
     </body>
 </html>

@@ -20,23 +20,22 @@ import lombok.Setter;
  * 
  */
 @Entity
-@Table(name = "srp_profile")
+@Table(name = "srp_vendor_profile")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Profile extends BaseEntity {
+public class VendorProfile extends BaseEntity {
 	private String name;
-	private String contactPerson;
-	private String contactPersonDesignation;
 	private String physicalAddress;
 	private String postalAddress;
 	private String email;
 	private String phone;
 	private String fax;
-	private String mobileNo;
-	private Boolean termsAccepted;
+	private String mobileNo;	
+	private String tenderNo;
+	private String contractNo;
 
-	@OneToOne(mappedBy = "profile")
+	@OneToOne(mappedBy = "vendorProfile")
 	private User user;
 	
 	/*@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
