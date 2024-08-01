@@ -85,9 +85,10 @@
 								<h2 class="content-heading">Welcome to the Supplier Self-Registration Page</h2>
 								<small class="text-muted">Welcome to the Supplier Self Registration Portal. this Portal serves as the initial point of entry for future vendors to do business.</small>
 							</div>
+							
                             <!-- Validation Wizard (.js-wizard-validation class is initialized in js/pages/base_forms_wizard.js) -->
                             <!-- For more examples you can check out http://vadimg.com/twitter-bootstrap-wizard-example/ -->
-                            <div class="js-wizard-validation block">
+                            <div class="js-wizard-validation block">								
                                 <!-- Step Tabs -->
                                 <ul class="nav nav-tabs nav-tabs-alt nav-justified">
                                     <li class="active">
@@ -101,6 +102,14 @@
                                     </li>
                                 </ul>
                                 <!-- END Step Tabs -->
+								
+								<!-- Alert -->
+								<div class="push-30">
+									<code class="col-sm-12 text-xl" id="alert1" style="display:none !important;">
+										<small>No supplier was found matching the provided name, Please try again!</small>
+		                            </code>
+								</div>                            
+	                            <!-- End Alert -->
 
                                 <!-- Form -->
                                 <!-- jQuery Validation (.js-form2 class is initialized in js/pages/base_forms_wizard.js) -->
@@ -298,11 +307,11 @@
             </main>
             <!-- END Main Container -->
 
-			<div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;
+			<!--div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;
 	          	top:50%;left:50%;padding:2px;">
-	          	<img src="../assets/images/circle_loader.gif" width="64" height="64" />                   	
+	          	<img src="../assets/images/loader.gif" width="64" height="64" />                   	
 	          	<br>Working...
-          	</div>
+          	</div-->
 			
             <!-- Footer -->
             <div th:replace="fragments/footer::content"></div>
@@ -339,6 +348,111 @@
                 App.initHelpers(['select2']);
             });
         </script>    
-	
+		<!-- Start Ajax functionality -->
+		<script type="text/javascript">
+			/*<![CDATA[*/
+			$(document).ready(function()
+			{
+				$(".wizard-next").attr("disabled", true);//disable next button if enabled
+				$("#name").blur(function(){
+					searchVendorName();
+				});	
+				//
+				$("#contractNo").blur(function(){
+					searchContractNo();
+				})	;		
+			});
+			
+			function searchVendorName()
+			{
+				var search = {};
+				search['name'] = $("#name").val().trim();
+				$("#wait").css("display", "block");
+        		$("#alert1").css("display", "none");
+        		//
+        		var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+            	//
+				//console.log(JSON.stringify(search));
+				$.ajax({
+        			type : 'POST',
+					url: "http://127.0.0.1:8088/api/v1/suppliers/partial",
+        			//headers: {"X-CSRF-TOKEN": token}, //send CSRF token in header
+                    dataType : 'json',
+					data: JSON.stringify(search),
+                    contentType: 'application/json',
+        	        success	: function (results){
+        	        	console.log('Supplier name match = ' + JSON.stringify(results));
+						var res = JSON.stringify(parseFloat(results));
+        	        	if(parseFloat(results)>89.0)
+        	        	{
+							$(".wizard-next").attr("disabled", false);//enable next button if disabled
+           					
+        	        	}else{
+							$(".wizard-next").attr("disabled", true);//disable next button if enabled
+        	        		$("#alert1").css("display", "block");
+        	        		$("#alert1").text('Provided supplier name did not match any of the existing suppliers in our database, Please confirm the correct supplier name and try again!');
+        	        	}       					
+        				//hide gif
+        				$("#wait").css("display", "none");
+        	        },
+        	        error:	function (e){
+						$(".wizard-next").attr("disabled", true);//disable next button if enabled
+        	        	console.log(e);
+        	        	$("#wait").css("display", "none");
+        	        	$("#alert1").css("display", "block");
+        	        	$("#alert1").text('An error was encountered while trying to retrieve supplier details, Please try again!');
+        	        }
+        		});				
+			}
+			//
+			function searchContractNo()
+			{
+				var search = {};
+				search['contractNo'] = $("#contractNo").val().trim();
+				$("#wait").css("display", "block");
+        		$("#alert1").css("display", "none");
+        		//
+        		var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");
+            	//
+				//console.log(JSON.stringify(search));
+				$.ajax({
+        			type : 'POST',
+					url: "http://127.0.0.1:8088/api/v1/contracts/contract",
+        			//headers: {"X-CSRF-TOKEN": token}, //send CSRF token in header
+                    dataType : 'json',
+					data: JSON.stringify(search),
+                    contentType: 'application/json',
+        	        success	: function (results){
+        	        	console.log('Supplier contract = ' + JSON.stringify(results));
+						var res = JSON.stringify(results);
+						console.log("Contract Number - " +res[1].contractNo);
+        	        	if(res.contractNo==$("#contractNo").val().trim())
+        	        	{
+							$(".wizard-next").attr("disabled", false);//enable next button if disabled
+           					
+        	        	}else{
+							$(".wizard-next").attr("disabled", true);//disable next button if enabled
+        	        		$("#alert1").css("display", "block");
+        	        		$("#alert1").text('Provided contract number did not match any contracts of the provided supplier existing in our database, Please confirm correct details and try again!');
+        	        	}       					
+        				//hide gif
+        				$("#wait").css("display", "none");
+        	        },
+        	        error:	function (e){
+						$(".wizard-next").attr("disabled", true);//disable next button if enabled
+        	        	console.log(e.responseText);
+        	        	$("#wait").css("display", "none");
+        	        	$("#alert1").css("display", "block");
+        	        	$("#alert1").text(e.responseText);
+        	        }
+        		});				
+			}
+			
+			
+			/*]]>*/
+		</script>
+		<!-- End Ajax functionality -->
     </body>
 </html>
