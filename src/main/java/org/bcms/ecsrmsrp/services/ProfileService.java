@@ -5,14 +5,22 @@
 */
 package org.bcms.ecsrmsrp.services;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
+import org.bcms.ecsrmsrp.classes.MailObject;
+import org.bcms.ecsrmsrp.dto.EmailVerificationDTO;
 import org.bcms.ecsrmsrp.dto.RegistrationFormDTO;
 import org.bcms.ecsrmsrp.entities.VendorProfile;
+import org.bcms.ecsrmsrp.entities.EmailVerification;
 import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.entities.UserProfile;
 import org.bcms.ecsrmsrp.repositories.CountryRepository;
+import org.bcms.ecsrmsrp.repositories.EmailVerificationRepository;
 import org.bcms.ecsrmsrp.repositories.UserProfileRepository;
 import org.bcms.ecsrmsrp.repositories.VendorProfileRepository;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
@@ -21,6 +29,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.mail.MessagingException;
 
 /**
  * 
@@ -33,6 +45,9 @@ public class ProfileService {
 	@Autowired UserProfileRepository userProfileRepository;
 	@Autowired UserRepository userRepository;
 	@Autowired PasswordEncoder passwordEncoder;
+	@Autowired EmailVerificationService emailVerificationService;
+	@Autowired EmailVerificationRepository emailVerificationRepository;
+	@Autowired EmailService emailService;
 	
 	public void createUserProfile(RegistrationFormDTO data)  
 	{
@@ -64,8 +79,72 @@ public class ProfileService {
 			user.setUserProfile(userProfile);
 			//
 			logger.info(user.getUsername() + " :: Save user account details!");
-			userRepository.save(user);
+			user  = userRepository.save(user);
 			logger.info(user.getUsername() +" :: User account saved!");
+			//Verify by email token
+			String token = emailVerificationService.generateVerificationCode();
+			EmailVerification emailVerification = new EmailVerification();
+			emailVerification.setToken(token);
+			emailVerification.setUserId(user.getId());
+			emailVerification.setDateCreated(LocalDateTime.now());
+			emailVerification.setIsEnabled(true);
+			emailVerification.setIsVerified(false);
+			
+			emailVerification = emailVerificationRepository.save(emailVerification);
+			EmailVerificationDTO emailVerificationDTO = new EmailVerificationDTO();
+			emailVerificationDTO.setId(emailVerification.getId());
+			emailVerificationDTO.setToken(emailVerification.getToken());
+			emailVerificationDTO.setUid(emailVerification.getUserId());
+			//
+			ObjectMapper obj = new ObjectMapper();
+			try {
+				String jsonStr = obj.writeValueAsString(emailVerificationDTO);
+				logger.info(jsonStr);
+				Base64.Encoder encoder = Base64.getEncoder();
+				// Encoding the input string 
+		        String encodedString = encoder.encodeToString(jsonStr.getBytes()); 
+		        logger.info("Encoding Done: " +encodedString); 
+		        //
+		        //String verificationLink = Constant.PORTAL_URL + "/auth/email-verification?email=" + email + "&token=" + token;
+                MailObject mailObject = new MailObject();
+                mailObject.setTo(user.getUsername());
+                mailObject.setRecipientName(userProfile.getFirstname() + ", " + userProfile.getLastname());
+                mailObject.setSubject("Verify Your Email!");
+                mailObject.setText("Please confir that you are the one registering for an account on the Supplier Portal by clicking on the link below!");
+                mailObject.setTemplateEngine("email");
+                mailObject.setSenderName("eCSRM System.");
+                mailObject.setVerificationLink("http://127.0.0.1:8089/auth/verify/"+encodedString);
+
+                logger.info("Send verification email to " + user.getUsername());
+
+                Map<String, Object> templateModel = new HashMap<>();
+                templateModel.put("recipientName", mailObject.getRecipientName());
+                templateModel.put("text", mailObject.getText());
+                templateModel.put("senderName", mailObject.getSenderName());
+                templateModel.put("copyrightYear", mailObject.getMailCopyrightYear());
+                templateModel.put("verificationLink", mailObject.getVerificationLink());
+
+                if (mailObject.getTemplateEngine().equalsIgnoreCase("email")) 
+                {
+                    logger.info("Email schedular task execute send email cron job for - " + mailObject.getTemplateEngine().toUpperCase());
+                    try {
+                        emailService.sendMessageUsingThymeleafTemplate(
+                                mailObject.getTo(),
+                                mailObject.getSubject(),
+                                templateModel);
+                        logger.info(mailObject.getTemplateEngine().toUpperCase() + ": Cron job successfully sent email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject());
+                    } catch (IOException e) {
+                        logger.error(mailObject.getTemplateEngine().toUpperCase() + ": Cron job failed to send email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject() + " due to IOException " + e.getLocalizedMessage());
+                        e.printStackTrace();
+                    } catch (MessagingException e) {
+                        logger.error(mailObject.getTemplateEngine().toUpperCase() + ": Cron job failed to send email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject() + " due to MessagingException " + e.getLocalizedMessage());
+                        e.printStackTrace();
+                    }
+                }
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}else {
 			//exception
 		}
