@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <!--[if IE 9]>         <html class="ie9 no-focus"> <![endif]-->
-<!--[if gt IE 9]><!--> 
-<html class="no-focus" xmlns:th="http://www.thymeleaf.org" lang="en"> 
-<!--<![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-focus"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
 
- 		<!--  -->
+		<!--  -->
         <!--meta th:name="_csrf" th:content="${_csrf.token}"/>
 		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/-->
 	    <!-- ... -->
 	    
         <title>Supplier Registration Portal</title>
-
-        <meta name="robots" content="noindex, nofollow">
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
 
         <!-- Icons -->
         <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
@@ -40,6 +35,7 @@
         <!-- Stylesheets -->
         <!-- Web fonts -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+
 		<!--Start fontawesome css-->
 		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
 		<link href="../assets/css/brands.css" rel="stylesheet" />
@@ -54,118 +50,171 @@
     </head>
     <body>
         <!-- Page Container -->
-        <div id="page-container">
+        <div id="page-container">            
             <!-- Main Container -->
             <main id="main-container">
-                <!-- Page Header -->
-                <div class="content bg-image overflow-hidden" style="background-color: #09c;">
-					<div class="col-lg-4">&nbsp;</div>
-					<div class="col-lg-4 push-10">
-						<img 
-							src='../assets/images/botswana_logo_web.png'
-							height="150"
-							alt=""
-						/>
-                    </div>
-					<div class="col-lg-4">&nbsp;</div>
+                <!-- Hero Content -->
+                <div class="bg-default-light">
+                    <section class="content content-full content-boxed overflow-hidden">
+                        <!-- Section Content -->
+                        <div class="push-70-t push-10 text-center">
+                            <h1 class="h2 text-white push-10 visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">Botswana Central Medical Stores</h1>
+                            <h2 class="h5 text-white-op visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">Log in to your account</h2>
+                        </div>
+                        <div class="row visibility-hidden" data-toggle="appear" data-class="animated fadeInUp">
+                            <div class="col-sm-2 col-sm-offset-5">
+                                <img class="img-responsive pull-b" src="assets/images/logo.png" alt="">
+                            </div>
+                        </div>
+                        <!-- END Section Content -->
+                    </section>
                 </div>
-                <!-- END Page Header -->				
-				               
-                <!-- Page Content -->
-                <div class="content overflow-hidden">                	                  
-					<!-- Login form -->                    
-                    <div class="row">
-						<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
-		                    <!-- Login Block -->
-		                    <div class="block block-themed animated fadeIn">
-		                        <div class="block-header bg-info">
-		                            <ul class="block-options">
-		                                <li>
-		                                    <a href="#">Forgot Password?</a>
-		                                </li>
-		                                <li>
-		                                    <a href="/profile/register" data-toggle="tooltip" data-placement="left" title="New Account"><i class="si si-plus"></i></a>
-		                                </li>
-		                            </ul>
-		                            <h3 class="block-title">Login</h3>
-		                        </div>
-		                        <div class="block-content block-content-full block-content-narrow">
-		                            <!-- Login Title -->
-		                            <!-- END Login Title -->
-									<p th:if="${loginError}" class="text-danger">Wrong user or password</p>
-		                            <!-- Login Form -->
-		                            <!-- jQuery Validation (.js-validation-login class is initialized in js/pages/base_pages_login.js) -->
-		                            <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
-		                            <form class="js-validation-login form-horizontal push-10-t push-20" action="#" th:action="@{/login}" method="post" enctype="application/x-www-form-urlencoded">
-		                                <div class="form-group">
-		                                    <div class="col-xs-12">
-		                                        <div class="form-material form-material-primary floating">
-		                                            <input class="form-control" type="text" id="username" name="username">
-		                                            <label for="username">Username</label>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                                <div class="form-group">
-		                                    <div class="col-xs-12">
-		                                        <div class="form-material form-material-primary floating">
-		                                            <input class="form-control" type="password" id="password" name="password">
-		                                            <label for="password">Password</label>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                                <!--div class="form-group">
-		                                    <div class="col-xs-12">
-		                                        <label class="css-input switch switch-sm switch-primary">
-		                                            <input type="checkbox" id="login-remember-me" name="login-remember-me"><span></span> Remember Me?
-		                                        </label>
-		                                    </div>
-		                                </div-->
-		                                <div class="form-group">
-		                                    <div class="col-xs-6 col-sm-6 col-md-4">
-		                                        <button class="btn btn-block btn-primary" type="submit"><i class="si si-login pull-right"></i> Log in</button>
-		                                    </div>
-											<div class="col-xs-6 col-sm-6 col-md-4 col-md-offset-4">
-												<a href="/profile/register" title="Click to create new account">
-													<small class="text-small pull-right"> Register Account</small>
-												</a>
-											</div>
-		                                </div>
-		                            </form>
-		                            <!-- END Login Form -->
-		                        </div>
-		                    </div>
-		                    <!-- END Login Block -->
-		                </div>
-                    </div>
-                    <!-- END Login form -->
+                <!-- END Hero Content -->
+
+                <!-- Log In Form -->
+                <div class="bg-white">
+                    <section class="content content-boxed">
+                        <!-- Section Content -->
+                        <div class="row items-push push-10">
+                            <div class="col-md-6 col-md-offset-3">
+								<!-- END Login Title -->
+								<p th:if="${loginError}" class="text-danger">Wrong user or password</p>
+	                            <!-- Login Form -->
+                                <form class="js-validation-login form-horizontal push-10-t push-20" action="#" th:action="@{/login}" method="post" enctype="application/x-www-form-urlencoded">
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+											<div class="form-material form-material-info floating">
+	                                            <input class="form-control" type="text" id="username" name="username">
+	                                            <label for="username">Username</label>
+	                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+											<div class="form-material form-material-info floating">
+	                                            <input class="form-control" type="password" id="password" name="password">
+	                                            <label for="password">Password</label>
+	                                        </div>
+                                        </div>
+                                    </div>
+                                    <!--div class="form-group">
+                                        <div class="col-xs-12 text-center">
+                                            <label class="css-input switch switch-sm switch-primary">
+                                                <input type="checkbox" id="frontend-login-remember-me" name="frontend-login-remember-me"><span></span> Remember Me?
+                                            </label>
+                                        </div>
+                                    </div-->
+                                    <div class="form-group">
+                                        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                                            <button class="btn btn-block btn-primary" type="submit"><i class="fa fa-arrow-right pull-right"></i> Log in</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- END Section Content -->
+                    </section>
                 </div>
-                <!-- END Page Content -->
+                <!-- END Log In Form -->
+
+                <!-- Sign Up Today -->
+                <div class="bg-gray-lighter">
+                    <section class="content content-full content-boxed">
+                        <!-- Section Content -->
+                        <div class="push-20-t push-20 text-center">
+                            <h3 class="h4 push-20 visibility-hidden" data-toggle="appear">Don’t have an account?</h3>
+                            <a class="btn btn-rounded btn-noborder btn-lg btn-success visibility-hidden" data-toggle="appear" data-class="animated bounceIn" href="/profile/register">Sign Up Today</a>
+                        </div>
+                        <!-- END Section Content -->
+                    </section>
+                </div>
+                <!-- END Sign Up Today -->
             </main>
             <!-- END Main Container -->
 
-						
             <!-- Footer -->
-            <div th:replace="fragments/footer::content"></div>
+            <footer id="page-footer" class="bg-white">
+                <div class="content content-boxed">
+                    <!-- Footer Navigation -->
+                    <div class="row push-30-t items-push-2x">
+                        <div class="col-sm-4">
+                            <h3 class="h5 font-w600 text-uppercase push-20">Company</h3>
+                            <ul class="list list-simple-mini font-s13">
+                                <li>
+                                    <a class="font-w600" href="#">Home</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="#">Features</a>
+                                </li>                                
+                                <li>
+                                    <a class="font-w600" href="#">About Us</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="#">Contact Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3 class="h5 font-w600 text-uppercase push-20">Support</h3>
+                            <ul class="list list-simple-mini font-s13">                                
+                                <li>
+                                    <a class="font-w600" href="#">Support Center</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="javascript:void(0)">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a class="font-w600" href="javascript:void(0)">Terms &amp; Conditions</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3 class="h5 font-w600 text-uppercase push-20">Get In Touch</h3>
+                            <div class="font-s13 push">
+                                <strong>Botswana, Central Medical Stores.</strong><br>
+                                24 Amos Street, Plot 54069<br>
+                                Dzibanene, Gaborone<br>
+                                <abbr title="Phone">P:</abbr> (267) 390-4014
+                            </div>
+                            <div class="font-s13">
+                                <i class="si si-envelope-open"></i> info@bcms.go.bw
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Footer Navigation -->
+
+                    <!-- Copyright Info -->
+					<div th:replace="fragments/footer::footer-frontend"></div>
+                    <!-- END Copyright Info -->
+                </div>
+            </footer>
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->
 
-        
         <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
-        <script src="../assets/js/core/jquery.min.js"></script>
-        <script src="../assets/js/core/bootstrap.min.js"></script>
-        <script src="../assets/js/core/jquery.slimscroll.min.js"></script>
-        <script src="../assets/js/core/jquery.scrollLock.min.js"></script>
-        <script src="../assets/js/core/jquery.appear.min.js"></script>
-        <script src="../assets/js/core/jquery.countTo.min.js"></script>
-        <script src="../assets/js/core/jquery.placeholder.min.js"></script>
-        <script src="../assets/js/core/js.cookie.min.js"></script>
-        <script src="../assets/js/app.js"></script>
-
-        <!-- Page JS Plugins -->
+        <script src="assets/js/core/jquery.min.js"></script>
+        <script src="assets/js/core/bootstrap.min.js"></script>
+        <script src="assets/js/core/jquery.slimscroll.min.js"></script>
+        <script src="assets/js/core/jquery.scrollLock.min.js"></script>
+        <script src="assets/js/core/jquery.appear.min.js"></script>
+        <script src="assets/js/core/jquery.countTo.min.js"></script>
+        <script src="assets/js/core/jquery.placeholder.min.js"></script>
+        <script src="assets/js/core/js.cookie.min.js"></script>
+        <script src="assets/js/app.js"></script>
+		
+		<!-- Page JS Plugins -->
         <script src="../assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 
 		<!-- Page JS Code -->
-		<script src="assets/js/pages/base_pages_login.js"></script>      
+		<script src="assets/js/pages/base_pages_login.js"></script> 
+
+        <!-- Page JS Code -->
+        <script>
+            $(function () {
+                // Init page helpers (Appear plugin)
+                App.initHelpers('appear');
+            });
+        </script>
     </body>
 </html>
