@@ -4,6 +4,11 @@
     <head>
         <meta charset="utf-8">
 
+		<!--  -->
+        <!--meta th:name="_csrf" th:content="${_csrf.token}"/>
+		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/-->
+	    <!-- ... -->
+	    
         <title>Supplier Registration Portal</title>
 
         <!-- Icons -->
@@ -31,44 +36,104 @@
         <!-- Web fonts -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
 
+		<!--Start fontawesome css-->
+		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
+		<link href="../assets/css/brands.css" rel="stylesheet" />
+		<link href="../assets/css/solid.css" rel="stylesheet" />
+			<!--End fontawesome css-->
         <!-- OneUI CSS framework -->
-        <link rel="stylesheet" id="css-main" href="assets/css/oneui.css">
+        <link rel="stylesheet" id="css-main" href="../assets/css/oneui.css">
 
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
-        <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/flat.min.css"> -->
+        <link rel="stylesheet" id="css-theme" href="../assets/css/themes/city.min.css"> 
         <!-- END Stylesheets -->
     </head>
     <body>
-        <!-- Error Content -->
-        <div class="content bg-white text-center pulldown overflow-hidden">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <!-- Error Titles -->
-                    <h1 class="font-s128 font-w300 text-success animated bounceIn"><i class="fa fa-check-circle-o"></i></h1>
-                    <h2 class="h3 font-w300 push-50 animated fadeInUp">Congratulations, You have succesfully verified your account. We shall let you know when you can be able to login!</h2>
-                    <!-- END Error Titles -->
-                    
+        <!-- Page Container -->
+        <div id="page-container" class="header-navbar-fixed">   
+			<!-- Header -->
+			<div th:replace="fragments/header::header-frontend"></div>
+			<!-- END Header -->         
+            <!-- Main Container -->
+            <main id="main-container">
+                <!-- Hero Content -->
+                <div class="bg-default-light">
+                    <section class="content content-full content-boxed overflow-hidden">
+                        <!-- Section Content -->
+                        <div class="push-70-t push-10 text-center">
+                            <h1 class="h2 text-white push-10 visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">Botswana Central Medical Stores</h1>
+                            <h2 class="h5 text-white-op visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">Email verification success!</h2>
+                        </div>
+                        <!--div class="row visibility-hidden" data-toggle="appear" data-class="animated fadeInUp">
+                            <div class="col-sm-2 col-sm-offset-5">
+                                <img class="img-responsive pull-b" src="../assets/images/logo.png" alt="" style="background-size: contain; background-repeat: no-repeat;">
+                            </div>
+                        </div-->
+                        <!-- END Section Content -->
+                    </section>
                 </div>
-            </div>
-        </div>
-        <!-- END Error Content -->
+                <!-- END Hero Content -->
 
-        <!-- Error Footer -->
-        <div class="content pulldown text-muted text-center">
-            Would you like to let us know about it?<br>
-            <a class="link-effect" href="javascript:void(0)">Report it</a> or <a class="link-effect" href="index.html">Go Back to Dashboard</a>
+				<!-- Classic Features -->
+                <div class="bg-white">
+                    <section class="content content-boxed">
+                        <!-- Section Content -->
+                        <div class="row items-push-3x push-50-t nice-copy">
+                            <div class="col-sm-4 col-sm-offset-4">
+                                <div class="text-center push">
+                                    <span class="item item-2x item-circle border">
+                                        <i class="si si-check text-success"></i>
+                                    </span>
+                                </div>
+                                <h3 class="h5 font-w600 text-uppercase text-center text-success push-10">Verification Passed</h3>
+                                <code class="text-success"><span th:text="${message}">You have successfully verified your email address on our servers.</span> 
+									We need to perform a few internal checks before we can allow you to login in to the portal.
+									We shall inform you by email when you can login in to the portal. In case of any queries, Please contact support.</code>
+                            </div>
+                        </div>
+                        <!-- END Section Content -->
+                    </section>
+                </div>
+                <!-- END Classic Features -->
+
+                <!-- Sign Up Today -->
+                <!--div class="bg-gray-lighter">
+                    <section class="content content-full content-boxed"-->
+                        <!-- Section Content -->
+                        <!--div class="push-20-t push-20 text-center">
+                            <h3 class="h4 push-20 visibility-hidden" data-toggle="appear">Don’t have an account?</h3>
+                            <a class="btn btn-rounded btn-noborder btn-lg btn-success visibility-hidden" data-toggle="appear" data-class="animated bounceIn" href="/profile/register">Sign Up Today</a>
+                        </div-->
+                        <!-- END Section Content -->
+                    <!--/section>
+                </div-->
+                <!-- END Sign Up Today -->
+            </main>
+            <!-- END Main Container -->
+
+            <!-- Footer -->
+			<div th:replace="fragments/footer::footer-frontend"></div>
+            <!-- END Footer -->
         </div>
-        <!-- END Error Footer -->
+        <!-- END Page Container -->
 
         <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
-        <script src="assets/js/core/jquery.min.js"></script>
-        <script src="assets/js/core/bootstrap.min.js"></script>
-        <script src="assets/js/core/jquery.slimscroll.min.js"></script>
-        <script src="assets/js/core/jquery.scrollLock.min.js"></script>
-        <script src="assets/js/core/jquery.appear.min.js"></script>
-        <script src="assets/js/core/jquery.countTo.min.js"></script>
-        <script src="assets/js/core/jquery.placeholder.min.js"></script>
-        <script src="assets/js/core/js.cookie.min.js"></script>
-        <script src="assets/js/app.js"></script>
+        <script src="../assets/js/core/jquery.min.js"></script>
+        <script src="../assets/js/core/bootstrap.min.js"></script>
+        <script src="../assets/js/core/jquery.slimscroll.min.js"></script>
+        <script src="../assets/js/core/jquery.scrollLock.min.js"></script>
+        <script src="../assets/js/core/jquery.appear.min.js"></script>
+        <script src="../assets/js/core/jquery.countTo.min.js"></script>
+        <script src="../assets/js/core/jquery.placeholder.min.js"></script>
+        <script src="../assets/js/core/js.cookie.min.js"></script>
+        <script src="../assets/js/app.js"></script>
+
+        <!-- Page JS Code -->
+        <script>
+            $(function () {
+                // Init page helpers (Appear plugin)
+                App.initHelpers('appear');
+            });
+        </script>
     </body>
 </html>

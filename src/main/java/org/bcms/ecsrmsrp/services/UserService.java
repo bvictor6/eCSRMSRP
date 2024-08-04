@@ -5,10 +5,15 @@
 */
 package org.bcms.ecsrmsrp.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.bcms.ecsrmsrp.classes.Constants;
 import org.bcms.ecsrmsrp.entities.User;
+import org.bcms.ecsrmsrp.enums.Role;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +46,13 @@ public class UserService implements UserDetailsService {
 		request.getSession().setAttribute(Constants._SESSION_USER_EMAIL, user.getUsername());
 		request.getSession().setAttribute(Constants._SESSION_USER_ROLE, "Supplier");
 		request.getSession().setAttribute(Constants._SESSION_USER_USER_ID, user.getId());
+		request.getSession().setAttribute(Constants._SESSION_USER_ECSRM_ID, user.getVendorProfile().getEcsrmId());
+		
+		List<String> authorities = new ArrayList<>();
+		Role role = Role.SUPPLIER;
+		authorities.add(role.toString());
 		
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
 	}
-
+		
 }

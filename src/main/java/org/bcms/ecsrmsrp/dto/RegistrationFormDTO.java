@@ -5,6 +5,8 @@
 */
 package org.bcms.ecsrmsrp.dto;
 
+import java.util.UUID;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor                    
 public class RegistrationFormDTO {
+	private UUID ecsrmId;
 	private String name;
 	private String contractNo;
 	private String tenderNo;

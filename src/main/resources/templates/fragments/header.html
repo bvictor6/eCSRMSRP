@@ -59,5 +59,43 @@
                 <!-- END Header Navigation Left -->
             </header>	
 	</div>
+	
+	<div th:fragment="header-frontend">
+		<!-- Header -->
+        <header id="header-navbar" class="content-mini content-mini-full">
+            <!-- Header Navigation Right -->
+            <ul class="nav-header pull-right bg-default-light">
+				<li>
+					<a href="/login">
+						<button class="btn btn-sm btn-secondary push-5-r push-10" type="button"><i class="fa fa-sign-in"></i> Sign In</button>
+					</a>					
+                </li>
+                <li>
+					<button class="btn btn-sm btn-secondary push-5-r push-10" type="button"><i class="fa fa-support"></i> Help Desk</button>
+                </li>
+            </ul>
+            <!-- END Header Navigation Right -->
+
+            <!-- Header Navigation Left -->
+			<ul class="nav-header pull-left">
+                <li class="header-content">
+					<div>
+						<a class="h6" href="/">
+							<div class="img-responsive side-content overflow-hidden" style="background-image: url('../assets/images/logo.png');background-size: contain; background-repeat: no-repeat;">
+								&nbsp;&nbsp;
+							</div>
+	                    </a>
+					</div>                    
+                </li>
+				<li>
+					<a class="h6" href="/">
+						<span class="h4 font-w600 text-white">eCSRM</span>
+					</a>
+				</li>
+            </ul>
+            <!-- END Header Navigation Left -->
+        </header>
+        <!-- END Header -->
+	</div>
 </body>
 </html>

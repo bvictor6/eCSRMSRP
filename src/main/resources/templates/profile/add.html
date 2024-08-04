@@ -60,7 +60,8 @@
             <!-- Main Container -->
             <main id="main-container">
                 <!-- Page Header -->
-                <div class="content bg-image overflow-hidden" style="background-color: #09c;">
+                <!--div class="content bg-image overflow-hidden" style="background-color: #09c;"-->
+				<div class="content bg-image overflow-hidden bg-default-light">
 					<div class="col-lg-4">&nbsp;</div>
 					<div class="col-lg-4 push-10">
 						<a href="/">
@@ -115,20 +116,21 @@
                                 <!-- jQuery Validation (.js-form2 class is initialized in js/pages/base_forms_wizard.js) -->
                                 <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                 <form class="js-form2 form-horizontal" action="#" th:action="@{/profile/save}" th:object="${user}" method="post">
-                                    <!-- Steps Content -->
+									<input type="hidden" id="ecsrmId" name="escrmId" th:field="*{ecsrmId}">
+									<!-- Steps Content -->
                                     <div class="block-content tab-content">
                                         <!-- Step 1 -->
                                         <div class="tab-pane fade fade-right in push-30-t push-50 active" id="validation-step1">
                                             <div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="name" name="name" placeholder="Supplier Name">
+                                                        <input class="form-control" type="text" id="name" name="name" th:field="*{name}" placeholder="Supplier Name">
                                                         <label for="name">Supplier Name <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>	
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="physicalAddress" name="physicalAddress" placeholder="Physical Address">
+                                                        <input class="form-control" th:field="*{physicalAddress}" type="text" id="physicalAddress" name="physicalAddress" placeholder="Physical Address">
                                                         <label for="physicalAddress">Physical Address <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>											
@@ -136,13 +138,13 @@
 											<div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="tenderNo" name="tenderNo" placeholder="Tender No.">
+                                                        <input class="form-control" th:field="*{tenderNo}" type="text" id="tenderNo" name="tenderNo" placeholder="Tender No.">
                                                         <label for="tenderNo">Tender No. <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="contractNo" name="contractNo" placeholder="Contract Number">
+                                                        <input class="form-control" th:field="*{contractNo}" type="text" id="contractNo" name="contractNo" placeholder="Contract Number">
                                                         <label for="contractNo">Contract No. <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
@@ -150,13 +152,13 @@
                                             <div class="form-group">                                                
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="email" name="email" placeholder="Email Address">
+                                                        <input class="form-control" th:field="*{email}" type="text" id="email" name="email" placeholder="Email Address">
                                                         <label for="email">Email Address <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>	
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="fax" name="fax" placeholder="Fax">
+                                                        <input class="form-control" th:field="*{fax}" type="text" id="fax" name="fax" placeholder="Fax">
                                                         <label for="fax">Fax <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>											
@@ -164,13 +166,13 @@
                                             <div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="tel" id="phone" name="phone" placeholder="Office Phone">
+                                                        <input class="form-control" th:field="*{phone}" type="tel" id="phone" name="phone" placeholder="Office Phone">
                                                         <label for="phone">Office Phone <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="tel" id="mobile" name="mobile" placeholder="Mobile">
+                                                        <input class="form-control" th:field="*{mobile}" type="tel" id="mobile" name="mobile" placeholder="Mobile">
                                                         <label for="mobile">Mobile <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
@@ -178,13 +180,13 @@
 											<div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="postalAddress" name="postalAddress" placeholder="Postal Address">
+                                                        <input class="form-control" th:field="*{postalAddress}" type="text" id="postalAddress" name="postalAddress" placeholder="Postal Address">
                                                         <label for="postalAddress">Postal Address <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="city" name="city" placeholder="Please enter your town/city">
+                                                        <input class="form-control" th:field="*{city}" type="text" id="city" name="city" placeholder="Please enter your town/city">
                                                         <label for="city">Town/City <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
@@ -193,7 +195,7 @@
 												<div class="col-sm-12">                                                    
 													<div class="form-material floating">
 														<!--select class="js-select2 form-control" id="country" name="country"  th:field="*{country.id}" style="width: 100%;" data-placeholder="Choose one.."-->
-		                                           		<select class="js-select2 form-control" id="country" name="country"  style="width: 100%;" data-placeholder="Choose one..">
+		                                           		<select class="js-select2 form-control" th:field="*{country}" id="country" name="country"  style="width: 100%;" data-placeholder="Choose one..">
 		                                           			<option th:each="c:${countries}" th:value="${c.id}" th:text="${c.name}"></option>
 		                                           		</select>
 		                                           		<label for="country">Country <span class="text-danger">*</span></label>
@@ -208,13 +210,13 @@
 											<div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="firstname" name="firstname" placeholder="First Name">
+                                                        <input class="form-control" type="text" th:field="*{firstname}" id="firstname" name="firstname" placeholder="First Name">
                                                         <label for="firstname">First Name <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Last Name">
+                                                        <input class="form-control" type="text" th:field="*{lastname}" id="lastname" name="lastname" placeholder="Last Name">
                                                         <label for="lastname">Last Name <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
@@ -222,13 +224,13 @@
 											<div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="tel" id="contactPersonPhone" name="contactPersonPhone" placeholder="Contact Person Phone">
+                                                        <input class="form-control" th:field="*{contactPersonPhone}" type="tel" id="contactPersonPhone" name="contactPersonPhone" placeholder="Contact Person Phone">
                                                         <label for="contactPersonPhone">Phone <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="contactPersonAddress" name="contactPersonAddress" placeholder="Contact Person Address">
+                                                        <input class="form-control" th:field="*{contactPersonAddress}" type="text" id="contactPersonAddress" name="contactPersonAddress" placeholder="Contact Person Address">
                                                         <label for="contactPersonAddress">Address <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
@@ -236,7 +238,7 @@
 											<div class="form-group">
                                                 <div class="col-sm-12">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="text" id="designation" name="designation" placeholder="Designation">
+                                                        <input class="form-control" th:field="*{designation}" type="text" id="designation" name="designation" placeholder="Designation">
                                                         <label for="designation">Designation <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>												
@@ -249,7 +251,7 @@
 											<div class="form-group">
                                                 <div class="col-sm-12">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="email" id="username" name="username" placeholder="Username (Email)">
+                                                        <input class="form-control" th:field="*{username}" type="email" id="username" name="username" placeholder="Username (Email)">
                                                         <label for="username">Username(Email) <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
@@ -257,7 +259,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
-                                                        <input class="form-control" type="password" id="password" name="password" placeholder="Password">
+                                                        <input class="form-control" th:field="*{password}" type="password" id="password" name="password" placeholder="Password">
                                                         <label for="password">Password <span class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
@@ -355,7 +357,7 @@
 			{
 				$(".wizard-next").attr("disabled", false);//disable next button if enabled
 				$("#name").blur(function(){
-					//searchVendorName();
+					searchVendorName();
 				});	
 				//
 				$("#contractNo").blur(function(){
@@ -383,12 +385,18 @@
                     contentType: 'application/json',
         	        success	: function (results){
         	        	console.log('Supplier name match = ' + JSON.stringify(results));
-						var res = JSON.stringify(parseFloat(results));
-        	        	if(parseFloat(results)>89.0)
+						const res =  JSON.stringify(results) ;
+						const myObj = JSON.parse(res);
+						console.log('ECSRM ID: ' + myObj.ecsrmId);
+        	        	if(parseFloat(myObj.jwSimilarity)>89.0)
         	        	{
+							console.log("Supplier name match meets the required threshold!");
+							$("#ecsrmId").val(myObj.ecsrmId);
 							$(".wizard-next").attr("disabled", false);//enable next button if disabled
            					
         	        	}else{
+							console.log("Supplier name match does not meet the required threshold!");
+							$("#ecsrmId").val("");//clear ecsrm id in case it had any values
 							$(".wizard-next").attr("disabled", true);//disable next button if enabled
         	        		$("#alert1").css("display", "block");
         	        		$("#alert1").text('Provided supplier name did not match any of the existing suppliers in our database, Please confirm the correct supplier name and try again!');
@@ -397,6 +405,7 @@
         				$("#wait").css("display", "none");
         	        },
         	        error:	function (e){
+						$("#ecsrmId").val("");
 						$(".wizard-next").attr("disabled", true);//disable next button if enabled
         	        	console.log(e);
         	        	$("#wait").css("display", "none");

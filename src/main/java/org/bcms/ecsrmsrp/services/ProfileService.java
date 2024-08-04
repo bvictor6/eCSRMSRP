@@ -10,12 +10,15 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.bcms.ecsrmsrp.classes.MailObject;
+import org.bcms.ecsrmsrp.classes.Results;
 import org.bcms.ecsrmsrp.dto.EmailVerificationDTO;
 import org.bcms.ecsrmsrp.dto.RegistrationFormDTO;
 import org.bcms.ecsrmsrp.entities.VendorProfile;
+import org.bcms.ecsrmsrp.enums.ResultStatus;
 import org.bcms.ecsrmsrp.entities.EmailVerification;
 import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.entities.UserProfile;
@@ -49,8 +52,9 @@ public class ProfileService {
 	@Autowired EmailVerificationRepository emailVerificationRepository;
 	@Autowired EmailService emailService;
 	
-	public void createUserProfile(RegistrationFormDTO data)  
+	public Results createUserProfile(RegistrationFormDTO data)  
 	{
+		Results results = new Results();
 		
 		VendorProfile vendorProfile = setProfileValues(data);
 		
@@ -97,7 +101,8 @@ public class ProfileService {
 			emailVerificationDTO.setUid(emailVerification.getUserId());
 			//
 			ObjectMapper obj = new ObjectMapper();
-			try {
+			try 
+			{
 				String jsonStr = obj.writeValueAsString(emailVerificationDTO);
 				logger.info(jsonStr);
 				Base64.Encoder encoder = Base64.getEncoder();
@@ -127,33 +132,55 @@ public class ProfileService {
                 if (mailObject.getTemplateEngine().equalsIgnoreCase("email")) 
                 {
                     logger.info("Email schedular task execute send email cron job for - " + mailObject.getTemplateEngine().toUpperCase());
-                    try {
+                    try 
+                    {
                         emailService.sendMessageUsingThymeleafTemplate(
                                 mailObject.getTo(),
                                 mailObject.getSubject(),
                                 templateModel);
                         logger.info(mailObject.getTemplateEngine().toUpperCase() + ": Cron job successfully sent email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject());
+                        
+                        results.setStatus(ResultStatus.SUCCESS);
+                        results.setMessage("Account created succesfuly! A confirmation email has been sent to " + user.getUsername() + " for verification!");
+                        return results;
                     } catch (IOException e) {
                         logger.error(mailObject.getTemplateEngine().toUpperCase() + ": Cron job failed to send email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject() + " due to IOException " + e.getLocalizedMessage());
                         e.printStackTrace();
+                        results.setStatus(ResultStatus.ERROR);
+                        results.setMessage("Account created succesfuly! However we were unable to send a verification email for verification to " + mailObject.getTo() + "! " + e.getLocalizedMessage());
+                        return results;
                     } catch (MessagingException e) {
                         logger.error(mailObject.getTemplateEngine().toUpperCase() + ": Cron job failed to send email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject() + " due to MessagingException " + e.getLocalizedMessage());
                         e.printStackTrace();
+                        results.setStatus(ResultStatus.ERROR);
+                        results.setMessage("Account created succesfuly! However we were unable to send a verification email for verification to " + mailObject.getTo() + "! " + e.getLocalizedMessage());
+                        return results;
                     }
                 }
 			}catch (Exception e) {
+				logger.error(user.getUsername() + " :: error creating account - " + e.getLocalizedMessage());
 				e.printStackTrace();
+				results.setStatus(ResultStatus.ERROR);
+                results.setMessage("An error was encountered while creating your account with message:  " + e.getLocalizedMessage());
+                return results;
 			}
 			
 		}else {
 			//exception
+			logger.error(user.getUsername() + " is already registered! Aborting profile registration..." );
+			results.setStatus(ResultStatus.ERROR);
+            results.setMessage(user.getUsername() + " is already registered!");
+            return results;
 		}
+		return results;
 	}
 	
 	private Boolean userExists(String username) {
 		if(userRepository.findByUsername(username) != null) {
+			logger.error(username + " exists, abort creating new profile!");
 			return true;
 		}else {
+			logger.info(username + " does not exist, creating new profile!");			
 			return false;
 		}
 	}
@@ -161,6 +188,7 @@ public class ProfileService {
 	private VendorProfile setProfileValues(RegistrationFormDTO data) {
 		VendorProfile vendorProfile = new VendorProfile();
 		//
+		vendorProfile.setEcsrmId(data.getEcsrmId());
 		vendorProfile.setContractNo(data.getContractNo());
 		vendorProfile.setTenderNo(data.getTenderNo());
 		vendorProfile.setCountry(countryRepository.findById(UUID.fromString(data.getCountry())).get());
@@ -190,6 +218,21 @@ public class ProfileService {
 		profile.setPhone(data.getPhone());
 		//
 		return profile;
+	}
+	
+	public Optional<User> loadByUserId(UUID id) {
+		return userRepository.findById(id);
+	}
+	
+	public Boolean verifyUser(User user) {
+		user.setIsVerified(true);
+		user.setIsActive(true);
+		user.setLastModifiedDate(LocalDateTime.now());
+		if(userRepository.save(user) != null) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

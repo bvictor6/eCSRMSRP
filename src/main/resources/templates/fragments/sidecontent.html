@@ -8,31 +8,34 @@
 <body>
 
 	<div th:fragment="content">
+		<!--div th:if="${#httpServletRequest.requestURI == '/example/WEB-INF/views/inbox.jsp'}">
+		some content
+		</div-->
 		<div class="side-content">
              <ul class="nav-main">
                  <li>
-                     <a class="active" href="/"><i class="fa-solid fa-home"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                     <a class="active" th:href="@{/dashboard}"><i class="fa-solid fa-home"></i><span class="sidebar-mini-hide">Dashboard</span></a>
                  </li>
 				 <li>
-	                 <a href="#"><i class="fa-solid fa-bell"></i><span class="sidebar-mini-hide">Alerts</span></a>
+	                 <a th:href="@{/alerts/index}"><i class="fa-solid fa-bell"></i><span class="sidebar-mini-hide">Alerts</span></a>
 	             </li>
                  <li>
-                     <a href="#"><i class="fa-solid fa-file"></i><span class="sidebar-mini-hide">Contracts</span></a>
+                     <a th:href="@{/contracts/index}"><i class="fa-solid fa-file"></i><span class="sidebar-mini-hide">Contracts</span></a>
                  </li>
 				 <li>
-                     <a href="#"><i class="si si-envelope-letter"></i><span class="sidebar-mini-hide">LOC</span></a>
+                     <a th:href="@{/loc/index}"><i class="si si-envelope-letter"></i><span class="sidebar-mini-hide">LOC</span></a>
                  </li>
 				 <li>
-	                 <a href="#"><i class="fa fa-shopping-cart"></i><span class="sidebar-mini-hide">Purchase Orders</span></a>
+	                 <a th:href="@{/purchaseOrders/index}"><i class="fa fa-shopping-cart"></i><span class="sidebar-mini-hide">Purchase Orders</span></a>
 	             </li>
                  <li>
-                     <a href="#"><i class="fa-solid fa-truck-fast"></i><span class="sidebar-mini-hide">Deliveries</span></a>
+                     <a th:href="@{/deliveries/index}"><i class="fa-solid fa-truck-fast"></i><span class="sidebar-mini-hide">Deliveries</span></a>
                  </li>
 				 <li>
-	                 <a href="#"><i class="fa-solid fa-receipt"></i><span class="sidebar-mini-hide">Invoices</span></a>
+	                 <a th:href="@{/invoices/index}"><i class="fa-solid fa-receipt"></i><span class="sidebar-mini-hide">Invoices</span></a>
 	             </li>
 				 <li>
- 	                 <a href="#"><i class="fa-solid fa-money-check-dollar"></i><span class="sidebar-mini-hide">Payments</span></a>
+ 	                 <a th:href="@{/payments/index}"><i class="fa-solid fa-money-check-dollar"></i><span class="sidebar-mini-hide">Payments</span></a>
  	             </li>
 				 <li>
  	                 <a href="#"><i class="fa-solid fa-star"></i><small class="sidebar-mini-hide">Supplier Performance</small></a>

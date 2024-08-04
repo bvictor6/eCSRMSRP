@@ -62,7 +62,7 @@
                         <!-- Section Content -->
                         <div class="push-70-t push-10 text-center">
                             <h1 class="h2 text-white push-10 visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">Botswana Central Medical Stores</h1>
-                            <h2 class="h5 text-white-op visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">Email verification error!</h2>
+                            <h2 class="h5 text-white-op visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">Email verification success!</h2>
                         </div>
                         <!--div class="row visibility-hidden" data-toggle="appear" data-class="animated fadeInUp">
                             <div class="col-sm-2 col-sm-offset-5">
@@ -82,15 +82,16 @@
                             <div class="col-sm-4 col-sm-offset-4">
                                 <div class="text-center push">
                                     <span class="item item-2x item-circle border">
-                                        <i class="si si-close text-danger"></i>
+                                        <i class="si si-check text-success"></i>
                                     </span>
                                 </div>
-                                <h3 class="h5 font-w600 text-uppercase text-center text-danger push-10">Verification Failed</h3>
-								<div>
-									<code class="text-danger" th:text="${message}"></code>
-								</div>
-                                <code>Email verification failed! Our server's encountered a problem while attempting to verify you email. 
-									Click again on the link to sent to your email to try again or contact support.</code>
+                                <h3 class="h5 font-w600 text-uppercase text-center text-success push-10">Profile Created</h3>
+                                <div>									
+									<p>
+										<code class="text-success" th:text="${message}"></code>
+									</p>
+										<code class="text-default" th:text="${'Check your email for verification email to complete the registration process!'}"></code>
+								</div>								
                             </div>
                         </div>
                         <!-- END Section Content -->
@@ -99,16 +100,16 @@
                 <!-- END Classic Features -->
 
                 <!-- Sign Up Today -->
-                <div class="bg-gray-lighter">
-                    <section class="content content-full content-boxed">
+                <!--div class="bg-gray-lighter">
+                    <section class="content content-full content-boxed"-->
                         <!-- Section Content -->
-                        <div class="push-20-t push-20 text-center">
+                        <!--div class="push-20-t push-20 text-center">
                             <h3 class="h4 push-20 visibility-hidden" data-toggle="appear">Don’t have an account?</h3>
                             <a class="btn btn-rounded btn-noborder btn-lg btn-success visibility-hidden" data-toggle="appear" data-class="animated bounceIn" href="/profile/register">Sign Up Today</a>
-                        </div>
+                        </div-->
                         <!-- END Section Content -->
-                    </section>
-                </div>
+                    <!--/section>
+                </div-->
                 <!-- END Sign Up Today -->
             </main>
             <!-- END Main Container -->

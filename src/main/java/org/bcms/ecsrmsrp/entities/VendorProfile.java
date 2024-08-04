@@ -5,6 +5,8 @@
  */
 package org.bcms.ecsrmsrp.entities;
 
+import java.util.UUID;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,6 +27,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class VendorProfile extends BaseEntity {
+	private UUID ecsrmId;
 	private String name;
 	private String physicalAddress;
 	private String postalAddress;

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="ie9 no-focus"> <![endif]-->
+<!--[if gt IE 9]><!--> 
+<html class="no-focus" xmlns:th="http://www.thymeleaf.org" lang="en"> 
+<!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+
+ 		<!--  -->
+        <!--meta th:name="_csrf" th:content="${_csrf.token}"/>
+		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/-->
+	    <!-- ... -->
+	    
+        <title>Supplier Registration Portal - Contracts</title>
+
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <link rel="shortcut icon" href="../assets/img/favicons/favicon.png">
+
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-160x160.png" sizes="160x160">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-192x192.png" sizes="192x192">
+
+        <link rel="apple-touch-icon" sizes="57x57" href="../assets/img/favicons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../assets/img/favicons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/favicons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/favicons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/favicons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../assets/img/favicons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="../assets/img/favicons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/favicons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon-180x180.png">
+        <!-- END Icons -->
+
+        <!-- Stylesheets -->
+        <!-- Web fonts -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+		<!--Start fontawesome css-->
+		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
+		<link href="../assets/css/brands.css" rel="stylesheet" />
+		<link href="../assets/css/solid.css" rel="stylesheet" />
+		<!--End fontawesome css-->
+		
+		<!-- Page JS Plugins CSS -->
+		<link rel="stylesheet" href="../assets/js/plugins/datatables/jquery.dataTables.min.css">	
+        <!-- OneUI CSS framework -->
+        <link rel="stylesheet" id="css-main" href="../assets/css/oneui.css">
+
+        <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+        <link rel="stylesheet" id="css-theme" href="../assets/css/themes/city.min.css"> 
+        <!-- END Stylesheets -->
+    </head>
+    <body>
+        <!-- Page Container -->
+        
+        <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
+            <!-- Side Overlay-->
+            
+            <!-- END Side Overlay -->
+
+            <!-- Sidebar -->
+            <div th:replace="fragments/sidebar::sidebar"></div>
+            <!-- END Sidebar -->
+
+            <!-- Header -->
+            <div th:replace="fragments/header::content"></div>
+            <!-- END Header -->
+
+            <!-- Main Container -->
+            <main id="main-container">
+                <!-- Page Header -->
+                <div class="content bg-gray-lighter">
+                    <div class="row items-push">
+                        <div class="col-sm-7">
+                            <h1 class="page-heading">
+                                Contracts <small>View contracts linked to you organization.</small>
+                            </h1>
+                        </div>
+                        <div class="col-sm-5 text-right hidden-xs">
+                            <ol class="breadcrumb push-10-t">
+                                <li><a class="link-effect" th:href="@{/dashboard}">Dashboard</a> </li>
+                                <li>Contracts</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Page Header -->			
+                <!-- Page Content -->
+                <div class="content">                	                  
+					<!-- Contracts Table -->
+                    <div class="block">
+                        <div class="block-header">
+                            <h3 class="block-title">Company Contracts <small>List</small></h3>
+                        </div>
+                        <div class="block-content">
+                            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+                            <table class="table table-bordered table-striped js-dataTable-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"></th>
+                                        <th>Contract#</th>
+										<th>Amount</th>
+                                        <th class="hidden-xs">Date</th>
+                                        <th class="hidden-xs" style="width: 15%;">Status</th>
+                                        <th class="text-center" style="width: 10%;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+									<tr th:each="i: ${#numbers.sequence(1, count)}">
+                                        <td class="text-center" th:text="${iStat.count}">1</td>
+                                        <td class="font-w600" th:text="${contract}"></td>
+										<td class="hidden-xs">
+                                            <span class="label label-default" 
+											th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}">0.00</span>
+                                        </td>
+                                        <td class="hidden-xs">
+											<code th:text="${#temporals.format(contractDate,'MMMM dd, yyyy')}"></code>
+										</td>
+                                        <td class="hidden-xs">
+                                            <span th:if="${iStat.odd}" class="label label-success" 
+												th:text="${'Accepted'}">0.00
+											</span>
+											<span th:unless="${iStat.odd}" class="label label-warning" 
+												th:text="${'Pending'}">0.00
+											</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <button class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View"><i class="si si-info"> </i></button>
+                                            </div>
+                                        </td>
+                                    </tr> 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- END Contracts Table -->
+                </div>
+                <!-- END Page Content -->
+            </main>
+            <!-- END Main Container -->
+
+			<div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;
+	          	top:50%;left:50%;padding:2px;">
+	          	<img src="../assets/images/kcb_loader.gif" width="64" height="64" />                   	
+	          	<br>Working...
+          	</div>
+			
+            <!-- Footer -->
+            <div th:replace="fragments/footer::content"></div>
+            <!-- END Footer -->
+        </div>
+        <!-- END Page Container -->
+
+        
+        <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+        <script src="../assets/js/core/jquery.min.js"></script>
+        <script src="../assets/js/core/bootstrap.min.js"></script>
+        <script src="../assets/js/core/jquery.slimscroll.min.js"></script>
+        <script src="../assets/js/core/jquery.scrollLock.min.js"></script>
+        <script src="../assets/js/core/jquery.appear.min.js"></script>
+        <script src="../assets/js/core/jquery.countTo.min.js"></script>
+        <script src="../assets/js/core/jquery.placeholder.min.js"></script>
+        <script src="../assets/js/core/js.cookie.min.js"></script>
+        <script src="../assets/js/app.js"></script>
+
+		<!-- Page JS Plugins -->
+        <script src="../assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+
+        <!-- Page JS Code -->
+        <script src="../assets/js/pages/base_tables_datatables.js"></script>       
+    </body>
+</html>
