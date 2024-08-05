@@ -5,6 +5,7 @@
  */
 package org.bcms.ecsrmsrp.controllers;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
@@ -26,9 +27,12 @@ public class ContractController {
 	
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {
-		model.addAttribute("contract", "CN-001-2024/P");
+		model.addAttribute("contract", "ME2/002/06/2023");
+		model.addAttribute("tender", "SUP 6/13/23");
+		model.addAttribute("type", "Framework");
+		model.addAttribute("category", "Work");
 		model.addAttribute("amount", String.valueOf(1200.97));
-		model.addAttribute("contractDate", LocalDateTime.now());
+		model.addAttribute("contractDate", LocalDate.parse("2022-10-17"));
 		model.addAttribute("count", 15);
 		return "contract/index";
 	}

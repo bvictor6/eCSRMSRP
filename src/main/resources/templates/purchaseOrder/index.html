@@ -104,6 +104,8 @@
                                     <tr>
                                         <th class="text-center"></th>
                                         <th>PO Number</th>
+										<th>Contract Number</th>
+										<th>PO Type</th>
 										<th>Amount</th>
                                         <th class="hidden-xs">Date</th>
                                         <th class="hidden-xs" style="width: 15%;">Status</th>
@@ -112,16 +114,19 @@
                                 </thead>
                                 <tbody>
 									<tr th:each="i: ${#numbers.sequence(1, count)}">
-                                        <td class="text-center" th:text="${iStat.count}">1</td>
-                                        <td class="font-w600" th:text="${invoice}"></td>
-										<td class="hidden-xs">
-                                            <code class="label label-info" 
-											th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}">0.00</code>
+                                        <td class="text-center font-s12" th:text="${iStat.count}">1</td>
+                                        <td class="font-s12" th:text="${invoice}"></td>
+										<td class="font-s12" th:text="${contract}"></td>
+										<td class="font-s12" th:text="${type}"></td>
+										<td class="font-s12 text-right">
+											<mark>
+												<i class="fa fa-dollar"></i> <span class="font-s12" th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}">></span>
+											</mark>
                                         </td>
-                                        <td class="hidden-xs">
+                                        <td class="hidden-xs font-s12">
 											<code th:text="${#temporals.format(poDate,'MMMM dd, yyyy')}"></code>
 										</td>
-                                        <td class="hidden-xs">
+                                        <td class="hidden-xs font-s12">
                                             <span th:if="${iStat.odd}" class="label label-warning" 
 												th:text="${'In Progress'}">0.00
 											</span>

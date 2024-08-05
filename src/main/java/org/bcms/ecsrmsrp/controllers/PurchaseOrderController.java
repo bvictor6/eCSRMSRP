@@ -27,6 +27,8 @@ public class PurchaseOrderController {
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {
 		model.addAttribute("invoice", "PO-001-2024/P");
+		model.addAttribute("contract", "ME2/002/06/2023");
+		model.addAttribute("type", "Purchase Order");
 		model.addAttribute("amount", String.valueOf(1200.97));
 		model.addAttribute("poDate", LocalDateTime.now());
 		model.addAttribute("count", 15);

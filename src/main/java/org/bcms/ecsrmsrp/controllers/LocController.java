@@ -27,9 +27,9 @@ public class LocController {
 	
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {
-		model.addAttribute("contract", "CN-001-2024/P");
-		model.addAttribute("amount", String.valueOf(1200.97));
-		model.addAttribute("contractDate", LocalDateTime.now());
+		model.addAttribute("contract", "DS2/010/05/2023");
+		model.addAttribute("loc", "CMS/LOC/435/2023-2024");
+		model.addAttribute("issueDate", LocalDateTime.now());
 		model.addAttribute("count", 15);
 		return "loc/index";
 	}
