@@ -11,7 +11,7 @@
 		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/-->
 	    <!-- ... -->
 	    
-        <title>Supplier Registration Portal - Purchase Orders</title>
+        <title>Supplier Registration Portal - View LOC</title>
 
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
@@ -45,7 +45,7 @@
 		<link href="../assets/css/brands.css" rel="stylesheet" />
 		<link href="../assets/css/solid.css" rel="stylesheet" />
 		<!--End fontawesome css-->
-		
+        
 		<!-- Page JS Plugins CSS -->
 		<link rel="stylesheet" href="../assets/js/plugins/datatables/jquery.dataTables.min.css">	
         <!-- OneUI CSS framework -->
@@ -78,13 +78,14 @@
                     <div class="row items-push">
                         <div class="col-sm-7">
                             <h1 class="page-heading">
-                                PO's <small>View purchase orders linked to your organization.</small>
+                                LOC <small>View LOC details.</small>
                             </h1>
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
                                 <li><a class="link-effect" th:href="@{/dashboard}">Dashboard</a> </li>
-                                <li>Purchase Orders</li>
+								<li><a class="link-effect" th:href="@{/loc/index}">LOC</a> </li>
+                                <li>View</li>
                             </ol>
                         </div>
                     </div>
@@ -92,76 +93,113 @@
                 <!-- END Page Header -->			
                 <!-- Page Content -->
                 <div class="content">                	                  
-					<!-- Alerts Table -->
+					<!-- Contract Table -->
                     <div class="block">
                         <div class="block-header">
-                            <h3 class="block-title">Purchase Orders <small>List</small></h3>
+                            <h3 class="block-title">Company LOC <small>Details</small></h3>
                         </div>
                         <div class="block-content">
-                            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
-                            <table class="table table-bordered table-striped js-dataTable-full">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center"></th>
-                                        <th>PO Number</th>
-										<th>Contract Number</th>
-										<th>PO Type</th>
-										<th>Amount</th>
-                                        <th class="hidden-xs">Date</th>
-                                        <th class="hidden-xs" style="width: 15%;">Status</th>
-                                        <th class="text-center" style="width: 10%;">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-									<tr th:each="i: ${#numbers.sequence(1, count)}">
-                                        <td class="text-center font-s12" th:text="${iStat.count}">1</td>
-                                        <td class="font-s12" >
-											<small th:text="${invoice}"></small>
+                            <div class="row">
+								<table class="table table-hover table-borderless">
+									<tr>
+										<td><span class="pull-left font-w600">LOC Number</span></td>
+										<td><span class="pull-left font-w600">Contract No</span></td>
+										<td><span class="pull-left font-w600">Issue Date </span></td>
+										<td><span class="pull-left font-w600">Status </span></td>
+									</tr>
+									<tr>
+										<td><span class="label label-default" th:text="${loc}"></span></td>
+										<td><span class="pull-left font-ws12" th:text="${contract}"></span></td>
+										<td><span class="pull-left font-ws12" th:text="${#temporals.format(issueDate,'MMMM dd, yyyy')}"></span></td>
+										<td>
+											<span class="label label-success" th:text="${'Collected'}"></span>
 										</td>
-										<td class="font-s12" >
-											<small th:text="${contract}"></small>
-										</td>
-										<td class="font-s12" >
-											<small th:text="${type}"></small>
-										</td>
-										<td class="font-s12 text-right">
-											<small>
-												<i class="fa fa-dollar"></i> <span th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}">></small>
-											</small>
-                                        </td>
-                                        <td class="hidden-xs font-s12">
-											<small th:text="${#temporals.format(poDate,'dd-MM-yyyy')}"></small>
-										</td>
-                                        <td class="hidden-xs font-s12">
-                                            <small th:if="${iStat.odd}" class="label label-warning" 
-												th:text="${'In Progress'}">0.00
-											</small>
-											<small th:unless="${iStat.odd}" class="label label-success" 
-												th:text="${'Approved'}">0.00
-											</small>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="btn-group">
-                                                <button class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View"><i class="si si-info"> </i></button>
-                                            </div>
-                                        </td>
-                                    </tr> 
-                                </tbody>
-                            </table>
+									</tr>
+								</table>
+							</div>
                         </div>
                     </div>
-                    <!-- END Alerts Table -->
+                    <!-- END Contract Table -->
+					
+					<!-- Start Tabs -->
+				    <div class="block block-themed block-rounded">
+				       <ul class="nav nav-tabs nav-tabs-alt nav-justified" data-toggle="tabs">
+				           <li class="active">
+				               <a href="#btabs-animated-slideright-products"><i class="fa fa-cubes"></i> Products</a>
+				           </li>
+				           <li>
+				               <a href="#btabs-animated-slideright-documentation"><i class="fa fa-folder-open"></i> Documents</a>
+				           </li>
+				       </ul>
+				       <div class="block-content tab-content">
+							<!-- Start Products Tab -->
+				           	<div class="tab-pane fade fade-right in active" id="btabs-animated-slideright-products">
+				            	<table class="table table-condensed">
+				                    <thead>
+				                        <tr>
+				                            <th class="text-center" style="width: 5%;">#</th>
+				                            <th class="font-s13">Code</th>
+				                            <th class="font-s13">Category</th>
+				                            <th class="font-s13">Description</th>
+				                            <th class="text-center" style="width: 15%;">Actions</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody>
+				                        <tr th:each="d,counter :${products}">
+				                            <td class="text-center font-s13" th:text="${counter.index + 1}">1</td>
+				                            <td>
+				                            	<div>
+				                            		<span class="font-w600" th:text="${d.code}"></span>
+				                            	</div>
+				                            	<span class="font-s13 text-muted" th:text="${d.type}"></span>
+				                            </td>
+				                            <td class="font-s13 text-muted" th:text="${d.category}"></td>
+				                            <td class="font-s13" th:text="${d.description}"></td>
+				                            <td class="text-center">
+				                                <div class="btn-group">
+				                                	<a th:href ="@{#}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" th:title="${d.description}"><i class="fa fa-info-circle"></i></a>
+				                                </div>
+				                            </td>
+				                        </tr>                                            
+				                    </tbody>
+				                </table>
+				           	</div>
+				           	<!-- End Products Tab -->
+						   	<!-- Start Documents Tab -->
+				           	<div class="tab-pane fade fade-right" id="btabs-animated-slideright-documentation">
+				               <table class="table table-condensed">
+				                    <thead>
+				                        <tr>
+				                            <th class="text-center" style="width: 5%;">#</th>
+				                            <th class="font-s13">Name</th>
+				                            <th class="font-s13">Type</th>
+				                            <th class="text-center" style="width: 10%;">Actions</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody>
+				                        <tr th:each="d,counter :${documents}">
+				                            <td class="text-center font-s12" th:text="${counter.index + 1}">1</td>
+				                            <td class="font-w300" >
+												<i class="fa fa-file-pdf-o text-danger"></i> <span th:text="${d.name}"></span>
+											</td>
+				                            <td class="font-s12" th:text="${{d.type}}"></td>
+				                            <td class="text-center">
+				                                <div class="btn-group">
+				                                	<a th:href ="@{/loc/download(name=${d.path})}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+				                                </div>
+				                            </td>
+				                        </tr>                                            
+				                    </tbody>
+				                </table>
+				           	</div>
+						   	<!-- End Documents Tab -->
+				       	</div>
+				    </div>
+					<!-- End Tabs -->
                 </div>
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
-
-			<div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;
-	          	top:50%;left:50%;padding:2px;">
-	          	<img src="../assets/images/kcb_loader.gif" width="64" height="64" />                   	
-	          	<br>Working...
-          	</div>
-			
             <!-- Footer -->
             <div th:replace="fragments/footer::content"></div>
             <!-- END Footer -->

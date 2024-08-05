@@ -31,7 +31,7 @@ public class PurchaseOrderController {
 		model.addAttribute("type", "Purchase Order");
 		model.addAttribute("amount", String.valueOf(1200.97));
 		model.addAttribute("poDate", LocalDateTime.now());
-		model.addAttribute("count", 15);
+		model.addAttribute("count", 9);
 		return "purchaseOrder/index";
 	}
 	

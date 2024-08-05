@@ -109,36 +109,36 @@
 										<th>Type</th>
 										<th>Value</th>
                                         <th class="hidden-xs">Date</th>
-                                        <th class="hidden-xs" style="width: 10%;">Status</th>
-                                        <th class="text-center" style="width: 5%;">Actions</th>
+                                        <th class="hidden-xs">Status</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 									<tr th:each="i: ${#numbers.sequence(1, count)}">
-                                        <td class="text-center tex-muted font-s12" th:text="${iStat.count}">1</td>
-                                        <td class="font-s12" th:text="${contract}"></td>
-										<td class="font-s12" th:text="${tender}"></td>
-										<td class="font-s12" th:text="${category}"></td>
+                                        <td class="text-center font-s12" th:text="${iStat.count}">1</td>
+                                        <td class="font-s12 " th:text="${contract}"></td>
+										<td class="font-s12 " th:text="${tender}"></td>
+										<td class="font-s12 " th:text="${category}"></td>
 										<td class="font-s12" th:text="${type}"></td>
-										<td class="hidden-xs font-s12 text-right fadeIn">
-											<mark>
-												<i class="fa fa-dollar"></i> <span class="font-s12" th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}">></span>
-											</mark>
+										<td class="hidden-xs font-s12  text-right fadeIn">
+											<small>
+												<i class="fa fa-dollar"></i> <span th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}"></span></span>
+											</small>
                                         </td>
                                         <td class="hidden-xs font-s12">
-											<code th:text="${#temporals.format(contractDate,'MMMM dd, yyyy')}"></code>
+											<small class="" th:text="${#temporals.format(contractDate,'dd-MM-yyyy')}"></small>
 										</td>
-                                        <td class="hidden-xs font-s12">
-                                            <code th:if="${iStat.odd}" class="label label-success" 
+                                        <td class="hidden-xs font-s12 ">
+                                            <small th:if="${iStat.odd}" class="label label-success" 
 												th:text="${'Contract Signed'}">0.00
-											</code>
-											<code th:unless="${iStat.odd}" class="label label-warning" 
+											</small>
+											<small th:unless="${iStat.odd}" class="label label-warning" 
 												th:text="${'Pending Signing'}">0.00
-											</code>
+											</small>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <button class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View"><i class="si si-info" aria-hidden="true"> </i> </button>
+												<a th:href="@{/contracts/view}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View Details"> <i class="fa fa-info"></i> </a>
                                             </div>
                                         </td>
                                     </tr> 
@@ -151,13 +151,6 @@
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
-
-			<div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;
-	          	top:50%;left:50%;padding:2px;">
-	          	<img src="../assets/images/kcb_loader.gif" width="64" height="64" />                   	
-	          	<br>Working...
-          	</div>
-			
             <!-- Footer -->
             <div th:replace="fragments/footer::content"></div>
             <!-- END Footer -->

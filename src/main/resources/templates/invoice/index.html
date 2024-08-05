@@ -105,7 +105,7 @@
                                         <th class="text-center"></th>
                                         <th>Invoice#</th>
 										<th>Amount</th>
-                                        <th class="hidden-xs">Date</th>
+                                        <th class="hidden-xs">GPO</th>
                                         <th class="hidden-xs" style="width: 15%;">Status</th>
                                         <th class="text-center" style="width: 10%;">Actions</th>
                                     </tr>
@@ -113,21 +113,30 @@
                                 <tbody>
 									<tr th:each="i: ${#numbers.sequence(1, count)}">
                                         <td class="text-center" th:text="${iStat.count}">1</td>
-                                        <td class="font-w600" th:text="${invoice}"></td>
+                                        <td>
+											<small th:text="${invoice}"></small>
+										</td>
 										<td class="hidden-xs">
-                                            <code class="label label-default" 
-											th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}">0.00</code>
+                                            <small th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}">0.00</small>
                                         </td>
-                                        <td class="hidden-xs">
-											<code th:text="${#temporals.format(invoiceDate,'MMMM dd, yyyy')}"></code>
+                                        <td class="hidden-xs">											
+											<div>
+												<small  th:text="${gpoNo}"></small>
+											</div>
+											<div>
+												<small class="text-muted" th:text="${#temporals.format(gpoDate,'dd-MMM-yyyy')}"></small>
+											</div>
 										</td>
                                         <td class="hidden-xs">
-                                            <span th:if="${iStat.odd}" class="label label-warning" 
-												th:text="${'Not Paid'}">0.00
-											</span>
-											<span th:unless="${iStat.odd}" class="label label-success" 
-												th:text="${'Paid'}">0.00
-											</span>
+                                            <small th:if="${iStat.odd}" class="label label-warning" 
+												th:text="${'Under Review'}">0.00
+											</small>
+											<small th:unless="${iStat.odd}" class="label label-success" 
+												th:text="${'GRN Processed'}">0.00
+											</small>
+											<!--small th:if="${iStat.count % 3==0}" class="label label-danger" 
+												th:text="${'Rejected'}">0.00
+											</small-->
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">

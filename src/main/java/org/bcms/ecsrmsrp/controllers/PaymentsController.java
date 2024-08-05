@@ -27,9 +27,12 @@ public class PaymentsController {
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {
 		model.addAttribute("invoice", "INV-001-2024/P");
-		model.addAttribute("amount", String.valueOf(1200.97));
-		model.addAttribute("paymentDate", LocalDateTime.now());
-		model.addAttribute("count", 25);
+		model.addAttribute("receipt", "RCT-001-2024/P");
+		model.addAttribute("receiptAmount", String.valueOf(1200.97));
+		model.addAttribute("invoiceAmount", String.valueOf(1167.00));
+		model.addAttribute("receiptDate", LocalDateTime.now());
+		model.addAttribute("invoiceDate", LocalDateTime.now());
+		model.addAttribute("count", 5);
 		return "payment/index";
 	}
 	

@@ -120,7 +120,7 @@
 											</a>											
 										</td>										
                                         <td class="hidden-xs font-s12">
-											<code th:text="${#temporals.format(issueDate,'MMMM dd, yyyy')}"></code>
+											<small th:text="${#temporals.format(issueDate,'dd-MM-yyyy')}"></small>
 										</td>
                                         <td class="hidden-xs font-s12">
                                             <span th:if="${iStat.odd}" class="label label-success" 
@@ -132,7 +132,7 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <button class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View LOC"><i class="si si-info"> </i></button>
+												<a th:href="@{/loc/view}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View Details"> <i class="fa fa-info"></i> </a>
                                             </div>
                                         </td>
                                     </tr> 
@@ -145,13 +145,6 @@
                 <!-- END Page Content -->
             </main>
             <!-- END Main Container -->
-
-			<div id="wait" style="display:none;width:69px;height:89px;border:0px solid black;position:absolute;
-	          	top:50%;left:50%;padding:2px;">
-	          	<img src="../assets/images/kcb_loader.gif" width="64" height="64" />                   	
-	          	<br>Working...
-          	</div>
-			
             <!-- Footer -->
             <div th:replace="fragments/footer::content"></div>
             <!-- END Footer -->

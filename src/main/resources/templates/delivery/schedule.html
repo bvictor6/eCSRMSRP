@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="ie9 no-focus"> <![endif]-->
+<!--[if gt IE 9]><!--> 
+<html class="no-focus" xmlns:th="http://www.thymeleaf.org" lang="en"> 
+<!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+
+ 		<!--  -->
+        <!--meta th:name="_csrf" th:content="${_csrf.token}"/>
+		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/-->
+	    <!-- ... -->
+	    
+        <title>Supplier Registration Portal - Deliveries Schedule</title>
+
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <link rel="shortcut icon" href="../assets/img/favicons/favicon.png">
+
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-160x160.png" sizes="160x160">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-192x192.png" sizes="192x192">
+
+        <link rel="apple-touch-icon" sizes="57x57" href="../assets/img/favicons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../assets/img/favicons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/favicons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/favicons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/favicons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../assets/img/favicons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="../assets/img/favicons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/favicons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon-180x180.png">
+        <!-- END Icons -->
+		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+		
+		<script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
+		<script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
+        <!-- Stylesheets -->
+		<!--Start fontawesome css-->
+		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
+		<link href="../assets/css/brands.css" rel="stylesheet" />
+		<link href="../assets/css/solid.css" rel="stylesheet" />
+		<!--End fontawesome css-->
+        <!-- Web fonts -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+		
+        <!-- OneUI CSS framework -->
+        <link rel="stylesheet" id="css-main" href="../assets/css/oneui.css">
+
+        <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+        <link rel="stylesheet" id="css-theme" href="../assets/css/themes/city.min.css"> 
+        <!-- END Stylesheets -->
+		<style>
+		  body {
+		    margin: 40px 10px;
+		    padding: 0;
+		    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+		    font-size: 14px;
+		  }
+
+		  #calendar {
+		    max-width: 1200px;
+		    margin: 0 auto;
+		  }
+
+		</style>
+		<style>
+		  /*
+		  i wish this required CSS was better documented :(
+		  https://github.com/FezVrasta/popper.js/issues/674
+		  derived from this CSS on this page: https://popper.js.org/tooltip-examples.html
+		  */
+		  .popper,
+		  .tooltip {
+		    position: absolute;
+		    z-index: 9999;
+		    background: #FFC107;
+		    color: black;
+		    width: 150px;
+		    border-radius: 3px;
+		    box-shadow: 0 0 2px rgba(0,0,0,0.5);
+		    padding: 10px;
+		    text-align: center;
+		  }
+		  .style5 .tooltip {
+		    background: #1E252B;
+		    color: #FFFFFF;
+		    max-width: 200px;
+		    width: auto;
+		    font-size: .8rem;
+		    padding: .5em 1em;
+		  }
+		  .popper .popper__arrow,
+		  .tooltip .tooltip-arrow {
+		    width: 0;
+		    height: 0;
+		    border-style: solid;
+		    position: absolute;
+		    margin: 5px;
+		  }
+
+		  .tooltip .tooltip-arrow,
+		  .popper .popper__arrow {
+		    border-color: #FFC107;
+		  }
+		  .style5 .tooltip .tooltip-arrow {
+		    border-color: #1E252B;
+		  }
+		  .popper[x-placement^="top"],
+		  .tooltip[x-placement^="top"] {
+		    margin-bottom: 5px;
+		  }
+		  .popper[x-placement^="top"] .popper__arrow,
+		  .tooltip[x-placement^="top"] .tooltip-arrow {
+		    border-width: 5px 5px 0 5px;
+		    border-left-color: transparent;
+		    border-right-color: transparent;
+		    border-bottom-color: transparent;
+		    bottom: -5px;
+		    left: calc(50% - 5px);
+		    margin-top: 0;
+		    margin-bottom: 0;
+		  }
+		  .popper[x-placement^="bottom"],
+		  .tooltip[x-placement^="bottom"] {
+		    margin-top: 5px;
+		  }
+		  .tooltip[x-placement^="bottom"] .tooltip-arrow,
+		  .popper[x-placement^="bottom"] .popper__arrow {
+		    border-width: 0 5px 5px 5px;
+		    border-left-color: transparent;
+		    border-right-color: transparent;
+		    border-top-color: transparent;
+		    top: -5px;
+		    left: calc(50% - 5px);
+		    margin-top: 0;
+		    margin-bottom: 0;
+		  }
+		  .tooltip[x-placement^="right"],
+		  .popper[x-placement^="right"] {
+		    margin-left: 5px;
+		  }
+		  .popper[x-placement^="right"] .popper__arrow,
+		  .tooltip[x-placement^="right"] .tooltip-arrow {
+		    border-width: 5px 5px 5px 0;
+		    border-left-color: transparent;
+		    border-top-color: transparent;
+		    border-bottom-color: transparent;
+		    left: -5px;
+		    top: calc(50% - 5px);
+		    margin-left: 0;
+		    margin-right: 0;
+		  }
+		  .popper[x-placement^="left"],
+		  .tooltip[x-placement^="left"] {
+		    margin-right: 5px;
+		  }
+		  .popper[x-placement^="left"] .popper__arrow,
+		  .tooltip[x-placement^="left"] .tooltip-arrow {
+		    border-width: 5px 0 5px 5px;
+		    border-top-color: transparent;
+		    border-right-color: transparent;
+		    border-bottom-color: transparent;
+		    right: -5px;
+		    top: calc(50% - 5px);
+		    margin-left: 0;
+		    margin-right: 0;
+		  }
+
+		</style>
+    </head>
+    <body>
+        <!-- Page Container -->
+        
+        <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
+            <!-- Side Overlay-->
+            
+            <!-- END Side Overlay -->
+
+            <!-- Sidebar -->
+            <div th:replace="fragments/sidebar::sidebar"></div>
+            <!-- END Sidebar -->
+
+            <!-- Header -->
+            <div th:replace="fragments/header::content"></div>
+            <!-- END Header -->
+
+            <!-- Main Container -->
+            <main id="main-container">
+                <!-- Page Header -->
+                <div class="content bg-gray-lighter">
+                    <div class="row items-push">
+                        <div class="col-sm-7">
+                            <h1 class="page-heading">
+                                Schedule <small>Deliveries schedule calendar.</small>
+                            </h1>
+                        </div>
+                        <div class="col-sm-5 text-right hidden-xs">
+                            <ol class="breadcrumb push-10-t">
+                                <li><a class="link-effect" th:href="@{/dashboard}">Dashboard</a> </li>
+								<li><a class="link-effect" th:href="@{/deliveries/index}">Deliveries</a> </li>
+                                <li>Schedule</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Page Header -->			
+                <!-- Page Content -->
+                <div class="content bg-white">                	                  
+					<!-- Calendar -->
+                    <div class="row items-push">
+                        <div class="block-content">
+	                        <!-- Calendar Container -->
+	                        <div id='calendar'></div>
+                        </div>
+                    </div>
+                    <!-- END Deliveries Table -->
+                </div>
+                <!-- END Page Content -->
+            </main>
+            <!-- END Main Container -->
+			
+            <!-- Footer -->
+            <div th:replace="fragments/footer::content"></div>
+            <!-- END Footer -->
+        </div>
+        <!-- END Page Container -->
+
+        
+        <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+        <script src="../assets/js/core/jquery.min.js"></script>
+        <script src="../assets/js/core/bootstrap.min.js"></script>
+        <script src="../assets/js/core/jquery.slimscroll.min.js"></script>
+        <script src="../assets/js/core/jquery.scrollLock.min.js"></script>
+        <script src="../assets/js/core/jquery.appear.min.js"></script>
+        <script src="../assets/js/core/jquery.countTo.min.js"></script>
+        <script src="../assets/js/core/jquery.placeholder.min.js"></script>
+        <script src="../assets/js/core/js.cookie.min.js"></script>
+        <script src="../assets/js/app.js"></script>
+		
+		<!-- Start Calendar -->
+		<!--script type="text/javascript" src='../assets/js/cal/index.global.min.js'></script-->
+		<!--script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script-->
+		<script>
+
+		  document.addEventListener('DOMContentLoaded', function() {
+		    var calendarEl = document.getElementById('calendar');
+
+		    var calendar = new FullCalendar.Calendar(calendarEl, {
+		      headerToolbar: {
+		        left: 'prev,next today',
+		        center: 'title',
+		        right: 'multiMonthYear,dayGridMonth,timeGridWeek'
+		      },
+		      initialView: 'multiMonthYear',
+		      initialDate: '2024-08-12',
+		      editable: true,
+		      selectable: true,
+		      dayMaxEvents: true, // allow "more" link when too many events
+		      // multiMonthMaxColumns: 1, // guarantee single column
+		      // showNonCurrentDates: true,
+		      // fixedWeekCount: false,
+		      // businessHours: true,
+		      // weekends: false,
+			  
+			  eventDidMount: function(info) {
+					console.log(info.el);
+			          var tooltip = new Tooltip(info.el, {
+			            title: info.event.extendedProps.title,
+			            placement: 'top',
+			            trigger: 'hover',
+			            container: 'body'
+			          });
+					  console.log('tooltip: ' + JSON.stringify(tooltip) );
+			        },
+			  
+		      events: [
+		        {
+		          title: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
+				  description: 'An event...',
+		          start: '2024-08-01'
+		        },
+		        {
+		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+				  description: 'An event...',
+		          start: '2024-08-07',
+		          end: '2024-08-10'
+		        },
+		        {
+		          groupId: 999,
+		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+				  description: 'An event...',
+		          start: '2024-08-09T16:00:00'
+		        },
+		        {
+		          groupId: 999,
+		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+				  description: 'An event...',
+		          start: '2024-08-16T16:00:00'
+		        },
+		        {
+		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+				  description: 'An event...',
+		          start: '2024-08-11',
+		          end: '2024-08-11'
+		        },
+		        {
+		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+				  description: 'An event...',
+		          start: '2024-09-12T10:30:00',
+		          end: '2024-09-12T12:30:00'
+		        },
+		        {
+		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+				  description: 'An event...',
+		          start: '2024-07-12T12:00:00'
+		        },
+		        {
+		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+				  description: 'An event...',
+		          start: '2024-08-12T14:30:00'
+		        },
+		        {
+		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+				  description: 'An event...',
+		          start: '2024-07-22T17:30:00'
+		        },
+		        {
+		          title: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
+				  description: 'An event...',
+		          start: '2024-09-16T20:00:00'
+		        },
+		        {
+		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+				  description: 'An event...',
+		          start: '2024-08-13T07:00:00'
+		        },
+		        {
+		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+				  description: 'An event...',
+		          url: 'http://google.com/',
+		          start: '2024-07-28'
+		        }
+		      ]
+		    });
+
+		    calendar.render();
+		  });
+
+		</script>
+		<!-- End Calendar -->     
+    </body>
+</html>

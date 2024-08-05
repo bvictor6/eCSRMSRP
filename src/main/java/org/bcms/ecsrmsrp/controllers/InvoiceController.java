@@ -28,8 +28,9 @@ public class InvoiceController {
 	public String index(Model model, HttpServletRequest request) {
 		model.addAttribute("invoice", "INV-001-2024/P");
 		model.addAttribute("amount", String.valueOf(1200.97));
-		model.addAttribute("invoiceDate", LocalDateTime.now());
-		model.addAttribute("count", 15);
+		model.addAttribute("gpoDate", LocalDateTime.now());
+		model.addAttribute("gpoNo", "GPO-002/2024");
+		model.addAttribute("count", 7);
 		return "invoice/index";
 	}
 	
