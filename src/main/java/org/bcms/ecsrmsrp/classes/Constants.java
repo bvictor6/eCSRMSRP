@@ -9,6 +9,8 @@ package org.bcms.ecsrmsrp.classes;
  * 
  */
 public interface Constants {
+	//eCSRM Bridge API address
+	String _ECSRM_BRIDGE_API = "http://127.0.0.1:8088/api/v1";
 	/**
      * Session variables related to logged in user
      */

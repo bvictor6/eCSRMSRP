@@ -7,8 +7,8 @@
         <meta charset="utf-8">
 
  		<!--  -->
-        <!--meta th:name="_csrf" th:content="${_csrf.token}"/>
-		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/-->
+        <meta th:name="_csrf" th:content="${_csrf.token}"/>
+		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
 	    <!-- ... -->
 	    
         <title>Supplier Registration Portal</title>
@@ -18,23 +18,23 @@
 
         <!-- Icons -->
         <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-        <link rel="shortcut icon" href="assets/img/favicons/favicon.png">
+        <link rel="shortcut icon" href="../assets/img/favicons/favicon.png">
 
-        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-16x16.png" sizes="16x16">
-        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-96x96.png" sizes="96x96">
-        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-160x160.png" sizes="160x160">
-        <link rel="icon" type="image/png" href="assets/img/favicons/favicon-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-160x160.png" sizes="160x160">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-192x192.png" sizes="192x192">
 
-        <link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicons/apple-touch-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicons/apple-touch-icon-60x60.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicons/apple-touch-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicons/apple-touch-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="assets/img/favicons/apple-touch-icon-114x114.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicons/apple-touch-icon-120x120.png">
-        <link rel="apple-touch-icon" sizes="144x144" href="assets/img/favicons/apple-touch-icon-144x144.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicons/apple-touch-icon-152x152.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon-180x180.png">
+        <link rel="apple-touch-icon" sizes="57x57" href="../assets/img/favicons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../assets/img/favicons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/favicons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/favicons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/favicons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../assets/img/favicons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="../assets/img/favicons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/favicons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon-180x180.png">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
@@ -359,7 +359,7 @@
 				});	
 				//
 				$("#contractNo").blur(function(){
-					//searchContractNo();
+					searchContractNo();
 				})	;		
 			});
 			
@@ -377,7 +377,7 @@
 				$.ajax({
         			type : 'POST',
 					url: "http://127.0.0.1:8088/api/v1/suppliers/partial",
-        			//headers: {"X-CSRF-TOKEN": token}, //send CSRF token in header
+        			headers: {"X-CSRF-TOKEN": token}, //send CSRF token in header
                     dataType : 'json',
 					data: JSON.stringify(search),
                     contentType: 'application/json',
@@ -386,10 +386,11 @@
 						const res =  JSON.stringify(results) ;
 						const myObj = JSON.parse(res);
 						console.log('ECSRM ID: ' + myObj.ecsrmId);
-        	        	if(parseFloat(myObj.jwSimilarity)>89.0)
+        	        	if(parseFloat(myObj.jwSimilarity)>=89.0)
         	        	{
 							console.log("Supplier name match meets the required threshold!");
 							$("#ecsrmId").val(myObj.ecsrmId);
+							$("#name").val(myObj.name);
 							$(".wizard-next").attr("disabled", false);//enable next button if disabled
            					
         	        	}else{
@@ -425,12 +426,12 @@
             	//
 				//console.log(JSON.stringify(search));
 				$.ajax({
-        			type : 'POST',
-					url: "http://127.0.0.1:8088/api/v1/contracts/contract",
-        			//headers: {"X-CSRF-TOKEN": token}, //send CSRF token in header
-                    dataType : 'json',
-					data: JSON.stringify(search),
-                    contentType: 'application/json',
+        			type : 'GET',
+					url: "http://127.0.0.1:8088/api/v1/contracts/supplier/f54192f7-4466-46fa-9b9c-6e31670c8d35",
+        			headers: {"X-CSRF-TOKEN": token}, //send CSRF token in header
+                    //dataType : 'json',
+					//data: JSON.stringify(search),
+                    //contentType: 'application/json',
         	        success	: function (results){
         	        	console.log('Supplier contract = ' + JSON.stringify(results));
 						var res = JSON.stringify(results);

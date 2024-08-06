@@ -36,10 +36,7 @@
         <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/favicons/apple-touch-icon-152x152.png">
         <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon-180x180.png">
         <!-- END Icons -->
-		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 		
-		<script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
-		<script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
         <!-- Stylesheets -->
 		<!--Start fontawesome css-->
 		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
@@ -55,6 +52,14 @@
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <link rel="stylesheet" id="css-theme" href="../assets/css/themes/city.min.css"> 
         <!-- END Stylesheets -->
+		
+		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+		
+		<link rel="stylesheet" id="css-theme" href="../assets/css/popper.css">
+		
+		<script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
+		<script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
+				
 		<style>
 		  body {
 		    margin: 40px 10px;
@@ -67,111 +72,6 @@
 		    max-width: 1200px;
 		    margin: 0 auto;
 		  }
-
-		</style>
-		<style>
-		  /*
-		  i wish this required CSS was better documented :(
-		  https://github.com/FezVrasta/popper.js/issues/674
-		  derived from this CSS on this page: https://popper.js.org/tooltip-examples.html
-		  */
-		  .popper,
-		  .tooltip {
-		    position: absolute;
-		    z-index: 9999;
-		    background: #FFC107;
-		    color: black;
-		    width: 150px;
-		    border-radius: 3px;
-		    box-shadow: 0 0 2px rgba(0,0,0,0.5);
-		    padding: 10px;
-		    text-align: center;
-		  }
-		  .style5 .tooltip {
-		    background: #1E252B;
-		    color: #FFFFFF;
-		    max-width: 200px;
-		    width: auto;
-		    font-size: .8rem;
-		    padding: .5em 1em;
-		  }
-		  .popper .popper__arrow,
-		  .tooltip .tooltip-arrow {
-		    width: 0;
-		    height: 0;
-		    border-style: solid;
-		    position: absolute;
-		    margin: 5px;
-		  }
-
-		  .tooltip .tooltip-arrow,
-		  .popper .popper__arrow {
-		    border-color: #FFC107;
-		  }
-		  .style5 .tooltip .tooltip-arrow {
-		    border-color: #1E252B;
-		  }
-		  .popper[x-placement^="top"],
-		  .tooltip[x-placement^="top"] {
-		    margin-bottom: 5px;
-		  }
-		  .popper[x-placement^="top"] .popper__arrow,
-		  .tooltip[x-placement^="top"] .tooltip-arrow {
-		    border-width: 5px 5px 0 5px;
-		    border-left-color: transparent;
-		    border-right-color: transparent;
-		    border-bottom-color: transparent;
-		    bottom: -5px;
-		    left: calc(50% - 5px);
-		    margin-top: 0;
-		    margin-bottom: 0;
-		  }
-		  .popper[x-placement^="bottom"],
-		  .tooltip[x-placement^="bottom"] {
-		    margin-top: 5px;
-		  }
-		  .tooltip[x-placement^="bottom"] .tooltip-arrow,
-		  .popper[x-placement^="bottom"] .popper__arrow {
-		    border-width: 0 5px 5px 5px;
-		    border-left-color: transparent;
-		    border-right-color: transparent;
-		    border-top-color: transparent;
-		    top: -5px;
-		    left: calc(50% - 5px);
-		    margin-top: 0;
-		    margin-bottom: 0;
-		  }
-		  .tooltip[x-placement^="right"],
-		  .popper[x-placement^="right"] {
-		    margin-left: 5px;
-		  }
-		  .popper[x-placement^="right"] .popper__arrow,
-		  .tooltip[x-placement^="right"] .tooltip-arrow {
-		    border-width: 5px 5px 5px 0;
-		    border-left-color: transparent;
-		    border-top-color: transparent;
-		    border-bottom-color: transparent;
-		    left: -5px;
-		    top: calc(50% - 5px);
-		    margin-left: 0;
-		    margin-right: 0;
-		  }
-		  .popper[x-placement^="left"],
-		  .tooltip[x-placement^="left"] {
-		    margin-right: 5px;
-		  }
-		  .popper[x-placement^="left"] .popper__arrow,
-		  .tooltip[x-placement^="left"] .tooltip-arrow {
-		    border-width: 5px 0 5px 5px;
-		    border-top-color: transparent;
-		    border-right-color: transparent;
-		    border-bottom-color: transparent;
-		    right: -5px;
-		    top: calc(50% - 5px);
-		    margin-left: 0;
-		    margin-right: 0;
-		  }
-
 		</style>
     </head>
     <body>
@@ -247,7 +147,7 @@
 		<!--script type="text/javascript" src='../assets/js/cal/index.global.min.js'></script-->
 		<!--script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script-->
 		<script>
-
+		/*<![CDATA[*/
 		  document.addEventListener('DOMContentLoaded', function() {
 		    var calendarEl = document.getElementById('calendar');
 
@@ -259,19 +159,19 @@
 		      },
 		      initialView: 'multiMonthYear',
 		      initialDate: '2024-08-12',
-		      editable: true,
+		      editable: false,
 		      selectable: true,
 		      dayMaxEvents: true, // allow "more" link when too many events
-		      // multiMonthMaxColumns: 1, // guarantee single column
-		      // showNonCurrentDates: true,
-		      // fixedWeekCount: false,
-		      // businessHours: true,
-		      // weekends: false,
+		      //multiMonthMaxColumns: 1, // guarantee single column
+		      showNonCurrentDates: true,
+		      fixedWeekCount: false,
+		      businessHours: true,
+		      weekends: true,
 			  
 			  eventDidMount: function(info) {
 					console.log(info.el);
 			          var tooltip = new Tooltip(info.el, {
-			            title: info.event.extendedProps.title,
+			            title: info.event.extendedProps.description,
 			            placement: 'top',
 			            trigger: 'hover',
 			            container: 'body'
@@ -282,67 +182,67 @@
 		      events: [
 		        {
 		          title: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
-				  description: 'An event...',
+				  description: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
 		          start: '2024-08-01'
 		        },
 		        {
 		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
-				  description: 'An event...',
+				  description: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIA.',
 		          start: '2024-08-07',
 		          end: '2024-08-10'
 		        },
 		        {
 		          groupId: 999,
 		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
-				  description: 'An event...',
+				  description: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
 		          start: '2024-08-09T16:00:00'
 		        },
 		        {
 		          groupId: 999,
 		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
-				  description: 'An event...',
+				  description: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
 		          start: '2024-08-16T16:00:00'
 		        },
 		        {
 		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
-				  description: 'An event...',
+				  description: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
 		          start: '2024-08-11',
 		          end: '2024-08-11'
 		        },
 		        {
 		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
-				  description: 'An event...',
+				  description: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
 		          start: '2024-09-12T10:30:00',
 		          end: '2024-09-12T12:30:00'
 		        },
 		        {
 		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
-				  description: 'An event...',
+				  description: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
 		          start: '2024-07-12T12:00:00'
 		        },
 		        {
 		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
-				  description: 'An event...',
+				  description: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
 		          start: '2024-08-12T14:30:00'
 		        },
 		        {
 		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
-				  description: 'An event...',
+				  description: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
 		          start: '2024-07-22T17:30:00'
 		        },
 		        {
 		          title: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
-				  description: 'An event...',
+				  description: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
 		          start: '2024-09-16T20:00:00'
 		        },
 		        {
 		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
-				  description: 'An event...',
+				  description: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
 		          start: '2024-08-13T07:00:00'
 		        },
 		        {
 		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
-				  description: 'An event...',
+				  description: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
 		          url: 'http://google.com/',
 		          start: '2024-07-28'
 		        }
@@ -351,7 +251,7 @@
 
 		    calendar.render();
 		  });
-
+		  /*]]>*/
 		</script>
 		<!-- End Calendar -->     
     </body>

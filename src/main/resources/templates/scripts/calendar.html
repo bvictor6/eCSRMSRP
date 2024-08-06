@@ -1,0 +1,148 @@
+<script th:inline="javascript">
+/*<![CDATA[*/
+	document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    
+    /*var events = [];
+    var theList = [[${tasks}]];
+    var count=0;
+  	var i;
+  	for (i = 0; i < theList.length; i++) 
+  	{
+  	    count++;
+  		       
+        var TODAY = new Date(theList[i]['activityDate']);
+        
+        var COLOR= '';
+    	var curDate = new Date();
+    	if(curDate>TODAY)
+    	{
+    		COLOR = theList[i]['completed']?'GREEN':'RED'  		
+    	}else{
+    		COLOR = theList[i]['completed']?'GREEN':''
+    	}
+        
+    	var DD = String(TODAY.getDate()).padStart(2,'0');
+    	var MM = String(TODAY.getMonth() + 1).padStart(2,'0');
+    	var YYYY = TODAY.getFullYear();
+    	TODAY = YYYY+'-'+MM+'-'+DD;
+    	
+  		var obj = {
+  			    title: theList[i]['dependency'],
+  			    description: theList[i]['process'] +' - '+ theList[i]['responsible'],
+  			    start: TODAY+'T08:30:00',
+  	          	end: TODAY+'T16:30:00',
+  	          	color: COLOR,
+  			    //allDay: true,
+  			  	url: '/tasks/view?id='+theList[i]['taskId']
+  			};
+  		events.push(obj);
+  	}*/
+    
+    var today = new Date();
+	var dd = String(today.getDate()).padStart(2,'0');
+	var mm = String(today.getMonth() + 1).padStart(2,'0');
+	var yyyy = today.getFullYear();
+	today = yyyy+'-'+mm+'-'+dd;
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    	
+      initialDate: today,
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      },
+      eventDidMount: function(info) {
+    	  console.log('Did mount....');
+      	  var tooltip = new Tooltip(info.el, {
+          title: info.event.extendedProps.description,
+          placement: 'top',
+          trigger: 'hover',
+          container: 'body'
+        });
+      },
+      height: 'auto',
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      selectable: true,
+      selectMirror: true,
+      nowIndicator: true,
+      businessHours: true,
+      dayMaxEvents: true, // allow "more" link when too many events
+      events: [
+        {
+          title: 'All Day Event',
+		  description: 'Event description',
+          start: '2024-08-01'
+        },
+        {
+          title: 'Long Event',
+		  description: 'Event description',
+          start: '2024-08-07',
+          end: '2024-08-10'
+        },
+        {
+          groupId: 999,
+          title: 'Repeating Event',
+		  description: 'Event description',
+          start: '2024-08-09T16:00:00'
+        },
+        {
+          groupId: 999,
+          title: 'Repeating Event',
+		  description: 'Event description',
+          start: '2024-08-16T16:00:00'
+        },
+        {
+          title: 'Conference',
+		  description: 'Event description',
+          start: '2024-08-11',
+          end: '2024-08-13'
+        },
+        {
+          title: 'Meeting',
+		  description: 'Event description',
+          start: '2024-08-12T10:30:00',
+          end: '2024-08-12T12:30:00'
+        },
+        {
+          title: 'Lunch',
+		  description: 'Event description',
+          start: '2024-08-12T12:00:00'
+        },
+        {
+          title: 'Meeting',
+		  description: 'Event description',
+          start: '2024-08-12T14:30:00'
+        },
+        {
+          title: 'Happy Hour',
+		  description: 'Event description',
+          start: '2024-08-12T17:30:00'
+        },
+        {
+          title: 'Dinner',
+		  description: 'Event description',
+          start: '2024-08-12T20:00:00'
+        },
+        {
+          title: 'Birthday Party',
+		  description: 'Event description',
+          start: '2024-08-13T07:00:00'
+        },
+        {
+          title: 'Click for Google',
+		  description: 'Event description',
+          url: 'http://google.com/',
+          start: '2024-08-28'
+        }
+      ]
+      
+    });
+
+    calendar.render();
+  });
+/*]]>*/
+</script>
