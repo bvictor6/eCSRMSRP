@@ -5,13 +5,9 @@
 */
 package org.bcms.ecsrmsrp.services;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-import org.bcms.ecsrmsrp.classes.Constants;
 import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.enums.Role;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
@@ -39,14 +35,6 @@ public class UserService implements UserDetailsService {
 		
 		if(user==null) 
 			throw new UsernameNotFoundException(username);
-		
-		logger.info(username + " ...initialize session variables");
-		
-		request.getSession().setAttribute(Constants._SESSION_USER_NAME, user.getUserProfile().getFirstname() + " " +user.getUserProfile().getLastname());
-		request.getSession().setAttribute(Constants._SESSION_USER_EMAIL, user.getUsername());
-		request.getSession().setAttribute(Constants._SESSION_USER_ROLE, "Supplier");
-		request.getSession().setAttribute(Constants._SESSION_USER_USER_ID, user.getId());
-		request.getSession().setAttribute(Constants._SESSION_USER_ECSRM_ID, user.getVendorProfile().getEcsrmId());
 		
 		List<String> authorities = new ArrayList<>();
 		Role role = Role.SUPPLIER;

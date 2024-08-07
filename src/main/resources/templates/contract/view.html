@@ -99,38 +99,53 @@
                             <h3 class="block-title">Company Contract <small>Details</small></h3>
                         </div>
                         <div class="block-content">
-                            <div class="row">
-								<table class="table table-hover table-borderless">
-									<tr>
-										<td><span class="pull-left font-w600">Contract No</span></td>
-										<td><span class="pull-left font-w600">Tender No</span></td>
-										<td><span class="pull-left font-w600">Category </span></td>
-										<td><span class="pull-left font-w600">Type </span></td>
-									</tr>
-									<tr>
-										<td><span class="label label-default" th:text="${contract}"></span></td>
-										<td><span class="pull-left font-ws12" th:text="${tender}"></span></td>
-										<td><span class="pull-left font-ws12" th:text="${category}"></span></td>
-										<td><span class="pull-left font-ws12" th:text="${type}"></span></td>
-									</tr>
-									
-									<tr>
-										<td><span class="pull-left font-w600">Currency</span></td>
-										<td><span class="pull-left font-w600">Value</span></td>
-										<td><span class="pull-left font-w600">Date </span></td>
-										<td><span class="pull-left font-w600">Status </span></td>
-									</tr>
-									<tr>
-										<td><span class="label label-default" th:text="${'BWP'}"></span></td>
-										<td><span class="pull-left font-ws12" th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}"></span></td>
-										<td><span class="pull-left font-ws12" th:text="${#temporals.format(contractDate,'dd-MM-yyyy')}"></span></td>
-										<td>
-											<small  class="label label-success" 
-												th:text="${'Contract Signed'}">0.00
-											</small>
-										</td>
-									</tr>
-								</table>
+							<div class="row">
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Contract No</strong></small></div>
+									<div><small class="text-muted" th:text="${contractNo}">Contract No</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Tender No</strong></small></div>
+									<div><small class="text-muted" th:text="${tenderNo}">Contract No</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Category</strong></small></div>
+									<div><small class="text-muted" th:text="${category}">Contract No</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Type</strong></small></div>
+									<div><small class="text-muted" th:text="${contractType}">Contract No</small></div>
+								</div>
+							</div>
+							<hr class="push-10-t push-10">
+                            <div class="row push-10 push-t-0">
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Currency</strong></small></div>
+									<div><small class="text-muted">BWP</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Value</strong></small></div>
+									<div>
+										<small>
+											<i class="fa fa-dollar"></i> <span th:text="${#numbers.formatDecimal(totalContractValue, 0, 'COMMA', 2, 'POINT')}"></span></span>
+										</small>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Date</strong></small></div>
+									<div><small class="text-muted">Contract No</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Status</strong></small></div>
+									<div>
+										<small th:if="${isApproved}" class="label label-success" 
+											th:text="${'Contract Signed'}">0.00
+										</small>
+										<small th:unless="${isApproved}" class="label label-warning" 
+											th:text="${'Pending Signing'}">0.00
+										</small>
+									</div>
+								</div>
 							</div>
                         </div>
                     </div>

@@ -62,7 +62,7 @@
                             <h2 class="h5 text-white-op visibility-hidden" data-toggle="appear" data-class="animated fadeInDown">Log in to your account</h2>
                         </div>
                         <div class="row visibility-hidden" data-toggle="appear" data-class="animated fadeInUp">
-                            <div class="col-sm-2 col-sm-offset-5">
+                            <div class="col-xs-2 col-xs-offset-5">
                                 <a href="/">
 									<img class="img-responsive pull-b" src="../assets/images/logo.png" alt="">
 								</a>
@@ -81,10 +81,20 @@
                             <div class="col-md-4 col-md-offset-4">
 								<!-- END Login Title -->
 								<p th:if="${loginError}" class="text-danger">Wrong user or password</p>
-								<div th:if="${param.error}" class="alert alert-danger" role="alert">Invalid
-											username and password.</div>
-										<div th:if="${param.logout}" class="alert alert-success" role="alert">You
-											have been logged out.</div>
+								<div th:if="${param.error}" class="push-20">
+									<mark>
+										<small class="text-danger text-muted" th:text="${'Login error : ' + param.reason}">
+											Invalid username and password.
+										</small>
+									</mark>
+								</div>
+								<div th:if="${param.logout}" class="push-20">
+									<mark>
+										<small class="text-success text-muted" th:text="${param.reason}">
+											You	have been logged out.
+										</small>
+									</mark>
+								</div>
 	                            <!-- Login Form -->
                                 <form class="js-validation-login form-horizontal push-10-t push-20" th:action="@{/login}" method="post" enctype="application/x-www-form-urlencoded">
                                     <div class="form-group">

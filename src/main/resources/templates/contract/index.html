@@ -114,31 +114,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-									<tr th:each="i: ${#numbers.sequence(1, count)}">
-                                        <td class="text-center font-s12" th:text="${iStat.count}">1</td>
-                                        <td class="font-s12 " th:text="${contract}"></td>
-										<td class="font-s12 " th:text="${tender}"></td>
-										<td class="font-s12 " th:text="${category}"></td>
-										<td class="font-s12" th:text="${type}"></td>
+									<tr th:each="c, counter: ${contracts}">
+                                        <td class="text-center font-s12" th:text="${counter.count}">1</td>
+                                        <td class="font-s12 " th:text="${c.contractNo}"></td>
+										<td class="font-s12 " th:text="${c.tenderNo}"></td>
+										<td class="font-s12 " th:text="${c.category}"></td>
+										<td class="font-s12" th:text="${c.contractType}"></td>
 										<td class="hidden-xs font-s12  text-right fadeIn">
 											<small>
-												<i class="fa fa-dollar"></i> <span th:text="${#numbers.formatDecimal(amount, 0, 'COMMA', 2, 'POINT')}"></span></span>
+												<i class="fa fa-dollar"></i> <span th:text="${#numbers.formatDecimal(c.totalContractValue, 0, 'COMMA', 2, 'POINT')}"></span></span>
 											</small>
                                         </td>
                                         <td class="hidden-xs font-s12">
-											<small class="" th:text="${#temporals.format(contractDate,'dd-MM-yyyy')}"></small>
+											<!--small class="" th:text="${#temporals.format(contractDate,'dd-MM-yyyy')}"></small-->
 										</td>
                                         <td class="hidden-xs font-s12 ">
-                                            <small th:if="${iStat.odd}" class="label label-success" 
+                                            <small th:if="${c.isApproved}" class="label label-success" 
 												th:text="${'Contract Signed'}">0.00
 											</small>
-											<small th:unless="${iStat.odd}" class="label label-warning" 
+											<small th:unless="${c.isApproved}" class="label label-warning" 
 												th:text="${'Pending Signing'}">0.00
 											</small>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
-												<a th:href="@{/contracts/view}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View Details"> <i class="fa fa-info"></i> </a>
+												<a th:href="@{/contracts/view(id=${c.id})}" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="View Details">
+													 <i class="si si-info"></i> View
+												 </a>
                                             </div>
                                         </td>
                                     </tr> 

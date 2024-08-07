@@ -20,8 +20,9 @@ public interface Constants {
     String _SESSION_USER_DESC = "desc";
     String _SESSION_USER_LAST_LOGIN = "lastLogin";
     String _SESSION_USER_ROLE = "role";
-    String _SESSION_USER_USER_ID = "userId";
-    String _SESSION_USER_ECSRM_ID = "ecsrmId";
+    String _SESSION_USER_USER_ID = "userID";
+    String _SESSION_USER_ECSRM_ID = "ecsrmID";
+    String _SESSION_USER_SUPPLIER_NAME = "supplierName";
     
     String _SUCCESS_MSG = "success_msg";
     String _ERROR_MSG = "error_msg";
