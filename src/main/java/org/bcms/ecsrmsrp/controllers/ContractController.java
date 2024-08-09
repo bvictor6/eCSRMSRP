@@ -13,6 +13,7 @@ import org.bcms.ecsrmsrp.classes.Document;
 import org.bcms.ecsrmsrp.classes.Product;
 import org.bcms.ecsrmsrp.components.SessionHandler;
 import org.bcms.ecsrmsrp.dto.ContractDTO;
+import org.bcms.ecsrmsrp.dto.ContractProductDTO;
 import org.bcms.ecsrmsrp.dto.DashboardContractDTO;
 import org.bcms.ecsrmsrp.services.ContractService;
 import org.bcms.ecsrmsrp.services.DocumentService;
@@ -112,7 +113,50 @@ public class ContractController {
 			model.addAttribute("totalContractValue", jsonObject.getDouble("totalContractValue"));
 			model.addAttribute("isApproved", jsonObject.getBoolean("isApproved"));
 			model.addAttribute("contractDate", LocalDate.parse("2022-10-17"));
-			model.addAttribute("count", 7);
+			
+			 //Retrieve contract Products
+			try {
+				String products  = contractService.contractProducts(id, user);
+				JSONArray jsonArray = new JSONArray(products);
+				if(jsonArray.length()>0)
+				{
+					logger.warn(user + " received contract products for contract " + id + " of length " + jsonArray.length());
+					List<ContractProductDTO> contractProducts = new ArrayList<>();
+					
+					for(int i =0; i<jsonArray.length(); i++)
+					{
+						ContractProductDTO contractProduct = new ContractProductDTO();
+						JSONObject p = jsonArray.getJSONObject(i);
+						
+						contractProduct.setBatchNo(p.getString("batchNo"));
+						contractProduct.setCategory(p.getString("category"));
+						contractProduct.setCode(p.getString("code"));
+						contractProduct.setContractId(p.getString("contractId"));
+						contractProduct.setDescription(p.getString("description"));
+						contractProduct.setGrandTotal(p.getDouble("grandTotal"));
+						contractProduct.setId(p.getString("id"));
+						contractProduct.setLocProductId(p.getString("locProductId"));
+						contractProduct.setProductId(p.getString("productId"));
+						contractProduct.setQuantity(p.getInt("quantity"));
+						contractProduct.setQuantitySupplied(p.getInt("quantitySupplied"));
+						contractProduct.setRemainingQuantity(p.getInt("remainingQuantity"));
+						contractProduct.setSkuCode(p.getString("skuCode"));
+						contractProduct.setSkuDescription(p.getString("skuDescription"));
+						contractProduct.setSkuType(p.getString("skuType"));
+						contractProduct.setTotalProductCost(p.getDouble("totalProductCost"));
+						contractProduct.setUnit(p.getString("unit"));
+						//
+						contractProducts.add(contractProduct);
+					}
+					//
+					model.addAttribute("products", contractProducts);
+					
+				}else {
+					logger.warn(user + " no contract products retrieved for contract " + id);
+				}
+			}catch (Exception e) {
+				logger.error(user + " :: errors encountered while retrieving products for contract - " +id + ", supplier - "+supplierID +" :: " + e.getLocalizedMessage());
+			}
 			
 		}catch (Exception e) {
 			logger.error(user + " :: errors encountered while retrieving contract details for contract - " +id + ", supplier - "+supplierID +" :: " + e.getLocalizedMessage());
@@ -138,32 +182,7 @@ public class ContractController {
 		document2.setPath("LOC_TEMPLATE.pdf");
 		documents.add(document2);
 		
-		model.addAttribute("documents", documents);		
-		
-		//Product Details
-		List<Product> products  = new ArrayList<>();
-		Product product = new Product();
-		product.setCode("PAR013001");
-		product.setCategory("DRUG");
-		product.setDescription("CMS-PARACETAMOL 1000MG TABLETS, 500'S");
-		product.setType("Purchased");
-		products.add(product);
-		
-		Product product1 = new Product();
-		product1.setCode("PAR012001");
-		product1.setCategory("DRUG");
-		product1.setDescription("CMS-Para amino salicylic acid Grau 4g schts, 30's");
-		product1.setType("Purchased");
-		products.add(product1);
-		
-		Product product2 = new Product();
-		product2.setCode("PAR011001");
-		product2.setCategory("DRUG");
-		product2.setDescription("CMS-Paroxetine 20mg Tablets, 30m's");
-		product2.setType("Purchased");
-		products.add(product2);
-		
-		model.addAttribute("products", products);
+		model.addAttribute("documents", documents);			
 		
 		return "/contract/view";
 	}
