@@ -34,6 +34,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * 
  */
+@SuppressWarnings("unused")
 @Controller
 @RequestMapping(path = "/contracts")
 public class ContractController {
@@ -44,7 +45,7 @@ public class ContractController {
 	
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {		
-		sessionHandler.UserSessionValues(request);
+		sessionHandler.setUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		List<ContractDTO> contracts = new ArrayList<>();
@@ -63,17 +64,17 @@ public class ContractController {
 					ContractDTO contract = new ContractDTO();
 					contract.setContractNo(jsonObject.getString("contractNo"));
 					contract.setId(jsonObject.getString("id"));
-					contract.setCategory(jsonObject.getString("category"));
-					contract.setContractTerm(jsonObject.getLong("contractTerm"));
-					contract.setContractType(jsonObject.getString("contractType"));
-					contract.setDescription(jsonObject.getString("description"));
-					contract.setIsActive(jsonObject.getBoolean("isActive"));
-					contract.setIsApproved(jsonObject.getBoolean("isApproved"));
+					contract.setCategory(jsonObject.isNull("category") ? "" : jsonObject.getString("category"));
+					contract.setContractTerm(jsonObject.isNull("contractTerm")? 0: jsonObject.getLong("contractTerm"));
+					contract.setContractType(jsonObject.isNull("contractType") ? "" : jsonObject.getString("contractType"));
+					contract.setDescription(jsonObject.isNull("description") ? "" : jsonObject.getString("description"));
+					contract.setIsActive(jsonObject.isNull("isActive") ? false : jsonObject.getBoolean("isActive"));
+					contract.setIsApproved(jsonObject.isNull("isApproved") ? false : jsonObject.getBoolean("isApproved"));
 					contract.setState(jsonObject.getString("state"));
 					contract.setTenderNo(jsonObject.getString("tenderNo"));
-					contract.setTerminationNoticePeriod(jsonObject.getLong("terminationNoticePeriod"));
+					contract.setTerminationNoticePeriod(jsonObject.isNull("terminationNoticePeriod")? 0 : jsonObject.getLong("terminationNoticePeriod"));
 					contract.setTitle(jsonObject.getString("title"));
-					contract.setTotalContractValue(jsonObject.getDouble("totalContractValue"));
+					contract.setTotalContractValue(jsonObject.isNull("totalContractValue")? 0.00 : jsonObject.getDouble("totalContractValue"));
 					//
 					contracts.add(contract);
 				}
@@ -92,7 +93,7 @@ public class ContractController {
 	
 	@GetMapping(path = "/view")
 	public String view(Model model, HttpServletRequest request, @RequestParam("id") String id) {	
-		sessionHandler.UserSessionValues(request);
+		sessionHandler.setUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		
@@ -109,10 +110,13 @@ public class ContractController {
 			model.addAttribute("contractNo", jsonObject.getString("contractNo"));
 			model.addAttribute("tenderNo", jsonObject.getString("tenderNo"));
 			model.addAttribute("contractType", jsonObject.getString("contractType"));
-			model.addAttribute("category", jsonObject.getString("category"));
-			model.addAttribute("totalContractValue", jsonObject.getDouble("totalContractValue"));
-			model.addAttribute("isApproved", jsonObject.getBoolean("isApproved"));
-			model.addAttribute("contractDate", LocalDate.parse("2022-10-17"));
+			model.addAttribute("category", jsonObject.isNull("category") ? "" : jsonObject.getString("category"));
+			model.addAttribute("totalContractValue", jsonObject.isNull("totalContractValue")? 0.00 : jsonObject.getDouble("totalContractValue"));
+			model.addAttribute("isApproved", jsonObject.isNull("isApproved")? false : jsonObject.getBoolean("isApproved"));
+			model.addAttribute("contractDate", LocalDate.parse(jsonObject.isNull("startDate") ? "2022-10-17" : jsonObject.getString("startDate")));
+			model.addAttribute("midTermDate", LocalDate.parse(jsonObject.isNull("midtermDate") ? "2022-10-17" : jsonObject.getString("midtermDate")));
+			model.addAttribute("description", jsonObject.isNull("description") ? "" : jsonObject.getString("description"));
+			model.addAttribute("title", jsonObject.getString("title"));
 			
 			 //Retrieve contract Products
 			try {
@@ -128,23 +132,26 @@ public class ContractController {
 						ContractProductDTO contractProduct = new ContractProductDTO();
 						JSONObject p = jsonArray.getJSONObject(i);
 						
-						contractProduct.setBatchNo(p.getString("batchNo"));
-						contractProduct.setCategory(p.getString("category"));
-						contractProduct.setCode(p.getString("code"));
-						contractProduct.setContractId(p.getString("contractId"));
-						contractProduct.setDescription(p.getString("description"));
-						contractProduct.setGrandTotal(p.getDouble("grandTotal"));
-						contractProduct.setId(p.getString("id"));
-						contractProduct.setLocProductId(p.getString("locProductId"));
-						contractProduct.setProductId(p.getString("productId"));
-						contractProduct.setQuantity(p.getInt("quantity"));
-						contractProduct.setQuantitySupplied(p.getInt("quantitySupplied"));
-						contractProduct.setRemainingQuantity(p.getInt("remainingQuantity"));
-						contractProduct.setSkuCode(p.getString("skuCode"));
-						contractProduct.setSkuDescription(p.getString("skuDescription"));
-						contractProduct.setSkuType(p.getString("skuType"));
-						contractProduct.setTotalProductCost(p.getDouble("totalProductCost"));
-						contractProduct.setUnit(p.getString("unit"));
+						contractProduct.setBatchNo(p.isNull("batchNo")? "" : p.getString("batchNo"));
+						contractProduct.setCategory(p.isNull("category")? "" : p.getString("category"));
+						contractProduct.setContractId(p.isNull("contractId")? "" : p.getString("contractId"));
+						contractProduct.setDescription(p.isNull("description")? "" : p.getString("description"));
+						contractProduct.setGrandTotal(p.isNull("grandTotal")? 0.00 : p.getDouble("grandTotal"));
+						contractProduct.setId(p.isNull("id")? "" : p.getString("id"));
+						contractProduct.setLocProductId(p.isNull("locProductId")? "" : p.getString("locProductId"));
+						contractProduct.setProductId(p.isNull("productId")? "" : p.getString("productId"));
+						contractProduct.setQuantity(p.isNull("quantity")? 0 : p.getInt("quantity"));
+						contractProduct.setQuantitySupplied(p.isNull("quantitySupplied")? 0 : p.getInt("quantitySupplied"));
+						contractProduct.setRemainingQuantity(p.isNull("remainingQuantity")? 0 : p.getInt("remainingQuantity"));
+						contractProduct.setSkuCode(p.isNull("skuCode")? "" : p.getString("skuCode"));
+						contractProduct.setSkuDescription(p.isNull("skuDescription")? "" : p.getString("skuDescription"));
+						contractProduct.setSkuType(p.isNull("skuType")? "" : p.getString("skuType"));
+						contractProduct.setTotalProductCost(p.isNull("totalProductCost")? 0.00 : p.getDouble("totalProductCost"));
+						contractProduct.setUnit(p.isNull("unit")? "" : p.getString("unit"));
+						contractProduct.setUnitPrice(p.isNull("unitPrice")? 0.00 : p.getDouble("unitPrice"));
+						contractProduct.setSerialNumber(p.isNull("serialNumber")? "" : p.getString("serialNumber"));
+						contractProduct.setPackSize(p.isNull("packSize")? "" : p.getString("packSize"));
+						contractProduct.setCurrency(p.isNull("currency") ? "BWP" : p.getString("currency"));
 						//
 						contractProducts.add(contractProduct);
 					}

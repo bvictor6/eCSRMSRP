@@ -42,7 +42,7 @@ public class PagesController {
 	@GetMapping(path = "/dashboard")
 	public String dashboard(Model model, HttpServletRequest request) 
 	{
-		sessionHandler.UserSessionValues(request);
+		sessionHandler.setUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		logger.info(user + " dashboard access!");

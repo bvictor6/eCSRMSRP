@@ -64,11 +64,11 @@
             <!-- END Side Overlay -->
 
             <!-- Sidebar -->
-            <div th:replace="fragments/sidebar::sidebar"></div>
+            <div th:replace="~{fragments/sidebar::sidebar}"></div>
             <!-- END Sidebar -->
 
             <!-- Header -->
-            <div th:replace="fragments/header::content"></div>
+            <div th:replace="~{fragments/header::content}"></div>
             <!-- END Header -->
 
             <!-- Main Container -->
@@ -108,49 +108,48 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center"></th>
-                                        <th style="width: 15%;">SKU/Contract/LOC</th>
-                                        <th class="hidden-xs" style="width: 25%;">Description</th>
-										<th class="hidden-xs">Qnty/Units/Class</th>
-										<th class="hidden-xs">Location</th>
-										<th class="hidden-xs">Date/Status</th>
+                                        <th>Contract/LOC</th>
+                                        <th>Delivery#</th>
+										<th>Order Date</th>
+										<th>Type</th>
+										<th>Delivery Date/Status</th>
                                         <th class="text-center" style="width: 5%;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-									<tr th:each="i: ${#numbers.sequence(1, count)}">
-                                        <td class="text-center font-s12" th:text="${iStat.count}">1</td>
+									<tr th:each="d, counter: ${deliveries}">
+                                        <td class="text-center font-s12" th:text="${counter.count}">1</td>
                                         <td class="font-s12">
-											<div><mark><small class="text-muted">SKU#: </small></mark> <small th:text="${sku}" class="text-muted"></small></div>
-											<div><mark><small class="text-muted">CONT#: </small></mark> <small th:text="${contract}" class="text-muted"></small></div>
-											<div><mark><small class="text-muted">LOC#: </small></mark> <small th:text="${loc}" class="text-muted"></small></div>
+											<div><mark><small class="text-muted">CONT#: </small></mark> <small th:text="${d.contractNo}" class="text-muted"></small></div>
+											<div><mark><small class="text-muted">LOC#: </small></mark> <small th:text="${d.locNumber}" class="text-muted"></small></div>
 										</td>	
 										<td class="hidden-xs font-s12">
-											<small class="text-muted" th:text="${description}"></small>
+											<small class="text-muted" th:text="${d.deliveryNo}"></small>
 										</td>	
 										<td class="hidden-xs font-s12">
-											<div><mark><small class="text-muted">QNTY:</small></mark> &nbsp;<small class="text-muted" th:text="${quantity}"></small></div>
-											<div><mark><small class="text-muted">UNIT:</small></mark> &nbsp;<small class="text-muted" th:text="${unit}"></small></div>
-											<div><mark><small class="text-muted">CLASS:</small></mark> &nbsp;<small class="text-muted" th:text="${class}"></small></div>
+											<div><small class="text-muted" th:text="${#temporals.format(d.orderDate, 'dd, MMM yyyy')}"></small></div>
 										</td>	
 										<td class="hidden-xs font-s12">
-											<small class="text-muted" th:text="${location}"></span>
+											<small class="text-muted" th:text="${d.type}"></span>
 										</td>							
                                         <td class="hidden-xs font-s12">
 											<div>
-												<small class="text-muted" th:text="${#temporals.format(deliveryDate,'MMMM dd, yyyy')}"></small>												
+												<small class="text-muted" th:text="${#temporals.format(d.deliveryDate,'dd, MMM yyyy') +' '+ d.deliveryTime}"></small>												
 											</div>
 											<div>
-												<small th:if="${iStat.odd}" class="label label-warning" 
-													th:text="${'Not Delivered'}">0.00
+												<small th:if="${d.status=='DELIVERED'}" class="label label-success" 
+													th:text="${d.status}">0.00
 												</small>
-												<small th:unless="${iStat.odd}" class="label label-success" 
-													th:text="${'Delivered'}">0.00
+												<small th:unless="${d.status=='DELIVERED'}" class="label label-warning" 
+													th:text="${d.status}">0.00
 												</small>
 											</div>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <button class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View"><i class="si si-info"> </i></button>
+												<a th:href="@{/deliveries/view(id=${d.id})}" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="View Details">
+													<i class="si si-info"></i> View
+												</a>
                                             </div>
                                         </td>
                                     </tr> 
@@ -165,7 +164,7 @@
             <!-- END Main Container -->
 			
             <!-- Footer -->
-            <div th:replace="fragments/footer::content"></div>
+            <div th:replace="~{fragments/footer::content}"></div>
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->

@@ -50,7 +50,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 			request.getSession().setAttribute(Constants._SESSION_USER_USER_ID, user.getId());
 			request.getSession().setAttribute(Constants._SESSION_USER_ECSRM_ID, user.getVendorProfile().getEcsrmId());
 			request.getSession().setAttribute(Constants._SESSION_USER_SUPPLIER_NAME, user.getVendorProfile().getName());
-			request.getSession().setMaxInactiveInterval(600);
+			request.getSession().setMaxInactiveInterval(900);//15min
 	        //update user's last login time
 			user.setLastLogin(LocalDateTime.now());
 			userRepository.save(user);

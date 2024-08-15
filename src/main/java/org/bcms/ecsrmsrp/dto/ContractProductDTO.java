@@ -31,5 +31,10 @@ public class ContractProductDTO {
 	String skuCode;
 	String skuDescription;
 	String skuType;
-
+	String startDate;
+	String midTermDate;
+	String currency;
+	String serialNumber;
+	Double unitPrice;
+	String packSize;
 }

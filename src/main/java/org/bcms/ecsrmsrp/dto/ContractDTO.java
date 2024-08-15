@@ -5,6 +5,8 @@
  */
 package org.bcms.ecsrmsrp.dto;
 
+import java.time.LocalDate;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,5 +29,7 @@ public class ContractDTO {
 	Boolean isActive;
 	Boolean  isApproved;
 	String contractType;
+	LocalDate startDate;
+	LocalDate midtermDate;
 
 }

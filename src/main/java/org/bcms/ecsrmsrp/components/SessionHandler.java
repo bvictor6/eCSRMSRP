@@ -29,7 +29,7 @@ public class SessionHandler {
 	String ecsrmID;
 	String supplierName;
 	
-	public void UserSessionValues(HttpServletRequest request) {
+	public void setUserSessionValues(HttpServletRequest request) {
 		this.ecsrmID = request.getSession().getAttribute(Constants._SESSION_USER_ECSRM_ID).toString();
 		this.userName = request.getSession().getAttribute(Constants._SESSION_USER_EMAIL).toString();		
 	}

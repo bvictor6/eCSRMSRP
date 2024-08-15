@@ -64,11 +64,11 @@
             <!-- END Side Overlay -->
 
             <!-- Sidebar -->
-            <div th:replace="fragments/sidebar::sidebar"></div>
+            <div th:replace="~{fragments/sidebar::sidebar}"></div>
             <!-- END Sidebar -->
 
             <!-- Header -->
-            <div th:replace="fragments/header::content"></div>
+            <div th:replace="~{fragments/header::content}"></div>
             <!-- END Header -->
 
             <!-- Main Container -->
@@ -111,28 +111,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-									<tr th:each="i: ${#numbers.sequence(1, count)}">
-                                        <td class="text-center font-s12" th:text="${iStat.count}">1</td>
-                                        <td class="font-s12" th:text="${loc}"></td>
+									<tr th:each="l, counter: ${locs}">
+                                        <td class="text-center font-s12" th:text="${counter.count}">1</td>
+                                        <td class="font-s12">
+											<small  th:text="${l.locNumber}"></small>
+										</td>
 										<td class="font-s12">
-											<a href="#" data-toggle="tooltip" title="View Contract">
-												<span th:text="${contract}"></span>
+											<a th:href="@{/contracts/view(id=${l.contractId})}" data-toggle="tooltip" title="View Contract">
+												<small th:text="${l.contractNo}"></small>
 											</a>											
 										</td>										
                                         <td class="hidden-xs font-s12">
-											<small th:text="${#temporals.format(issueDate,'dd-MM-yyyy')}"></small>
+											<small th:text="${#temporals.format(l.locIssueDate,'dd, MMM yyyy')}"></small>
 										</td>
-                                        <td class="hidden-xs font-s12">
-                                            <span th:if="${iStat.odd}" class="label label-success" 
-												th:text="${'Collected'}">0.00
-											</span>
-											<span th:unless="${iStat.odd}" class="label label-warning" 
-												th:text="${'Archived'}">0.00
-											</span>
+                                        <td class="hidden-xs font-s12">                                            
+											<small class="label label-warning" 
+												th:text="${l.status}">0.00
+											</small>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
-												<a th:href="@{/loc/view}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="View Details"> <i class="fa fa-info"></i> </a>
+												<a th:href="@{/loc/view(id=${l.id})}" class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="View Details"> 
+													<i class="si si-info"></i> View
+												</a>
                                             </div>
                                         </td>
                                     </tr> 
@@ -146,7 +147,7 @@
             </main>
             <!-- END Main Container -->
             <!-- Footer -->
-            <div th:replace="fragments/footer::content"></div>
+            <div th:replace="~{fragments/footer::content}"></div>
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->

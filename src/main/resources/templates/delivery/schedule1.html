@@ -83,11 +83,11 @@
             <!-- END Side Overlay -->
 
             <!-- Sidebar -->
-            <div th:replace="~{fragments/sidebar::sidebar}"></div>
+            <div th:replace="fragments/sidebar::sidebar"></div>
             <!-- END Sidebar -->
 
             <!-- Header -->
-            <div th:replace="~{fragments/header::content}"></div>
+            <div th:replace="fragments/header::content"></div>
             <!-- END Header -->
 
             <!-- Main Container -->
@@ -126,7 +126,7 @@
             <!-- END Main Container -->
 			
             <!-- Footer -->
-            <div th:replace="~{fragments/footer::content}"></div>
+            <div th:replace="fragments/footer::content"></div>
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->
@@ -144,7 +144,115 @@
         <script src="../assets/js/app.js"></script>
 		
 		<!-- Start Calendar -->
-		<div th:include="~{scripts/calendar}" th:remove="tag"></div>  
+		<!--script type="text/javascript" src='../assets/js/cal/index.global.min.js'></script-->
+		<!--script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script-->
+		<script>
+		/*<![CDATA[*/
+		  document.addEventListener('DOMContentLoaded', function() {
+		    var calendarEl = document.getElementById('calendar');
+
+		    var calendar = new FullCalendar.Calendar(calendarEl, {
+		      headerToolbar: {
+		        left: 'prev,next today',
+		        center: 'title',
+		        right: 'multiMonthYear,dayGridMonth,timeGridWeek'
+		      },
+		      initialView: 'multiMonthYear',
+		      initialDate: '2024-08-12',
+		      editable: false,
+		      selectable: true,
+		      dayMaxEvents: true, // allow "more" link when too many events
+		      //multiMonthMaxColumns: 1, // guarantee single column
+		      showNonCurrentDates: true,
+		      fixedWeekCount: false,
+		      businessHours: true,
+		      weekends: true,
+			  
+			  eventDidMount: function(info) {
+					console.log(info.el);
+			          var tooltip = new Tooltip(info.el, {
+			            title: info.event.extendedProps.description,
+			            placement: 'top',
+			            trigger: 'hover',
+			            container: 'body'
+			          });
+					  console.log('tooltip: ' + JSON.stringify(tooltip) );
+			        },
+			  
+		      events: [
+		        {
+		          title: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
+				  description: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
+		          start: '2024-08-01'
+		        },
+		        {
+		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+				  description: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIA.',
+		          start: '2024-08-07',
+		          end: '2024-08-10'
+		        },
+		        {
+		          groupId: 999,
+		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+				  description: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+		          start: '2024-08-09T16:00:00'
+		        },
+		        {
+		          groupId: 999,
+		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+				  description: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+		          start: '2024-08-16T16:00:00'
+		        },
+		        {
+		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+				  description: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+		          start: '2024-08-11',
+		          end: '2024-08-11'
+		        },
+		        {
+		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+				  description: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+		          start: '2024-09-12T10:30:00',
+		          end: '2024-09-12T12:30:00'
+		        },
+		        {
+		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+				  description: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+		          start: '2024-07-12T12:00:00'
+		        },
+		        {
+		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+				  description: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+		          start: '2024-08-12T14:30:00'
+		        },
+		        {
+		          title: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+				  description: 'Delivery of FRESENIUS (INTRAMED)-SODIUM CHLORIDE 0.9% IV INF,1000ML',
+		          start: '2024-07-22T17:30:00'
+		        },
+		        {
+		          title: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
+				  description: 'Delivering of Cobas Pentra Cups sample blue 1000/bag',
+		          start: '2024-09-16T20:00:00'
+		        },
+		        {
+		          title: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+				  description: 'Delivery of KWALITY-AMPICILLIN 500MG POWDER FOR INJECTION, 1VIAL',
+		          start: '2024-08-13T07:00:00'
+		        },
+		        {
+		          title: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+				  description: 'Delivery of ADCO-ZIDOVUDINE 10 MG/ML SYRUP 200ML',
+		          url: 'http://google.com/',
+		          start: '2024-07-28'
+		        }
+		      ]
+		    });
+
+		    calendar.render();
+		  });
+		  /*]]>*/
+		</script>
 		<!-- End Calendar -->     
     </body>
 </html>

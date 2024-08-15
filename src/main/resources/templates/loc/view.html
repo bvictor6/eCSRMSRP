@@ -64,11 +64,11 @@
             <!-- END Side Overlay -->
 
             <!-- Sidebar -->
-            <div th:replace="fragments/sidebar::sidebar"></div>
+            <div th:replace="~{fragments/sidebar::sidebar}"></div>
             <!-- END Sidebar -->
 
             <!-- Header -->
-            <div th:replace="fragments/header::content"></div>
+            <div th:replace="~{fragments/header::content}"></div>
             <!-- END Header -->
 
             <!-- Main Container -->
@@ -96,27 +96,24 @@
 					<!-- Contract Table -->
                     <div class="block">
                         <div class="block-header">
-                            <h3 class="block-title">Company LOC <small>Details</small></h3>
+                            <h3 class="block-title"><span th:text="${loc.locNumber}"></span> <small>Details</small></h3>
                         </div>
                         <div class="block-content">
                             <div class="row">
-								<table class="table table-hover table-borderless">
-									<tr>
-										<td><span class="pull-left font-w600">LOC Number</span></td>
-										<td><span class="pull-left font-w600">Contract No</span></td>
-										<td><span class="pull-left font-w600">Issue Date </span></td>
-										<td><span class="pull-left font-w600">Status </span></td>
-									</tr>
-									<tr>
-										<td><span class="label label-default" th:text="${loc}"></span></td>
-										<td><span class="pull-left font-ws12" th:text="${contract}"></span></td>
-										<td><span class="pull-left font-ws12" th:text="${#temporals.format(issueDate,'MMMM dd, yyyy')}"></span></td>
-										<td>
-											<span class="label label-success" th:text="${'Collected'}"></span>
-										</td>
-									</tr>
-								</table>
+								<div class="col-md-4">
+									<div><small class="text-bold"><strong>Contract No</strong></small></div>
+									<div><small class="text-muted" th:text="${loc.contractNo}">Contract No</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small class="text-bold"><strong>Issue Date</strong></small></div>
+									<div><small class="text-muted" th:text="${#temporals.format(loc.locIssueDate,'MMMM dd, yyyy')}">Issue Date</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small class="text-bold"><strong>Status</strong></small></div>
+									<div><small class="label label-info" th:text="${loc.status}">Status</small></div>
+								</div>
 							</div>
+							<hr class="push-10-t push-10">
                         </div>
                     </div>
                     <!-- END Contract Table -->
@@ -138,28 +135,41 @@
 				                    <thead>
 				                        <tr>
 				                            <th class="text-center" style="width: 5%;">#</th>
-				                            <th class="font-s13">Code</th>
-				                            <th class="font-s13">Category</th>
+				                            <th class="font-s13">Serial No./BWP Value</th>
+				                            <th class="font-s13">Unit/Unit Price</th>
+											<th class="font-s13">Total Cost/CUR</th>
+											<th class="font-s13">SKU Code/Type</th>
 				                            <th class="font-s13">Description</th>
-				                            <th class="text-center" style="width: 15%;">Actions</th>
 				                        </tr>
 				                    </thead>
 				                    <tbody>
 				                        <tr th:each="d,counter :${products}">
-				                            <td class="text-center font-s13" th:text="${counter.index + 1}">1</td>
+				                            <td class="text-center font-s12" th:text="${counter.count}">1</td>
 				                            <td>
 				                            	<div>
-				                            		<span class="font-w600" th:text="${d.code}"></span>
+				                            		<span class="font-s12" th:text="${d.serialNumber}"></span>
 				                            	</div>
-				                            	<span class="font-s13 text-muted" th:text="${d.type}"></span>
+				                            	<small class="text-muted font-s12" th:text="${#numbers.formatDecimal(d.totalBwpValue,0,'COMMA',2,'POINT') }"></small>
 				                            </td>
-				                            <td class="font-s13 text-muted" th:text="${d.category}"></td>
-				                            <td class="font-s13" th:text="${d.description}"></td>
-				                            <td class="text-center">
-				                                <div class="btn-group">
-				                                	<a th:href ="@{#}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" th:title="${d.description}"><i class="fa fa-info-circle"></i></a>
-				                                </div>
-				                            </td>
+				                            <td>
+												<div>
+													<span class="font-s12" th:text="${d.unit}"></span>
+												</div>
+												<span class="text-muted font-s12" th:text="${d.unitPrice}"></span>
+											</td>
+											<td>
+												<div>
+													<span class="font-s12" th:text="${#numbers.formatDecimal( d.totalProductCost,0, 'COMMA',2, 'POINT')}"></span>
+												</div>
+												<span class="text-muted font-s12" th:text="${d.currency}"></span>
+											</td>
+											<td>
+												<div>
+													<span class="font-s12" th:text="${d.skuCode}"></span>
+												</div>
+												<span class="text-muted font-s12" th:text="${d.skuType}"></span>
+											</td>
+				                            <td class="font-s12" th:text="${d.description}"></td>
 				                        </tr>                                            
 				                    </tbody>
 				                </table>
@@ -201,7 +211,7 @@
             </main>
             <!-- END Main Container -->
             <!-- Footer -->
-            <div th:replace="fragments/footer::content"></div>
+            <div th:replace="~{fragments/footer::content}"></div>
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->

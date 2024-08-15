@@ -69,13 +69,12 @@ public class SecurityConfig {
                 		.requestMatchers("/api-docs/**", "/swagger-ui/**", 
                 				"/swagger-ui.html", "/actuator/**",
                 				"/api-documentation").permitAll())
-                .sessionManagement(session -> session      
-                		.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .sessionManagement(session -> session    
+                		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 		.sessionAuthenticationErrorUrl("/login?error=true&reason=max session")
                 		.invalidSessionUrl("/login?error=true&reason=invalid session")
                 		.sessionFixation().migrateSession()//ensures that Spring Security uses cookies for session tracking and prevents URL rewriting, enhancing the security of your application.
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(true)
+                        .maximumSessions(2).maxSessionsPreventsLogin(true)
                         .expiredUrl("/login?error=true&reason=session expired"))
                 .authenticationProvider(authenticationProvider())
                 //.addFilterBefore(authFilter, 

@@ -78,7 +78,7 @@
                     <div class="row items-push">
                         <div class="col-sm-7">
                             <h1 class="page-heading">
-                                Contracts <small>View contract details.</small>
+                                Contract <small>View contract details.</small>
                             </h1>
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
@@ -96,14 +96,10 @@
 					<!-- Contract Table -->
                     <div class="block">
                         <div class="block-header">
-                            <h3 class="block-title">Company Contract <small>Details</small></h3>
+                            <h3 class="block-title"><span th:text="${contractNo}">Contract</span>  <small> Details</small></h3>
                         </div>
-                        <div class="block-content">
+                        <div class="block-content">							
 							<div class="row">
-								<div class="col-md-3">
-									<div><small class="text-bold"><strong>Contract No</strong></small></div>
-									<div><small class="text-muted" th:text="${contractNo}">Contract No</small></div>
-								</div>
 								<div class="col-md-3">
 									<div><small class="text-bold"><strong>Tender No</strong></small></div>
 									<div><small class="text-muted" th:text="${tenderNo}">Contract No</small></div>
@@ -116,12 +112,22 @@
 									<div><small class="text-bold"><strong>Type</strong></small></div>
 									<div><small class="text-muted" th:text="${contractType}">Contract No</small></div>
 								</div>
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>Start Date</strong></small></div>
+									<div><small class="text-muted" th:text="${#temporals.format(contractDate,'dd, MMM yyyy')}">Start Date</small></div>
+								</div>
 							</div>
 							<hr class="push-10-t push-10">
                             <div class="row push-10 push-t-0">
 								<div class="col-md-3">
-									<div><small class="text-bold"><strong>Currency</strong></small></div>
-									<div><small class="text-muted">BWP</small></div>
+									<div><small class="text-bold"><strong>Description</strong></small></div>
+									<div><small class="text-muted" th:text="${description}">Description</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small class="text-bold"><strong>MidTerm Date</strong></small></div>
+									<div>
+										<small class="text-muted" th:text="${#temporals.format(midTermDate, 'dd, MMM yyyy') }">BWP</small>
+									</div>
 								</div>
 								<div class="col-md-3">
 									<div><small class="text-bold"><strong>Value</strong></small></div>
@@ -130,10 +136,6 @@
 											<i class="fa fa-dollar"></i> <span th:text="${#numbers.formatDecimal(totalContractValue, 0, 'COMMA', 2, 'POINT')}"></span></span>
 										</small>
 									</div>
-								</div>
-								<div class="col-md-3">
-									<div><small class="text-bold"><strong>Date</strong></small></div>
-									<div><small class="text-muted">Contract No</small></div>
 								</div>
 								<div class="col-md-3">
 									<div><small class="text-bold"><strong>Status</strong></small></div>
@@ -145,6 +147,12 @@
 											th:text="${'Pending Signing'}">0.00
 										</small>
 									</div>
+								</div>
+							</div>
+							<hr class="push-10-t push-10">
+                            <div class="row push-10 push-t-0">
+								<div class="col-md-12">
+									<small class="text-muted" th:text="${title}"></small>
 								</div>
 							</div>
                         </div>
@@ -168,28 +176,40 @@
 				                    <thead>
 				                        <tr>
 				                            <th class="text-center" style="width: 5%;">#</th>
-				                            <th class="font-s13">Code</th>
-				                            <th class="font-s13">Category</th>
-				                            <th class="font-s13">Description</th>
-				                            <th class="text-center" style="width: 15%;">Actions</th>
+				                            <th class="font-s13">Unit(Pck Size)/Qnty</th>				                            
+				                            <th class="font-s13">Unit Price/Grand Total</th>
+											<th class="font-s13">SKU Code/Type</th>
+											<th class="font-s13">Description/Serial No</th>
 				                        </tr>
 				                    </thead>
 				                    <tbody>
 				                        <tr th:each="d,counter :${products}">
-				                            <td class="text-center font-s13" th:text="${counter.index + 1}">1</td>
+				                            <td class="text-center font-s12" th:text="${counter.index + 1}">1</td>
 				                            <td>
 				                            	<div>
-				                            		<span class="font-w600" th:text="${d.code}"></span>
+				                            		<small class="font-s12" th:text="${d.unit +' ( '+ d.packSize +' )'}"></small>
 				                            	</div>
-				                            	<span class="font-s13 text-muted" th:text="${d.type}"></span>
+				                            	<small class="text-muted" th:text="${#numbers.formatDecimal(d.quantity,0,'COMMA',2,'POINT') }"></small>
 				                            </td>
-				                            <td class="font-s13 text-muted" th:text="${d.category}"></td>
-				                            <td class="font-s13" th:text="${d.description}"></td>
-				                            <td class="text-center">
-				                                <div class="btn-group">
-				                                	<a th:href ="@{#}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" th:title="${d.description}"><i class="fa fa-info-circle"></i></a>
-				                                </div>
-				                            </td>
+				                            <td>
+												<div>
+													<small class="font-s12" th:text="${#numbers.formatDecimal(d.unitPrice,0,'COMMA',2,'POINT')}"></small>
+												</div>
+												<small class="text-muted" th:text="${d.currency +' '+ #numbers.formatDecimal(d.grandTotal,0,'COMMA',2,'POINT')}"></small>
+											</td>
+											<td>
+												<div>
+													<span class="font-s12" th:text="${d.skuCode}"></span>
+												</div>
+												<span class="text-muted font-s12" th:text="${d.skuType}"></span>
+											</td>
+				                            <td>
+												<div>
+													<small class="font-s12" th:text="${d.description}"></small>
+												</div>
+												<small class="text-muted" th:text="${d.serialNumber}"></small>
+											</td>
+				                            
 				                        </tr>                                            
 				                    </tbody>
 				                </table>

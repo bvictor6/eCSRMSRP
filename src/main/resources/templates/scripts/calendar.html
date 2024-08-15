@@ -3,15 +3,15 @@
 	document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     
-    /*var events = [];
-    var theList = [[${tasks}]];
+    var events = [];
+    var theList = [[${deliveries}]];
     var count=0;
   	var i;
   	for (i = 0; i < theList.length; i++) 
   	{
   	    count++;
   		       
-        var TODAY = new Date(theList[i]['activityDate']);
+        var TODAY = new Date(theList[i]['deliveryDate']);
         
         var COLOR= '';
     	var curDate = new Date();
@@ -28,16 +28,16 @@
     	TODAY = YYYY+'-'+MM+'-'+DD;
     	
   		var obj = {
-  			    title: theList[i]['dependency'],
-  			    description: theList[i]['process'] +' - '+ theList[i]['responsible'],
-  			    start: TODAY+'T08:30:00',
-  	          	end: TODAY+'T16:30:00',
+  			    title: 'Delivery#: ' + theList[i]['deliveryNo'],
+  			    description: 'Delivery of ' + theList[i]['productDescription'] +' ('+ theList[i]['productCode'] + ').',
+  			    start: TODAY+'T'+theList[i]['deliveryTime'],
+  	          	end: TODAY+'T23:30:00',
   	          	color: COLOR,
   			    //allDay: true,
-  			  	url: '/tasks/view?id='+theList[i]['taskId']
+  			  	url: '/deliveries/view?id='+theList[i]['id']
   			};
   		events.push(obj);
-  	}*/
+  	}
     
     var today = new Date();
 	var dd = String(today.getDate()).padStart(2,'0');
@@ -46,15 +46,24 @@
 	today = yyyy+'-'+mm+'-'+dd;
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-    	
-      initialDate: today,
-      initialView: 'dayGridMonth',
-      headerToolbar: {
+	  
+	  headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        right: 'multiMonthYear,dayGridMonth,timeGridWeek'
       },
-      eventDidMount: function(info) {
+	  initialView: 'multiMonthYear',
+      initialDate: today,
+      editable: false,
+      selectable: true,
+      dayMaxEvents: true, // allow "more" link when too many events
+      //multiMonthMaxColumns: 1, // guarantee single column
+      showNonCurrentDates: true,
+      fixedWeekCount: false,
+      businessHours: true,
+      weekends: true,
+      eventDidMount: function(info) 
+	  {
     	  console.log('Did mount....');
       	  var tooltip = new Tooltip(info.el, {
           title: info.event.extendedProps.description,
@@ -63,82 +72,8 @@
           container: 'body'
         });
       },
-      height: 'auto',
-      navLinks: true, // can click day/week names to navigate views
-      editable: true,
-      selectable: true,
-      selectMirror: true,
-      nowIndicator: true,
-      businessHours: true,
-      dayMaxEvents: true, // allow "more" link when too many events
-      events: [
-        {
-          title: 'All Day Event',
-		  description: 'Event description',
-          start: '2024-08-01'
-        },
-        {
-          title: 'Long Event',
-		  description: 'Event description',
-          start: '2024-08-07',
-          end: '2024-08-10'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-		  description: 'Event description',
-          start: '2024-08-09T16:00:00'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-		  description: 'Event description',
-          start: '2024-08-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-		  description: 'Event description',
-          start: '2024-08-11',
-          end: '2024-08-13'
-        },
-        {
-          title: 'Meeting',
-		  description: 'Event description',
-          start: '2024-08-12T10:30:00',
-          end: '2024-08-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-		  description: 'Event description',
-          start: '2024-08-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-		  description: 'Event description',
-          start: '2024-08-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-		  description: 'Event description',
-          start: '2024-08-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-		  description: 'Event description',
-          start: '2024-08-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-		  description: 'Event description',
-          start: '2024-08-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-		  description: 'Event description',
-          url: 'http://google.com/',
-          start: '2024-08-28'
-        }
-      ]
+      
+      events: events
       
     });
 

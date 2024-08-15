@@ -11,7 +11,7 @@
 		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/-->
 	    <!-- ... -->
 	    
-        <title>Supplier Registration Portal - Deliveries Schedule</title>
+        <title>Supplier Registration Portal - Delivery Products</title>
 
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
@@ -36,43 +36,24 @@
         <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/favicons/apple-touch-icon-152x152.png">
         <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon-180x180.png">
         <!-- END Icons -->
-		
+
         <!-- Stylesheets -->
+        <!-- Web fonts -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
 		<!--Start fontawesome css-->
 		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
 		<link href="../assets/css/brands.css" rel="stylesheet" />
 		<link href="../assets/css/solid.css" rel="stylesheet" />
 		<!--End fontawesome css-->
-        <!-- Web fonts -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
 		
+		<!-- Page JS Plugins CSS -->
+		<link rel="stylesheet" href="../assets/js/plugins/datatables/jquery.dataTables.min.css">	
         <!-- OneUI CSS framework -->
         <link rel="stylesheet" id="css-main" href="../assets/css/oneui.css">
 
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <link rel="stylesheet" id="css-theme" href="../assets/css/themes/city.min.css"> 
         <!-- END Stylesheets -->
-		
-		<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-		
-		<link rel="stylesheet" id="css-theme" href="../assets/css/popper.css">
-		
-		<script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
-		<script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
-				
-		<style>
-		  body {
-		    margin: 40px 10px;
-		    padding: 0;
-		    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-		    font-size: 14px;
-		  }
-
-		  #calendar {
-		    max-width: 1200px;
-		    margin: 0 auto;
-		  }
-		</style>
     </head>
     <body>
         <!-- Page Container -->
@@ -97,26 +78,73 @@
                     <div class="row items-push">
                         <div class="col-sm-7">
                             <h1 class="page-heading">
-                                Schedule <small>Deliveries schedule calendar.</small>
+                                Products <small>View delivery products linked to your delivery.</small>
                             </h1>
                         </div>
                         <div class="col-sm-5 text-right hidden-xs">
                             <ol class="breadcrumb push-10-t">
                                 <li><a class="link-effect" th:href="@{/dashboard}">Dashboard</a> </li>
 								<li><a class="link-effect" th:href="@{/deliveries/index}">Deliveries</a> </li>
-                                <li>Schedule</li>
+                                <li>Delivery Products</li>
                             </ol>
                         </div>
                     </div>
                 </div>
                 <!-- END Page Header -->			
                 <!-- Page Content -->
-                <div class="content bg-white">                	                  
-					<!-- Calendar -->
-                    <div class="row items-push">
+                <div class="content">                	                  
+					<!-- Deliveries Table -->
+                    <div class="block">
+                        <div class="block-header">
+							<div class="pull-left">
+								<h3 class="block-title">Delivery Products <small>List</small></h3>
+							</div>
+							<div class="push-0-t pull-right">
+                            	<a th:href="@{/deliveries/schedule}" class="btn btn-rounded btn-sm btn-danger"><i class="fa-solid fa-calendar-days"></i> Delivery Schedule</a>
+                            </div>
+                        </div>
                         <div class="block-content">
-	                        <!-- Calendar Container -->
-	                        <div id='calendar'></div>
+                            <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+                            <table class="table table-bordered table-striped js-dataTable-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"></th>
+                                        <th>Product Code/Name</th>
+                                        <th>Qnty/Qnty Supplied</th>
+										<th>Unit/Status</th>
+										<th>Lead Time</th>
+										<th>Total Cost/Unit Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+									<tr th:each="d, counter: ${products}">
+                                        <td class="text-center font-s12" th:text="${counter.count}">1</td>
+                                        <td class="font-s12">
+											<div> <small th:text="${d.productCode}"></small></div>
+											<div> <small th:text="${d.productDescription}" class="text-muted"></small></div>
+										</td>	
+										<td class="hidden-xs font-s12">
+											<div><span th:text="${#numbers.formatDecimal(d.quantity,0,'COMMA',2,'POINT')}"></span></div>
+											<small class="text-muted" th:text="${#numbers.formatDecimal(d.quantitySupplied,0,'COMMA',2,'POINT')}"></small>
+										</td>	
+										<td class="hidden-xs font-s12">
+											<div><small th:text="${d.unitOfIssue}"></small></div>
+											<div> <small th:text="${d.status}" class="text-muted"></small></div>
+										</td>	
+										<td class="hidden-xs font-s12">
+											<small class="text-muted" th:text="${d.leadTime +' '+ d.leadTimeDuration}"></span>
+										</td>							
+                                        <td class="hidden-xs font-s12">
+											<div>
+												<small class="text-muted" th:text="${d.currency +' '+ #numbers.formatDecimal(d.totalProductCost,0,'COMMA',2,'POINT')}"></small>												
+											</div>
+											<div>
+												<small th:text="${d.currency +' '+ #numbers.formatDecimal(d.unitPrice,0,'COMMA',2,'POINT')}">0.00</small>
+											</div>
+                                        </td>
+                                    </tr> 
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <!-- END Deliveries Table -->
@@ -142,9 +170,11 @@
         <script src="../assets/js/core/jquery.placeholder.min.js"></script>
         <script src="../assets/js/core/js.cookie.min.js"></script>
         <script src="../assets/js/app.js"></script>
-		
-		<!-- Start Calendar -->
-		<div th:include="~{scripts/calendar}" th:remove="tag"></div>  
-		<!-- End Calendar -->     
+
+		<!-- Page JS Plugins -->
+        <script src="../assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+
+        <!-- Page JS Code -->
+        <script src="../assets/js/pages/base_tables_datatables.js"></script>       
     </body>
 </html>
