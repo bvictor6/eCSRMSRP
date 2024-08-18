@@ -48,9 +48,9 @@ public class ProfileService {
 	@Autowired UserProfileRepository userProfileRepository;
 	@Autowired UserRepository userRepository;
 	@Autowired PasswordEncoder passwordEncoder;
-	@Autowired EmailVerificationService emailVerificationService;
+	@Autowired TokenGenerationService tokenGenerationService;
 	@Autowired EmailVerificationRepository emailVerificationRepository;
-	@Autowired EmailService emailService;
+	@Autowired ComposeEmailService composeEmailService;
 	
 	public Results createUserProfile(RegistrationFormDTO data)  
 	{
@@ -86,7 +86,7 @@ public class ProfileService {
 			user  = userRepository.save(user);
 			logger.info(user.getUsername() +" :: User account saved!");
 			//Verify by email token
-			String token = emailVerificationService.generateVerificationCode();
+			String token = tokenGenerationService.generateVerificationCode();
 			EmailVerification emailVerification = new EmailVerification();
 			emailVerification.setToken(token);
 			emailVerification.setUserId(user.getId());
@@ -110,53 +110,15 @@ public class ProfileService {
 		        String encodedString = encoder.encodeToString(jsonStr.getBytes()); 
 		        logger.info("Encoding Done: " +encodedString); 
 		        //
-		        //String verificationLink = Constant.PORTAL_URL + "/auth/email-verification?email=" + email + "&token=" + token;
-                MailObject mailObject = new MailObject();
-                mailObject.setTo(user.getUsername());
-                mailObject.setRecipientName(userProfile.getFirstname() + ", " + userProfile.getLastname());
-                mailObject.setSubject("Verify Your Email!");
-                mailObject.setText("Please confir that you are the one registering for an account on the Supplier Portal by clicking on the link below!");
-                mailObject.setTemplateEngine("email");
-                mailObject.setSenderName("eCSRM System.");
-                mailObject.setVerificationLink("http://127.0.0.1:8089/auth/verify/"+encodedString);
-
-                logger.info("Send verification email to " + user.getUsername());
-
-                Map<String, Object> templateModel = new HashMap<>();
-                templateModel.put("recipientName", mailObject.getRecipientName());
-                templateModel.put("text", mailObject.getText());
-                templateModel.put("senderName", mailObject.getSenderName());
-                templateModel.put("copyrightYear", mailObject.getMailCopyrightYear());
-                templateModel.put("verificationLink", mailObject.getVerificationLink());
-
-                if (mailObject.getTemplateEngine().equalsIgnoreCase("email")) 
-                {
-                    logger.info("Email schedular task execute send email cron job for - " + mailObject.getTemplateEngine().toUpperCase());
-                    try 
-                    {
-                        emailService.sendMessageUsingThymeleafTemplate(
-                                mailObject.getTo(),
-                                mailObject.getSubject(),
-                                templateModel);
-                        logger.info(mailObject.getTemplateEngine().toUpperCase() + ": Cron job successfully sent email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject());
-                        
-                        results.setStatus(ResultStatus.SUCCESS);
-                        results.setMessage("Account created succesfuly! A confirmation email has been sent to " + user.getUsername() + " for verification!");
-                        return results;
-                    } catch (IOException e) {
-                        logger.error(mailObject.getTemplateEngine().toUpperCase() + ": Cron job failed to send email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject() + " due to IOException " + e.getLocalizedMessage());
-                        e.printStackTrace();
-                        results.setStatus(ResultStatus.ERROR);
-                        results.setMessage("Account created succesfuly! However we were unable to send a verification email for verification to " + mailObject.getTo() + "! " + e.getLocalizedMessage());
-                        return results;
-                    } catch (MessagingException e) {
-                        logger.error(mailObject.getTemplateEngine().toUpperCase() + ": Cron job failed to send email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject() + " due to MessagingException " + e.getLocalizedMessage());
-                        e.printStackTrace();
-                        results.setStatus(ResultStatus.ERROR);
-                        results.setMessage("Account created succesfuly! However we were unable to send a verification email for verification to " + mailObject.getTo() + "! " + e.getLocalizedMessage());
-                        return results;
-                    }
-                }
+		        String verificationLink = "http://127.0.0.1:8089/auth/verify/"+encodedString;
+		        String subject = "Verify Your Email!";
+		        String body = "Please confir that you are the one registering for an account on the Supplier Portal by clicking on the link below!";
+               results = composeEmailService.composeEmailMessage(user.getUsername(), 
+                		userProfile.getFirstname() + " " + userProfile.getLastname(),
+                		subject,
+                		body,
+                		verificationLink);
+                //
 			}catch (Exception e) {
 				logger.error(user.getUsername() + " :: error creating account - " + e.getLocalizedMessage());
 				e.printStackTrace();

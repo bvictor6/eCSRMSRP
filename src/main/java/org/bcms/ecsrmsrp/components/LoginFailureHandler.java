@@ -7,6 +7,7 @@ package org.bcms.ecsrmsrp.components;
 
 import java.io.IOException;
 
+import org.bcms.ecsrmsrp.enums.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -31,6 +32,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		String remote_ip_addr = request.getRemoteAddr();
 		
 		logger.info(username +" :: Failed login from IP " +remote_ip_addr + " -- "+exception.getMessage());
+		logger.info("ROLE: " + Role.GUEST);
 		
 		String redirectUrl = "/login?error=true&reason=" + exception.getLocalizedMessage();
 		

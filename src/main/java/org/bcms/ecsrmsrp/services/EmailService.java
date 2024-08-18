@@ -38,7 +38,7 @@ public class EmailService {
 	public void sendMessageUsingThymeleafTemplate(String to, String subject,
 												  Map<String, Object> templateModel)
 			throws IOException, MessagingException {
-		Context context = new Context();//Thymeleaf context
+		Context context = new Context();  //Thymeleaf context
 		context.setVariables(templateModel);
 
 		String htmlBody = thymeleafTemplateEngine.process("email", context);
@@ -48,7 +48,7 @@ public class EmailService {
 	public void sendNotificationUsingThymeleafTemplate(String to, String subject,
 												  Map<String, Object> templateModel)
 			throws IOException, MessagingException {
-		Context context = new Context();//Thymeleaf context
+		Context context = new Context();  //Thymeleaf context
 		context.setVariables(templateModel);
 
 		String htmlBody = thymeleafTemplateEngine.process("generic-email-template", context);

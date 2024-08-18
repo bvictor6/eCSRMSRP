@@ -9,6 +9,6 @@ package org.bcms.ecsrmsrp.enums;
  * 
  */
 public enum Role {
-	ADMIN, SUPPLIER
+	ADMIN, SUPPLIER, GUEST
 
 }

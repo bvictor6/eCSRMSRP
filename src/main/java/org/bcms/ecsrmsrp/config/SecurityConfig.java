@@ -83,7 +83,7 @@ public class SecurityConfig {
         				.loginPage("/login")
         				.loginProcessingUrl("/login")
         				.failureUrl("/login-error.html")
-                        .defaultSuccessUrl("/dashboard")
+                        .defaultSuccessUrl("/auth/otp")
                         .successHandler(loginSuccessHandler)
                         .failureHandler(loginFailureHandler)
         				.permitAll()

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class EmailVerificationService {
+public class TokenGenerationService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired EmailVerificationRepository emailVerificationRepository;
 	
@@ -28,11 +28,7 @@ public class EmailVerificationService {
         return String.format("%06d", new Random().nextInt(999999));
     }
 
-    public void sendVerificationCode(String email) {
-        //String code = generateVerificationCode();
-        //emailService.sendEmail(email, "Verification Code", "Please use the following code to complete your login: " + code);
-    }
-
+   
     public EmailVerification verifyCode(EmailVerificationDTO data) {
     	Optional<EmailVerification> e = 
 				emailVerificationRepository.findByIdAndTokenAndUserId(data.getId(), data.getToken(), data.getUid());

@@ -10,7 +10,10 @@ import java.time.LocalDateTime;
 
 import org.bcms.ecsrmsrp.classes.Constants;
 import org.bcms.ecsrmsrp.entities.User;
+import org.bcms.ecsrmsrp.enums.Role;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
+import org.bcms.ecsrmsrp.services.AuthLoginTokenService;
+import org.bcms.ecsrmsrp.services.TokenGenerationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired UserRepository userRepository;
+	@Autowired TokenGenerationService tokenGenerationService;
+	@Autowired AuthLoginTokenService authLoginTokenService;
 	
 	@Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, 
@@ -46,7 +51,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		if(user != null) {
 			request.getSession().setAttribute(Constants._SESSION_USER_NAME, user.getUserProfile().getFirstname() + " " +user.getUserProfile().getLastname());
 			request.getSession().setAttribute(Constants._SESSION_USER_EMAIL, user.getUsername());
-			request.getSession().setAttribute(Constants._SESSION_USER_ROLE, "Supplier");
+			request.getSession().setAttribute(Constants._SESSION_USER_ROLE, Role.GUEST); //set to guest mode until OTP verification is done
 			request.getSession().setAttribute(Constants._SESSION_USER_USER_ID, user.getId());
 			request.getSession().setAttribute(Constants._SESSION_USER_ECSRM_ID, user.getVendorProfile().getEcsrmId());
 			request.getSession().setAttribute(Constants._SESSION_USER_SUPPLIER_NAME, user.getVendorProfile().getName());
@@ -67,12 +72,22 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		String contextPath = helper.getContextPath(request);
 		logger.info("context path = " + contextPath);
 		String requestUrl = new String();
-        if(savedRequest != null) {
-        	requestUrl = savedRequest.getRedirectUrl();
-        	logger.info("saved request = " + savedRequest.getRedirectUrl());
-        } else {
-        	requestUrl = "/dashboard";
-        }
+		if(request.getSession().getAttribute(Constants._SESSION_USER_ROLE).equals(Role.GUEST)) 
+		{
+			requestUrl = "/auth/otp?otp=true&email=" + request.getSession().getAttribute(Constants._SESSION_USER_EMAIL);
+			String token = tokenGenerationService.generateVerificationCode();
+			//
+			authLoginTokenService.createLoginToken(token, 
+					request.getSession().getAttribute(Constants._SESSION_USER_USER_ID).toString());			
+		}else {
+			if(savedRequest != null) {
+	        	requestUrl = savedRequest.getRedirectUrl();
+	        	logger.info("saved request = " + savedRequest.getRedirectUrl());
+	        } else {
+	        	requestUrl = "/dashboard";
+	        }
+		}
+        
         logger.info("request url = " + requestUrl);
 		
 		
