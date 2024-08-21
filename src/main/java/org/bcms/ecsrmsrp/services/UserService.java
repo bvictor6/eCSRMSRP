@@ -7,6 +7,7 @@ package org.bcms.ecsrmsrp.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.enums.Role;
@@ -17,30 +18,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 
  */
-public class UserService implements UserDetailsService {
+@Service
+public class UserService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired UserRepository userRepository;
 	@Autowired HttpServletRequest request;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	
+	public User findByUsername(String username) throws UsernameNotFoundException {
 		logger.info("Userdetails service authenticating " + username);
-		User user = userRepository.findByUsername(username);
+		Optional<User> user = userRepository.findByUsername(username);
 		
-		if(user==null) 
+		if(user.isEmpty()) 
 			throw new UsernameNotFoundException(username);
 		
 		List<String> authorities = new ArrayList<>();
 		Role role = Role.SUPPLIER;
 		authorities.add(role.toString());
 		
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+		return user.get();
 	}
 		
 }

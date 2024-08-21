@@ -7,6 +7,10 @@ package org.bcms.ecsrmsrp.config;
 
 import org.bcms.ecsrmsrp.components.LoginFailureHandler;
 import org.bcms.ecsrmsrp.components.LoginSuccessHandler;
+import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthenticationCodeVerifier;
+import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthorizationManager;
+import org.bcms.ecsrmsrp.mfa.twofactorauth.totp.TotpAuthenticationCodeVerifier;
+import org.bcms.ecsrmsrp.services.AccountUserDetailsService;
 import org.bcms.ecsrmsrp.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +29,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -39,12 +45,11 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableWebSecurity(debug = false)
 public class SecurityConfig {
 	Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired LoginSuccessHandler loginSuccessHandler;
 	@Autowired LoginFailureHandler loginFailureHandler;
 	
 	@Bean
 	UserDetailsService userDetailService() {
-		return new UserService();
+		return new AccountUserDetailsService();
 	}
 		
 	// Password Encoding 
@@ -55,14 +60,17 @@ public class SecurityConfig {
     
     // Configuring HttpSecurity 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
+    SecurityFilterChain securityFilterChain(HttpSecurity http, 
+    		AuthenticationSuccessHandler primarySuccessHandler) throws Exception 
     {
         return http
         		//.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
+                		.requestMatchers("/challenge/totp").access(new TwoFactorAuthorizationManager())
                         .requestMatchers("/profile/register", "/profile/save","/","/error",
                         		"/login","/assets/**", "/fa/**","/favicon.ico").permitAll()
-                        .requestMatchers("/auth/success","/auth/error","/auth/verify/**","/profile/error","/profile/success").permitAll())
+                        .requestMatchers("/auth/success","/auth/error","/auth/verify/**",
+                        		"/profile/error","/profile/success").permitAll())
                 .authorizeHttpRequests(requests -> requests
                 		.requestMatchers("/**").authenticated())
                 .authorizeHttpRequests(requests -> requests
@@ -83,8 +91,8 @@ public class SecurityConfig {
         				.loginPage("/login")
         				.loginProcessingUrl("/login")
         				.failureUrl("/login-error.html")
-                        .defaultSuccessUrl("/auth/otp")
-                        .successHandler(loginSuccessHandler)
+                        .defaultSuccessUrl("/dashboard")
+                        .successHandler(new LoginSuccessHandler("/challenge/totp", primarySuccessHandler))
                         .failureHandler(loginFailureHandler)
         				.permitAll()
         			)
@@ -128,5 +136,21 @@ public class SecurityConfig {
     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception { 
 	        return config.getAuthenticationManager(); 
     }
+    
+    @Bean
+	AuthenticationSuccessHandler primarySuccessHandler() {
+		return new SavedRequestAwareAuthenticationSuccessHandler();
+	}
+
+    /*@Bean
+    AuthenticationFailureHandler primaryFailureHandler() {
+		return new SimpleUrlAuthenticationFailureHandler("/login?error");
+	}*/
+
+    @Bean
+    TwoFactorAuthenticationCodeVerifier twoFactorAuthenticationCodeVerifier() {
+		return new TotpAuthenticationCodeVerifier();
+	}
+
 
 }

@@ -1,5 +1,8 @@
-package org.bcms.mfa.account;
+package org.bcms.ecsrmsrp.services;
 
+import org.bcms.ecsrmsrp.entities.User;
+import org.bcms.ecsrmsrp.mfa.account.AccountUserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,16 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountUserDetailsService implements UserDetailsService {
 
-	private final AccountService accountService;
-
-	public AccountUserDetailsService(AccountService accountService) {
-		this.accountService = accountService;
-	}
-
+	@Autowired UserService userService;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
-			Account account = this.accountService.findByUsername(username);
+			User account = userService.findByUsername(username);
 			return new AccountUserDetails(account);
 		}
 		catch (EmptyResultDataAccessException e) {

@@ -1,4 +1,4 @@
-package org.bcms.mfa.twofactorauth;
+package org.bcms.ecsrmsrp.mfa.twofactorauth;
 
 import java.util.function.Supplier;
 

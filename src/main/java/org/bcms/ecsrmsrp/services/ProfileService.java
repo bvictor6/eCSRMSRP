@@ -34,6 +34,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
 
 import jakarta.mail.MessagingException;
 
@@ -71,6 +72,8 @@ public class ProfileService {
 		user.setIsVerified(false);
 		user.setVendorProfile(vendorProfile);
 		user.setLastModifiedDate(LocalDateTime.now());
+		user.setTwoFactorSecret(TimeBasedOneTimePasswordUtil.generateBase32Secret());
+		user.setTwoFactorEnabled(false);
 		//
 		if(!userExists(user.getUsername())) 
 		{

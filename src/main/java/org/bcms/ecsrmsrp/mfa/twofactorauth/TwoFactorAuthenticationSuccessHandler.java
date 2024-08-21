@@ -1,19 +1,19 @@
-package org.bcms.mfa.twofactorauth;
+package org.bcms.ecsrmsrp.mfa.twofactorauth;
 
 import java.io.IOException;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.bcms.mfa.account.Account;
-import org.bcms.mfa.account.AccountUserDetails;
+import org.bcms.ecsrmsrp.entities.User;
+import org.bcms.ecsrmsrp.mfa.account.AccountUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class TwoFactorAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	Logger logger = LoggerFactory.getLogger(getClass());
@@ -34,8 +34,8 @@ public class TwoFactorAuthenticationSuccessHandler implements AuthenticationSucc
 			Authentication authentication) throws IOException, ServletException {
 		logger.warn("on authentication success handler " + authentication);
 		AccountUserDetails accountUserDetails = (AccountUserDetails) authentication.getPrincipal();
-		Account account = accountUserDetails.getAccount();
-		if (account.twoFactorEnabled()) {
+		User account = accountUserDetails.getAccount();
+		if (account.isTwoFactorEnabled()) {
 			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
 			logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
 			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);

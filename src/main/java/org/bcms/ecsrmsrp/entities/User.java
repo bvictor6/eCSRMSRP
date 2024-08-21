@@ -5,6 +5,7 @@
  */
 package org.bcms.ecsrmsrp.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
@@ -27,7 +28,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "srp_user")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable
+{
+	private static final long serialVersionUID = 8145258977829552990L;
 	@Column(unique = true, nullable = false)
 	private String username;
 	private String password;
@@ -37,6 +40,8 @@ public class User extends BaseEntity {
 	private Boolean isActive;
 	@Column(insertable = false, updatable = true)
 	private LocalDateTime lastLogin;
+	private String twoFactorSecret;
+	private boolean twoFactorEnabled;
 	
 	/*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "role_id")

@@ -5,6 +5,7 @@
  */
 package org.bcms.ecsrmsrp.repositories;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.bcms.ecsrmsrp.entities.User;
@@ -14,6 +15,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 
  */
 public interface UserRepository extends JpaRepository<User, UUID> {
-	User findByUsername(String username);
+	//User findByUsername(String username);
+	
+	Optional<User> findByUsername(String username);
 
 }

@@ -1,4 +1,4 @@
-package org.bcms.mfa.twofactorauth.totp;
+package org.bcms.ecsrmsrp.mfa.twofactorauth.totp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

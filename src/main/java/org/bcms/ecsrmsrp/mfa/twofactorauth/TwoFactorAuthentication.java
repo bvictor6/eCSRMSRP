@@ -1,9 +1,4 @@
-/*
-* Author: B. Victor
-* E-Mail: bvictor@ymail.com
-* Date:   Aug 20, 2024
-*/
-package org.bcms.mfa.twofactorauth;
+package org.bcms.ecsrmsrp.mfa.twofactorauth;
 
 import java.util.List;
 
@@ -11,32 +6,26 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.CredentialsContainer;
 
-/**
- * 
- */
-public class TwoFactorAuthenticated extends AbstractAuthenticationToken {
+public class TwoFactorAuthentication extends AbstractAuthenticationToken 
+{
+
 	private static final long serialVersionUID = 1L;
 	private final Authentication primary;
 
-	/**
-	 * @param authorities
-	 */
-	public TwoFactorAuthenticated(Authentication primary) {
+	public TwoFactorAuthentication(Authentication primary) {
 		super(List.of());
 		this.primary = primary;
+	}
+
+	public Object getPrincipal() {
+		return this.primary.getPrincipal();
 	}
 
 	@Override
 	public Object getCredentials() {
 		return this.primary.getCredentials();
-		
 	}
 
-	@Override
-	public Object getPrincipal() {
-		return this.primary.getPrincipal();
-	}
-	
 	@Override
 	public void eraseCredentials() {
 		if (this.primary instanceof CredentialsContainer) {
@@ -46,7 +35,7 @@ public class TwoFactorAuthenticated extends AbstractAuthenticationToken {
 
 	@Override
 	public boolean isAuthenticated() {
-		return true;
+		return false;
 	}
 
 	public Authentication getPrimary() {

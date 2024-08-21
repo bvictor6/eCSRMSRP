@@ -5,6 +5,8 @@
 */
 package org.bcms.ecsrmsrp.entities;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -20,7 +22,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class UserProfile extends BaseEntity {
+public class UserProfile extends BaseEntity implements Serializable {
+	
+	private static final long serialVersionUID = 507581543849659985L;
 	private String firstname;
 	private String lastname;
 	private String phone;

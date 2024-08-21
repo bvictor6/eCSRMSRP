@@ -5,6 +5,7 @@
  */
 package org.bcms.ecsrmsrp.entities;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -26,7 +27,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class VendorProfile extends BaseEntity {
+public class VendorProfile extends BaseEntity implements Serializable {
+	
+	private static final long serialVersionUID = -9015035884431135895L;
 	private UUID ecsrmId;
 	private String name;
 	private String physicalAddress;
