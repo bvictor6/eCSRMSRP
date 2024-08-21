@@ -1,9 +1,9 @@
 package org.bcms.ecsrmsrp.mfa.twofactorauth;
 
-import org.bcms.ecsrmsrp.entities.User;
+import org.bcms.ecsrmsrp.mfa.account.Account;
 
 public interface TwoFactorAuthenticationCodeVerifier {
 
-	boolean verify(User account, String code);
+	boolean verify(Account account, String code);
 
 }

@@ -38,21 +38,23 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired UserRepository userRepository;
+	private final UserRepository userRepository;
 	@Autowired TokenGenerationService tokenGenerationService;
 	@Autowired AuthLoginTokenService authLoginTokenService;
 	
 	private final AuthenticationSuccessHandler primarySuccessHandler;
 
-	private final AuthenticationSuccessHandler secondarySuccessHandler;
+	private AuthenticationSuccessHandler secondarySuccessHandler;
 	
 	/**
 	 * 
 	 */
-	public LoginSuccessHandler(String secondAuthUrl, AuthenticationSuccessHandler primarySuccessHandler) {
+	public LoginSuccessHandler(String secondAuthUrl, 
+			AuthenticationSuccessHandler primarySuccessHandler, UserRepository userRepository) {
 		logger.warn("Primary success handler " + secondAuthUrl);
 		this.primarySuccessHandler = primarySuccessHandler;
 		this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler(secondAuthUrl);
+		this.userRepository = userRepository;
 	}
 	
 	@Override
@@ -118,10 +120,14 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
 		} else {
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 			logger.error("Two factor authentication disabled for user " + authentication);
 			//force user to enroll
+			this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler("/enable-2fa");
+			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
+			//response.sendRedirect("/enable-2fa");
+			//successful authentication
 			//this.primarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
-			response.sendRedirect("/enable-2fa");
 		}
 		
 		

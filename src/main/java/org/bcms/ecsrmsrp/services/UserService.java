@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.enums.Role;
+import org.bcms.ecsrmsrp.mfa.account.Account;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 
 /**
  * 
@@ -44,6 +46,22 @@ public class UserService {
 		authorities.add(role.toString());
 		
 		return user.get();
+	}
+	
+	@Transactional
+	public Account enable2Fa(Account account) {
+		Optional<User> user = userRepository.findByUsername(account.username());
+		
+		if(user.isPresent()) {
+			User u = user.get();
+			u.setTwoFactorEnabled(true);
+			//
+			userRepository.save(u);
+			return new Account(u.getUsername(), u.getPassword(), u.getTwoFactorSecret(), false);
+		}else {
+			return account;
+		}
+		
 	}
 		
 }

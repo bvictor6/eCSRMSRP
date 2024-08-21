@@ -2,7 +2,6 @@ package org.bcms.ecsrmsrp.mfa.account;
 
 import java.util.Collection;
 
-import org.bcms.ecsrmsrp.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,13 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class AccountUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = -2030384536172924069L;
-	private final User account;
+	private final Account account;
 
-	public AccountUserDetails(User account) {
+	public AccountUserDetails(Account account) {
 		this.account = account;
 	}
 
-	public User getAccount() {
+	public Account getAccount() {
 		return account;
 	}
 
@@ -27,12 +26,12 @@ public class AccountUserDetails implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return this.account.getPassword();
+		return this.account.password();
 	}
 
 	@Override
 	public String getUsername() {
-		return this.account.getUsername();
+		return this.account.username();
 	}
 
 	@Override

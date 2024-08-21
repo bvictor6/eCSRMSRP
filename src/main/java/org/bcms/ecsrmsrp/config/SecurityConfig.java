@@ -10,6 +10,7 @@ import org.bcms.ecsrmsrp.components.LoginSuccessHandler;
 import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthenticationCodeVerifier;
 import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthorizationManager;
 import org.bcms.ecsrmsrp.mfa.twofactorauth.totp.TotpAuthenticationCodeVerifier;
+import org.bcms.ecsrmsrp.repositories.UserRepository;
 import org.bcms.ecsrmsrp.services.AccountUserDetailsService;
 import org.bcms.ecsrmsrp.services.UserService;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SecurityConfig {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired LoginFailureHandler loginFailureHandler;
+	@Autowired UserRepository userRepository;
 	
 	@Bean
 	UserDetailsService userDetailService() {
@@ -65,18 +67,22 @@ public class SecurityConfig {
     {
         return http
         		//.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(requests -> requests
+                .authorizeHttpRequests
+                (
+                		requests -> requests
                 		.requestMatchers("/challenge/totp").access(new TwoFactorAuthorizationManager())
                         .requestMatchers("/profile/register", "/profile/save","/","/error",
                         		"/login","/assets/**", "/fa/**","/favicon.ico").permitAll()
                         .requestMatchers("/auth/success","/auth/error","/auth/verify/**",
-                        		"/profile/error","/profile/success").permitAll())
-                .authorizeHttpRequests(requests -> requests
-                		.requestMatchers("/**").authenticated())
-                .authorizeHttpRequests(requests -> requests
-                		.requestMatchers("/api-docs/**", "/swagger-ui/**", 
+                        		"/profile/error","/profile/success").permitAll()
+                        .requestMatchers("/api-docs/**", "/swagger-ui/**", 
                 				"/swagger-ui.html", "/actuator/**",
-                				"/api-documentation").permitAll())
+                				"/api-documentation").permitAll()
+                        .anyRequest().authenticated()
+                )
+                /*.authorizeHttpRequests(requests -> requests
+                		.requestMatchers("/**").authenticated())*/
+                
                 .sessionManagement(session -> session    
                 		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 		.sessionAuthenticationErrorUrl("/login?error=true&reason=max session")
@@ -92,11 +98,12 @@ public class SecurityConfig {
         				.loginProcessingUrl("/login")
         				.failureUrl("/login-error.html")
                         .defaultSuccessUrl("/dashboard")
-                        .successHandler(new LoginSuccessHandler("/challenge/totp", primarySuccessHandler))
+                        .successHandler(new LoginSuccessHandler("/challenge/totp", primarySuccessHandler, userRepository))
                         .failureHandler(loginFailureHandler)
         				.permitAll()
         			)
-        			.logout(
+                .securityContext(securityContext -> securityContext.requireExplicitSave(false))
+        		.logout(
         					(logout) -> logout
         					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         					.logoutSuccessUrl("/login?logout=true&reason=You have been succesfully logged out!")

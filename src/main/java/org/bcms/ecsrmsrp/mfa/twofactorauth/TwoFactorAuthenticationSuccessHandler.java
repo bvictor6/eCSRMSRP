@@ -2,7 +2,7 @@ package org.bcms.ecsrmsrp.mfa.twofactorauth;
 
 import java.io.IOException;
 
-import org.bcms.ecsrmsrp.entities.User;
+import org.bcms.ecsrmsrp.mfa.account.Account;
 import org.bcms.ecsrmsrp.mfa.account.AccountUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +34,8 @@ public class TwoFactorAuthenticationSuccessHandler implements AuthenticationSucc
 			Authentication authentication) throws IOException, ServletException {
 		logger.warn("on authentication success handler " + authentication);
 		AccountUserDetails accountUserDetails = (AccountUserDetails) authentication.getPrincipal();
-		User account = accountUserDetails.getAccount();
-		if (account.isTwoFactorEnabled()) {
+		Account account = accountUserDetails.getAccount();
+		if (account.twoFactorEnabled()) {
 			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
 			logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
 			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
