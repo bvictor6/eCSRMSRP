@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.bcms.ecsrmsrp.classes.Constants;
 import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.enums.Role;
+import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthentication;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
 import org.bcms.ecsrmsrp.services.AuthLoginTokenService;
 import org.bcms.ecsrmsrp.services.TokenGenerationService;
@@ -116,11 +117,12 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		
 		//Two factor stuff
 		if(user.get().isTwoFactorEnabled()) {
-			logger.error("Two factor authentication enabled for user " + authentication);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
+			logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
 			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
 		} else {
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
+			logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
 			logger.error("Two factor authentication disabled for user " + authentication);
 			//force user to enroll
 			this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler("/enable-2fa");

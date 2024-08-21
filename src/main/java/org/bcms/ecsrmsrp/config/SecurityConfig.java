@@ -70,7 +70,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests
                 (
                 		requests -> requests
-                		.requestMatchers("/challenge/totp").access(new TwoFactorAuthorizationManager())
+                		.requestMatchers("/challenge/totp","/enable-2fa").access(new TwoFactorAuthorizationManager())
                         .requestMatchers("/profile/register", "/profile/save","/","/error",
                         		"/login","/assets/**", "/fa/**","/favicon.ico").permitAll()
                         .requestMatchers("/auth/success","/auth/error","/auth/verify/**",
