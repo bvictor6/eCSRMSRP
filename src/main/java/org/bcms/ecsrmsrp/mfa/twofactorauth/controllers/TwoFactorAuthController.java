@@ -55,7 +55,7 @@ public class TwoFactorAuthController {
 	@GetMapping(path = "/enable-2fa")
 	public String requestEnableTwoFactor(@AuthenticationPrincipal AccountUserDetails accountUserDetails, Model model) {
 		Account account = accountUserDetails.getAccount();
-		String otpAuthUrl = "otpauth://totp/%s?secret=%s&digits=6".formatted("Demo: " + account.username(),
+		String otpAuthUrl = "otpauth://totp/%s?secret=%s&digits=6".formatted("eCSRM: " + account.username(),
 				account.twoFactorSecret());
 		model.addAttribute("qrCode", this.qrCode.dataUrl(otpAuthUrl));
 		model.addAttribute("secret", account.twoFactorSecret());
@@ -85,7 +85,7 @@ public class TwoFactorAuthController {
 	@GetMapping(path = "/challenge/totp")
 	public String requestTotp() {
 		logger.info("Entefr OTP Code");
-		return "totp";
+		return "auth/totp";
 	}
 
 	@PostMapping(path = "/challenge/totp")
@@ -96,7 +96,7 @@ public class TwoFactorAuthController {
 		logger.error("OTP Challenge..."+ code.code() + " -- ");		
 		//
 		Authentication auth = (TwoFactorAuthentication) SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
+		
 		logger.error("OTP Challenge..."+ code.code() + " -- 2 " + auth);
 		//
 		//Authentication primaryAuthentication = (Authentication) auth.getPrincipal();
@@ -111,14 +111,6 @@ public class TwoFactorAuthController {
 			//
 			logger.warn("Code verified " + twoFactorAuthenticated);
 			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthenticated(auth));
-			//set session variables
-			/*User user = accountService.findByUsername(username);
-			request.getSession().setAttribute(Constants._SESSION_USER_NAME, user.getUserProfile().getFirstname() + " " +user.getUserProfile().getLastname());
-			request.getSession().setAttribute(Constants._SESSION_USER_EMAIL, user.getUsername());
-			request.getSession().setAttribute(Constants._SESSION_USER_USER_ID, user.getId());
-			request.getSession().setAttribute(Constants._SESSION_USER_ECSRM_ID, user.getVendorProfile().getEcsrmId());
-			request.getSession().setAttribute(Constants._SESSION_USER_SUPPLIER_NAME, user.getVendorProfile().getName());
-			request.getSession().setMaxInactiveInterval(900);//15min*/
 			//
 			this.successHandler.onAuthenticationSuccess(request, response, auth);
 		}

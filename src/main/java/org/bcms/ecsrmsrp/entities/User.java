@@ -41,7 +41,8 @@ public class User extends BaseEntity implements Serializable
 	@Column(insertable = false, updatable = true)
 	private LocalDateTime lastLogin;
 	private String twoFactorSecret;
-	private boolean twoFactorEnabled;
+	private Boolean twoFactorEnabled;
+	private Boolean isPrimaryDesignator;
 	
 	/*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "role_id")

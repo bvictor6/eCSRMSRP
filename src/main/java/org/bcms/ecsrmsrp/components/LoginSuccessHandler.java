@@ -69,6 +69,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		logger.info("Initialize session variables for " + authentication.getName());
 		
 		Optional<User> user  = userRepository.findByUsername(authentication.getName());
+		
 		if(user.isPresent()) {
 			User u = user.get();
 			request.getSession().setAttribute(Constants._SESSION_USER_NAME, u.getUserProfile().getFirstname() + " " +u.getUserProfile().getLastname());
@@ -120,7 +121,9 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         //super.onAuthenticationSuccess(request, response, authentication);
 		
 		//Two factor stuff
-		if(user.get().isTwoFactorEnabled()) {
+		logger.error("2FA Enabled: " +user.get().getTwoFactorEnabled());
+		if(user.get().getTwoFactorEnabled()) 
+		{
 			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
 			logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
 			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);

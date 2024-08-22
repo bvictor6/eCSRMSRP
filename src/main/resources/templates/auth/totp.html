@@ -11,7 +11,7 @@
 		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
 	    <!-- ... -->
 	    
-        <title>Supplier Registration Portal - Enable 2FA</title>
+        <title>Supplier Registration Portal - Verify OTP</title>
 
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
@@ -64,7 +64,7 @@
 						<a href="/">
 							<img 
 								src='../assets/images/botswana_logo_web.png'
-								height="48"
+								height="100"
 								alt=""
 							/>
 						</a>						
@@ -77,64 +77,30 @@
 					<!-- Start Enable 2FA -->                    
 					<div class="bg-white">
 						<section class="content content-boxed">
-							<div class="row items-push push-10">
+							<div class="row items-push push-30-t push-10">
 								<div class="col-md-8 col-md-offset-2">
-									<h4 class="text-center">Setup authenticator app</h4>
-								    <p>
-								        <span>
-											Authenticator apps like Google Authenticator adds an extra layer of security 
-											to your online accounts by adding a second step of verification when you sign in. If
-											you do not already have the authenticator app installed on your phone, download it in 
-											order to proceed.
-										</span>
-										<div class="text-center">											
-											<a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">
-												<img src="assets/images/google-play-store.png" 
-												alt="Google Authenticator App" width="100px" height="32px">
-											</a>
-											or
-											<a href="https://apps.apple.com/us/app/google-authenticator/id388497605" target="_blank">
-												<img src="assets/images/apple-store.png" 
-												alt="Google Authenticator App" width="100px" height="32px">
-											</a>
-										</div>
-								    </p>
-								    <p>
-								        After downloading the authenticator app, use it to scan the QR code below in order to complete setup of your account.
-								    </p>
-									<div class="text-center">
-										<img th:src="${qrCode}">
-									</div>							
-								    <br>
-									Having trouble scanning? You can utilize the 
-									<a href="#" data-toggle="modal" data-target="#modal-normal">
-										setup key
-									</a> to manually set up your authenticator app.
-									
-								    <div class="modal" id="setup-key" tabindex="-1" role="dialog" aria-hidden="true" >
-								        <p>
-								            Your 2FA Secret
-								        </p>
-								        <pre><code th:text="${secret}">secret</code></pre>
-								    </div>
-								    <br>
-								    <p>
-								        Verify the code from the app
-								    </p>
-								        <div class="alert alert-danger" th:if="${error}" role="alert">
-											<span th:text="${message}"></span>
-										</div>
-								
-								    <form class="" action="#" th:action="@{/enable-2fa}" method="post">
+																		
+									<form class="form-signin" th:action="@{/challenge/totp}" method="post">
+								        <h4 class="text-center">Two-Factor Authentication</h4>
+								        
 										<div class="form-group">
 											<div class="push-10">
 												<label for="code" class="">Authentication Code:</label>
-												<input type="text" id="code" name="code" class="form-control" placeholder="Enter authentication code displayed on your authenticator app" required pattern="[0-9]+">
+												<input type="text" id="code" name="code" class="form-control" placeholder="XXXXXX" required pattern="[0-9]+">
 											</div>											
 										</div>
-								        <button type="submit" class="btn btn-lg btn-primary btn-block">
-											<i class="fa fa-check-circle-o"></i> Verify
-										</button>
+										
+										<br>
+								        <div class="text-center">
+											<mark>
+												<code>Please open your Google authenticator app to access your authentication code.</code>
+											</mark>
+								            
+								        </div>
+								        <!--  This will be automatically made available by Spring Security -->
+								            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+								        <br>
+								        <button type="submit" class="btn btn-lg btn-primary btn-block"><i class="fa fa-check-circle-o"></i> Verify</button>
 								    </form>
 								</div>								
 							</div>							

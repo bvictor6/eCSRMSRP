@@ -5,6 +5,7 @@
  */
 package org.bcms.ecsrmsrp.controllers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +37,19 @@ public class PagesController {
 	
 	@GetMapping(path = "/")
 	public String index(Model model, HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
+		if(principal != null)
+			return "redirect:/dashboard";
 		return "/home/index";
 	}
 	
 	@GetMapping(path = "/dashboard")
 	public String dashboard(Model model, HttpServletRequest request) 
 	{
+		Principal principal = request.getUserPrincipal();
+		if(principal == null)
+			return "redirect:/login";
+		//
 		sessionHandler.setUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();

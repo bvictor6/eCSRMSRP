@@ -135,7 +135,8 @@ public class ProfileService {
 	}
 	
 	private Boolean userExists(String username) {
-		if(userRepository.findByUsername(username) != null) {
+		logger.info("Check if " + username + " account exists!");
+		if(userRepository.findByUsername(username).isPresent()) {
 			logger.error(username + " exists, abort creating new profile!");
 			return true;
 		}else {
