@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="ie9 no-focus"> <![endif]-->
+<!--[if gt IE 9]><!--> 
+<html class="no-focus" xmlns:th="http://www.thymeleaf.org" lang="en"> 
+<!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+
+ 		<!--  -->
+        <meta th:name="_csrf" th:content="${_csrf.token}"/>
+		<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+	    <!-- ... -->
+	    
+        <title>Supplier Registration Portal - Enable 2FA</title>
+
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+
+        <!-- Icons -->
+        <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+        <link rel="shortcut icon" href="../assets/img/favicons/favicon.png">
+
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-160x160.png" sizes="160x160">
+        <link rel="icon" type="image/png" href="../assets/img/favicons/favicon-192x192.png" sizes="192x192">
+
+        <link rel="apple-touch-icon" sizes="57x57" href="../assets/img/favicons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="../assets/img/favicons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/favicons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/favicons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/favicons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../assets/img/favicons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="../assets/img/favicons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/favicons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/favicons/apple-touch-icon-180x180.png">
+        <!-- END Icons -->
+
+        <!-- Stylesheets -->
+        <!-- Web fonts -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+		<!--Start fontawesome css-->
+		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
+		<link href="../assets/css/brands.css" rel="stylesheet" />
+		<link href="../assets/css/solid.css" rel="stylesheet" />
+		<!--End fontawesome css-->
+        <!-- OneUI CSS framework -->
+        <link rel="stylesheet" id="css-main" href="../assets/css/oneui.css">
+
+        <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+        <link rel="stylesheet" id="css-theme" href="../assets/css/themes/city.min.css"> 
+        <!-- END Stylesheets -->
+    </head>
+    <body>
+        <!-- Page Container -->
+        <div id="page-container">
+            <!-- Main Container -->
+            <main id="main-container">
+                <!-- Page Header -->
+                <!--div class="content bg-image overflow-hidden" style="background-color: #09c;"-->
+				<div class="bg-image overflow-hidden bg-default-light">
+					<div class="col-lg-2 col-lg-offset-5 push-10 push-0-t">
+						<a href="/">
+							<img 
+								src='../assets/images/botswana_logo_web.png'
+								height="48"
+								alt=""
+							/>
+						</a>						
+                    </div>
+                </div>
+                <!-- END Page Header -->				
+				               
+                <!-- Main Container -->
+                <div class="main-container">                	                  
+					<!-- Start Enable 2FA -->                    
+					<div class="bg-white">
+						<section class="content content-boxed">
+							<div class="row items-push push-10">
+								<div class="col-md-8 col-md-offset-2">
+									<h4 class="text-center">Setup authenticator app</h4>
+								    <p>
+								        <span>
+											Authenticator apps like Google Authenticator adds an extra layer of security 
+											to your online accounts by adding a second step of verification when you sign in. If
+											you do not already have the authenticatoe app installed on your phone, download it in 
+											order to proceed.
+										</span>
+										<div class="text-center">											
+											<a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">
+												<img src="assets/images/google-play-store.png" 
+												alt="Google Authenticator App" width="100px" height="32px">
+											</a>
+											or
+											<a href="https://apps.apple.com/us/app/google-authenticator/id388497605" target="_blank">
+												<img src="assets/images/apple-store.png" 
+												alt="Google Authenticator App" width="100px" height="32px">
+											</a>
+										</div>
+								    </p>
+								    <p>
+								        After downloading the authenticator app, use it to scan the QR code below in order to complete setup of your account.
+								    </p>
+									<div class="text-center">
+										<img th:src="${qrCode}">
+									</div>							
+								    <br>
+									Having trouble scanning? You can utilize the 
+									<a href="#" data-toggle="modal" data-target="#modal-normal">
+										setup key
+									</a> to manually set up your authenticator app.
+									
+								    <div class="modal" id="setup-key" tabindex="-1" role="dialog" aria-hidden="true" >
+								        <p>
+								            Your 2FA Secret
+								        </p>
+								        <pre><code th:text="${secret}">secret</code></pre>
+								    </div>
+								    <br>
+								    <p>
+								        Verify the code from the app
+								    </p>
+								        <div class="alert alert-danger" th:if="${error}" role="alert">
+											<span th:text="${message}"></span>
+										</div>
+								
+								    <form class="" action="#" th:action="@{/enable-2fa}" method="post">
+										<div class="form-group">
+											<div class="push-10">
+												<label for="code" class="">Authentication Code:</label>
+												<input type="text" id="code" name="code" class="form-control" placeholder="Enter authentication code displayed on your authenticator app" required pattern="[0-9]+">
+											</div>											
+										</div>
+								        <button type="submit" class="btn btn-lg btn-primary btn-block">
+											<i class="fa fa-check-circle-o"></i> Verify
+										</button>
+								    </form>
+								</div>								
+							</div>							
+						</section>
+					</div>
+                    <!-- END Enable 2FA -->
+                </div>
+                <!-- END Main Container -->
+            </main>
+            <!-- END Main Container -->
+			
+			<!-- Normal Modal -->
+	        <div class="modal" id="modal-normal" tabindex="-1" role="dialog" aria-hidden="true">
+	            <div class="modal-dialog">
+	                <div class="modal-content">
+	                    <div class="block block-themed block-transparent remove-margin-b">
+	                        <div class="block-header bg-primary-dark">
+	                            <ul class="block-options">
+	                                <li>
+	                                    <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+	                                </li>
+	                            </ul>
+	                            <h3 class="block-title">Set-up authenticator app</h3>
+	                        </div>
+	                        <div class="block-content">
+								<p>
+						            Your 2FA Secret
+						        </p>
+						        <p>
+									<code class="text-danger" th:text="${secret}">secret</code>
+								</p>
+	                        </div>
+	                    </div>
+	                    <div class="modal-footer">
+	                        <button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        <!-- END Normal Modal -->
+					
+            <!-- Footer -->
+            <div th:replace="fragments/footer::content"></div>
+            <!-- END Footer -->
+			<!-- Terms & Conditions -->
+			<div th:replace="fragments/modal-terms::content"></div>
+			<!-- End Terms & Conditions -->
+        </div>
+        <!-- END Page Container -->		 
+        
+        <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+        <script src="../assets/js/core/jquery.min.js"></script>
+        <script src="../assets/js/core/bootstrap.min.js"></script>
+        <script src="../assets/js/core/jquery.slimscroll.min.js"></script>
+        <script src="../assets/js/core/jquery.scrollLock.min.js"></script>
+        <script src="../assets/js/core/jquery.appear.min.js"></script>
+        <script src="../assets/js/core/jquery.countTo.min.js"></script>
+        <script src="../assets/js/core/jquery.placeholder.min.js"></script>
+        <script src="../assets/js/core/js.cookie.min.js"></script>
+        <script src="../assets/js/app.js"></script>
+
+		<!-- Page JS Code -->
+        <script>
+            $(function () {
+                // Init page helpers (Appear plugin)
+                App.initHelpers('appear');
+            });
+        </script>
+        
+    </body>
+</html>

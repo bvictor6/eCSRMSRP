@@ -30,6 +30,8 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UrlPathHelper;
 
+import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -77,6 +79,8 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 			request.getSession().setAttribute(Constants._SESSION_USER_SUPPLIER_NAME, u.getVendorProfile().getName());
 			request.getSession().setMaxInactiveInterval(900);//15min
 	        //update user's last login time
+			if(u.getTwoFactorSecret() == null)
+				u.setTwoFactorSecret(TimeBasedOneTimePasswordUtil.generateBase32Secret());
 			u.setLastLogin(LocalDateTime.now());
 			userRepository.save(u);
 		}

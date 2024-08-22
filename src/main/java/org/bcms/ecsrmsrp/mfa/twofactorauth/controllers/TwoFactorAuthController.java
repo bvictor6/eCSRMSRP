@@ -2,6 +2,8 @@ package org.bcms.ecsrmsrp.mfa.twofactorauth.controllers;
 
 import java.io.IOException;
 
+import org.bcms.ecsrmsrp.classes.Constants;
+import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.mfa.account.Account;
 import org.bcms.ecsrmsrp.mfa.account.AccountUserDetails;
 import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthenticated;
@@ -32,7 +34,7 @@ public class TwoFactorAuthController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	private final UserService accountService;
-
+	
 	private final TwoFactorAuthenticationCodeVerifier codeVerifier;
 
 	private final QrCode qrCode;
@@ -57,7 +59,7 @@ public class TwoFactorAuthController {
 				account.twoFactorSecret());
 		model.addAttribute("qrCode", this.qrCode.dataUrl(otpAuthUrl));
 		model.addAttribute("secret", account.twoFactorSecret());
-		return "enable2fa";
+		return "auth/enable2fa";
 	}
 
 	@PostMapping(path = "/enable-2fa")
@@ -66,7 +68,7 @@ public class TwoFactorAuthController {
 		logger.warn("Enable 2FA " + otp.code());
 		Account account = accountUserDetails.getAccount();
 		if (account.twoFactorEnabled()) {
-			return "redirect:/";
+			return "redirect:/dashboard";
 		}
 		if (!this.codeVerifier.verify(account, otp.code() )) {
 			logger.error("invlaid code: " + otp.code());
@@ -77,7 +79,7 @@ public class TwoFactorAuthController {
 		Authentication token = UsernamePasswordAuthenticationToken.authenticated(new AccountUserDetails(enabled), null,
 				accountUserDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(token);
-		return "redirect:/";
+		return "redirect:/dashboard";
 	}
 
 	@GetMapping(path = "/challenge/totp")
@@ -102,12 +104,22 @@ public class TwoFactorAuthController {
 		AccountUserDetails accountUserDetails = (AccountUserDetails) auth.getPrincipal();
 		logger.error("OTP Challenge..."+ code.code() + " -- 3 " + accountUserDetails);
 		Account account = accountUserDetails.getAccount();
-		if (this.codeVerifier.verify(account, code.code())) {
+		if (this.codeVerifier.verify(account, code.code())) 
+		{
 			logger.warn("Code verified!");
 			TwoFactorAuthenticated twoFactorAuthenticated = new TwoFactorAuthenticated(auth);
 			//
 			logger.warn("Code verified " + twoFactorAuthenticated);
 			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthenticated(auth));
+			//set session variables
+			/*User user = accountService.findByUsername(username);
+			request.getSession().setAttribute(Constants._SESSION_USER_NAME, user.getUserProfile().getFirstname() + " " +user.getUserProfile().getLastname());
+			request.getSession().setAttribute(Constants._SESSION_USER_EMAIL, user.getUsername());
+			request.getSession().setAttribute(Constants._SESSION_USER_USER_ID, user.getId());
+			request.getSession().setAttribute(Constants._SESSION_USER_ECSRM_ID, user.getVendorProfile().getEcsrmId());
+			request.getSession().setAttribute(Constants._SESSION_USER_SUPPLIER_NAME, user.getVendorProfile().getName());
+			request.getSession().setMaxInactiveInterval(900);//15min*/
+			//
 			this.successHandler.onAuthenticationSuccess(request, response, auth);
 		}
 		else {

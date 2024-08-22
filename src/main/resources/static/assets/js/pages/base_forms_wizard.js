@@ -136,10 +136,6 @@ var BaseFormWizard = function() {
                     required: true,
                     minlength: 3
                 },
-                'tenderNo': {
-					required: true,
-					minlength: 3
-				},
                 'name': {
                     required: true,
                     minlength: 3
@@ -148,7 +144,7 @@ var BaseFormWizard = function() {
 					required: true,
 					minlength: 3
 				},
-				'phone':{
+				/*'phone':{
 					required: true,
 					digits: true
 				},
@@ -168,7 +164,7 @@ var BaseFormWizard = function() {
                 },
                 'country': {
                     required: true
-                },
+                },*/
                 'firstname':{
 					required: true					
 				},

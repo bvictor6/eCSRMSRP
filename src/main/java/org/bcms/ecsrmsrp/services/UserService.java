@@ -16,8 +16,6 @@ import org.bcms.ecsrmsrp.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +47,8 @@ public class UserService {
 	}
 	
 	@Transactional
-	public Account enable2Fa(Account account) {
+	public Account enable2Fa(Account account) 
+	{
 		Optional<User> user = userRepository.findByUsername(account.username());
 		
 		if(user.isPresent()) {

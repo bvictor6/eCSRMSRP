@@ -133,17 +133,17 @@
                                                     </div>
                                                 </div>											
                                             </div>											
-											<div class="form-group">
-                                                <div class="col-sm-6">
-                                                    <div class="form-material">
-                                                        <input class="form-control" th:field="*{tenderNo}" type="text" id="tenderNo" name="tenderNo" placeholder="Tender No.">
-                                                        <label for="tenderNo">Tender No. <span class="text-danger">*</span></label>
-                                                    </div>
-                                                </div>
+											<div class="form-group">                                                
 												<div class="col-sm-6">
                                                     <div class="form-material">
                                                         <input class="form-control" th:field="*{contractNo}" type="text" id="contractNo" name="contractNo" placeholder="Contract Number">
                                                         <label for="contractNo">Contract No. <span class="text-danger">*</span></label>
+                                                    </div>
+                                                </div>
+												<div class="col-sm-6">
+                                                    <div class="form-material">
+                                                        <input class="form-control" th:field="*{tenderNo}" type="text" id="tenderNo" name="tenderNo" placeholder="Tender No.">
+                                                        <label for="tenderNo">Tender No. <span class="text-danger"></span></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -151,13 +151,13 @@
 												<div class="col-sm-6">
                                                     <div class="form-material">
                                                         <input class="form-control" th:field="*{email}" type="text" id="email" name="email" placeholder="Email Address">
-                                                        <label for="email">Email Address <span class="text-danger">*</span></label>
+                                                        <label for="email">Email Address <span class="text-danger"></span></label>
                                                     </div>
                                                 </div>	
 												<div class="col-sm-6">
                                                     <div class="form-material">
                                                         <input class="form-control" th:field="*{fax}" type="text" id="fax" name="fax" placeholder="Fax">
-                                                        <label for="fax">Fax <span class="text-danger">*</span></label>
+                                                        <label for="fax">Fax <span class="text-danger"></span></label>
                                                     </div>
                                                 </div>											
                                             </div>
@@ -165,13 +165,13 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
                                                         <input class="form-control" th:field="*{phone}" type="tel" id="phone" name="phone" placeholder="Office Phone">
-                                                        <label for="phone">Office Phone <span class="text-danger">*</span></label>
+                                                        <label for="phone">Office Phone <span class="text-danger"></span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
                                                         <input class="form-control" th:field="*{mobile}" type="tel" id="mobile" name="mobile" placeholder="Mobile">
-                                                        <label for="mobile">Mobile <span class="text-danger">*</span></label>
+                                                        <label for="mobile">Mobile <span class="text-danger"></span></label>
                                                     </div>
                                                 </div>
                                             </div> 
@@ -179,13 +179,13 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-material">
                                                         <input class="form-control" th:field="*{postalAddress}" type="text" id="postalAddress" name="postalAddress" placeholder="Postal Address">
-                                                        <label for="postalAddress">Postal Address <span class="text-danger">*</span></label>
+                                                        <label for="postalAddress">Postal Address <span class="text-danger"></span></label>
                                                     </div>
                                                 </div>
 												<div class="col-sm-6">
                                                     <div class="form-material">
                                                         <input class="form-control" th:field="*{city}" type="text" id="city" name="city" placeholder="Please enter your town/city">
-                                                        <label for="city">Town/City <span class="text-danger">*</span></label>
+                                                        <label for="city">Town/City <span class="text-danger"></span></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,7 +196,7 @@
 		                                           		<select class="js-select2 form-control" th:field="*{country}" id="country" name="country"  style="width: 100%;" data-placeholder="Choose one..">
 		                                           			<option th:each="c:${countries}" th:value="${c.id}" th:text="${c.name}"></option>
 		                                           		</select>
-		                                           		<label for="country">Country <span class="text-danger">*</span></label>
+		                                           		<label for="country">Country <span class="text-danger"></span></label>
 		                                           	</div>
                                                 </div>
                                             </div>

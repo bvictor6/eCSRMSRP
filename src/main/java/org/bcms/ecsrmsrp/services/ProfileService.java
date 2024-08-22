@@ -5,28 +5,24 @@
 */
 package org.bcms.ecsrmsrp.services;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.bcms.ecsrmsrp.classes.MailObject;
 import org.bcms.ecsrmsrp.classes.Results;
 import org.bcms.ecsrmsrp.dto.EmailVerificationDTO;
 import org.bcms.ecsrmsrp.dto.RegistrationFormDTO;
-import org.bcms.ecsrmsrp.entities.VendorProfile;
-import org.bcms.ecsrmsrp.enums.ResultStatus;
 import org.bcms.ecsrmsrp.entities.EmailVerification;
 import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.entities.UserProfile;
+import org.bcms.ecsrmsrp.entities.VendorProfile;
+import org.bcms.ecsrmsrp.enums.ResultStatus;
 import org.bcms.ecsrmsrp.repositories.CountryRepository;
 import org.bcms.ecsrmsrp.repositories.EmailVerificationRepository;
 import org.bcms.ecsrmsrp.repositories.UserProfileRepository;
-import org.bcms.ecsrmsrp.repositories.VendorProfileRepository;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
+import org.bcms.ecsrmsrp.repositories.VendorProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +31,6 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
-
-import jakarta.mail.MessagingException;
 
 /**
  * 
