@@ -30,8 +30,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -96,7 +98,7 @@ public class SecurityConfig {
                 .formLogin((form) -> form                		
         				.loginPage("/login")
         				.loginProcessingUrl("/login")
-        				.failureUrl("/login-error.html")
+        				.failureUrl("/login")
                         .defaultSuccessUrl("/dashboard")
                         .successHandler(new LoginSuccessHandler("/challenge/totp", primarySuccessHandler, userRepository))
                         .failureHandler(loginFailureHandler)

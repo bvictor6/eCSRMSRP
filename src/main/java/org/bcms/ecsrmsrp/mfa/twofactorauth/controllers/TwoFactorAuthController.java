@@ -3,6 +3,7 @@ package org.bcms.ecsrmsrp.mfa.twofactorauth.controllers;
 import java.io.IOException;
 
 import org.bcms.ecsrmsrp.classes.Constants;
+import org.bcms.ecsrmsrp.components.LoginFailureHandler;
 import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.mfa.account.Account;
 import org.bcms.ecsrmsrp.mfa.account.AccountUserDetails;
@@ -41,10 +42,10 @@ public class TwoFactorAuthController {
 
 	private final AuthenticationSuccessHandler successHandler;
 
-	private final AuthenticationFailureHandler failureHandler;
+	private final LoginFailureHandler failureHandler;
 
 	public TwoFactorAuthController(UserService accountService, TwoFactorAuthenticationCodeVerifier codeVerifier,
-			QrCode qrCode, AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler) {
+			QrCode qrCode, AuthenticationSuccessHandler successHandler, LoginFailureHandler failureHandler) {
 		this.accountService = accountService;
 		this.codeVerifier = codeVerifier;
 		this.qrCode = qrCode;

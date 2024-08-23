@@ -94,11 +94,18 @@ public class PagesController {
 	@GetMapping(path = "/login")
 	public String login() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		logger.error("Authentication failed - " + authentication.toString());
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
         	return "/auth/login";
+        }else {
+        	if(authentication.isAuthenticated()) {
+        		return "redirect:/dashboard";
+        	}else {
+        		return "/auth/login";
+        	}
         }
  
-        return "redirect:/dashboard";
+        
 	}
 	
 	// Login form with error
