@@ -100,7 +100,7 @@ public class SecurityConfig {
         				.loginProcessingUrl("/login")
         				.failureUrl("/login")
                         .defaultSuccessUrl("/dashboard")
-                        .successHandler(new LoginSuccessHandler("/challenge/totp", primarySuccessHandler, userRepository))
+                        .successHandler(new LoginSuccessHandler("/challenge/totp?otp=true", primarySuccessHandler, userRepository))
                         .failureHandler(loginFailureHandler)
         				.permitAll()
         			)

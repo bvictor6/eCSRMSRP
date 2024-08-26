@@ -52,7 +52,7 @@ public class ComposeEmailService {
 
             if (mailObject.getTemplateEngine().equalsIgnoreCase("email")) 
             {
-                logger.info("Email schedular task execute send email for - " + mailObject.getTemplateEngine().toUpperCase());
+                logger.info("Send email for - " + mailObject.getTemplateEngine().toUpperCase());
                 try 
                 {
                     emailService.sendMessageUsingThymeleafTemplate(

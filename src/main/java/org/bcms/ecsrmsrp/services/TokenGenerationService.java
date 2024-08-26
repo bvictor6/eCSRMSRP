@@ -20,7 +20,8 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class TokenGenerationService {
+public class TokenGenerationService 
+{
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired EmailVerificationRepository emailVerificationRepository;
 	
@@ -38,6 +39,8 @@ public class TokenGenerationService {
 			return null;
 		}
     }
+    
+    
        
 
 }

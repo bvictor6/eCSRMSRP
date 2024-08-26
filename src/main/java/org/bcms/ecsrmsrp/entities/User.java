@@ -41,6 +41,8 @@ public class User extends BaseEntity implements Serializable
 	private String twoFactorSecret;
 	private Boolean twoFactorEnabled;
 	private Boolean isPrimaryDesignator;
+	private String twoFactorToken;
+	private LocalDateTime twoFactorTime;
 	
 	/*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "role_id")

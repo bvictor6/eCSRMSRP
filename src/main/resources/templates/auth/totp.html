@@ -87,20 +87,35 @@
 											<div class="push-10">
 												<label for="code" class="">Authentication Code:</label>
 												<input type="text" id="code" name="code" class="form-control" placeholder="XXXXXX" required pattern="[0-9]+">
-											</div>											
+											</div>	
+											<div>
+												<input type="hidden" id="otp" name="otp" th:value="${#strings.toString(param.otp)}">
+											</div>										
 										</div>
 										
 										<br>
-								        <div class="text-center">
-											<mark>
-												<code>Please open your Google authenticator app to access your authentication code.</code>
-											</mark>
-								            
+								        <div class="text-center">											
+											<div th:if="${#strings.toString(param.otp)=='true'}">
+												<mark>
+													<code>Please open your Google authenticator app to access your authentication code.</code>
+												</mark>																							
+											</div>
+											<div th:if="${#strings.toString(param.otp)=='false'}">
+												<mark>
+													<code>Please check you email to get your authentication code.</code>
+												</mark>
+											</div>
 								        </div>
 								        <!--  This will be automatically made available by Spring Security -->
 								            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 								        <br>
 								        <button type="submit" class="btn btn-lg btn-primary btn-block"><i class="fa fa-check-circle-o"></i> Verify</button>
+										<div th:if="${#strings.toString(param.otp)=='true'}" class="text-right push-10-t">
+											<a href="/challenge/totp?otp=false">Get Code Via Email</a>
+										</div>
+										<div th:if="${#strings.toString(param.otp)=='false'}" class="text-right push-10-t">
+											<a href="/challenge/totp?otp=false">Resend Code Via Email</a>
+										</div>
 								    </form>
 								</div>								
 							</div>							
