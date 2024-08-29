@@ -140,6 +140,7 @@
                                 <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
                                 <form class="js-form2 form-horizontal" action="#" th:action="@{/profile/save}" th:object="${user}" method="post">
 									<input type="hidden" id="ecsrmId" name="escrmId" th:field="*{ecsrmId}">
+									<input type="hidden" id="code" name="code" th:field="*{code}">
 									<!-- Steps Content -->
                                     <div class="block-content tab-content">
                                         <!-- Step 1 -->
@@ -394,15 +395,17 @@
 			/*<![CDATA[*/
 			$(document).ready(function()
 			{
+				var bridgeUrl = '[[${bridgeURL}]]';
+				console.log(bridgeUrl);
 				$(".wizard-next").attr("disabled", false);//disable next button if enabled
 				$(".wizard-finish").attr("disabled", true);//disable submit button if disabled
 				//
 				$("#name").blur(function(){
-					searchVendorName();
+					searchVendorName(bridgeUrl);
 				});	
 				//
 				$("#contractNo").blur(function(){
-					searchContractNo();
+					searchContractNo(bridgeUrl);
 				});		
 				// Update progress bar as per the input 
 				// Whenever the key is pressed, apply condition checks.  
@@ -415,7 +418,7 @@
 	            }); 
 			});
 			
-			function searchVendorName()
+			function searchVendorName(bridgeUrl)
 			{
 				var search = {};
 				search['name'] = $("#name").val().trim();
@@ -428,7 +431,7 @@
 				//console.log(JSON.stringify(search));
 				$.ajax({
         			type : 'POST',
-					url: "http://127.0.0.1:8088/api/v1/suppliers/partial",
+					url: bridgeUrl + "/suppliers/partial",
         			headers: {"X-CSRF-TOKEN": token}, //send CSRF token in header
                     dataType : 'json',
 					data: JSON.stringify(search),
@@ -443,11 +446,13 @@
 							console.log("Supplier name match meets the required threshold!");
 							$("#ecsrmId").val(myObj.ecsrmId);
 							$("#name").val(myObj.name);
+							$("#code").val(myObj.code);
 							$(".wizard-next").attr("disabled", false);//enable next button if disabled
            					
         	        	}else{
 							console.log("Supplier name match does not meet the required threshold!");
 							$("#ecsrmId").val("");//clear ecsrm id in case it had any values
+							$("#code").val("");//clear supplier code in case it had any values
 							$(".wizard-next").attr("disabled", true);//disable next button if enabled
         	        		$("#alert1").css("display", "block");
         	        		$("#alert1").text('Error processing your request, Please try again!');
@@ -457,6 +462,7 @@
         	        },
         	        error:	function (e){
 						$("#ecsrmId").val("");
+						$("#code").val("");
 						$(".wizard-next").attr("disabled", true);//disable next button if enabled
         	        	console.log(e);
         	        	$("#wait").css("display", "none");
@@ -466,7 +472,7 @@
         		});				
 			}
 			//
-			function searchContractNo()
+			function searchContractNo(bridgeUrl)
 			{
 				var search = {};
 				search['contractNo'] = $("#contractNo").val().trim();
@@ -480,7 +486,7 @@
 				console.log('contract search..' + JSON.stringify(search));
 				$.ajax({
         			type : 'POST',
-					url: "http://127.0.0.1:8088/api/v1/contracts/supplier",
+					url:  bridgeUrl + "/contracts/supplier",
         			headers: {"X-CSRF-TOKEN": token}, //send CSRF token in header
                     dataType : 'json',
 					data: JSON.stringify(search),

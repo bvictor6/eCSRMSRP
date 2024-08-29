@@ -26,6 +26,7 @@ import org.bcms.ecsrmsrp.repositories.VendorProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,10 @@ import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
  */
 @Service
 public class ProfileService {
+	
+	@Value("${ecsrmsrp.server.url}")
+	private String serverUrl;
+	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired CountryRepository countryRepository;
 	@Autowired VendorProfileRepository vendorProfileRepository;
@@ -68,6 +73,7 @@ public class ProfileService {
 		user.setLastModifiedDate(LocalDateTime.now());
 		user.setTwoFactorSecret(TimeBasedOneTimePasswordUtil.generateBase32Secret());
 		user.setTwoFactorEnabled(false);
+		user.setSupplierCode(data.getCode());
 		//
 		if(!userExists(user.getUsername())) 
 		{
@@ -107,14 +113,16 @@ public class ProfileService {
 		        String encodedString = encoder.encodeToString(jsonStr.getBytes()); 
 		        logger.info("Encoding Done: " +encodedString); 
 		        //
-		        String verificationLink = "http://127.0.0.1:8089/auth/verify/"+encodedString;
+		        String template  = "email";
+		        String verificationLink = serverUrl + "/auth/verify/"+encodedString;
 		        String subject = "Verify Your Email!";
-		        String body = "Please confir that you are the one registering for an account on the Supplier Portal by clicking on the link below!";
+		        String body = "Please confirm that you are the one registering for an account on the Supplier Portal by clicking on the link below!";
                results = composeEmailService.composeEmailMessage(user.getUsername(), 
                 		userProfile.getFirstname() + " " + userProfile.getLastname(),
                 		subject,
                 		body,
-                		verificationLink);
+                		verificationLink,
+                		template);
                 //
 			}catch (Exception e) {
 				logger.error(user.getUsername() + " :: error creating account - " + e.getLocalizedMessage());

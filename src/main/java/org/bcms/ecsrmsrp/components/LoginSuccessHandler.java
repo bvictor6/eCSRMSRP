@@ -14,7 +14,6 @@ import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.enums.Role;
 import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthentication;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
-import org.bcms.ecsrmsrp.services.AuthLoginTokenService;
 import org.bcms.ecsrmsrp.services.TokenGenerationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +24,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.stereotype.Component;
-import org.springframework.web.util.UrlPathHelper;
 
 import com.j256.twofactorauth.TimeBasedOneTimePasswordUtil;
 
@@ -43,7 +38,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 	Logger logger = LoggerFactory.getLogger(getClass());
 	private final UserRepository userRepository;
 	@Autowired TokenGenerationService tokenGenerationService;
-	@Autowired AuthLoginTokenService authLoginTokenService;
 	
 	private final AuthenticationSuccessHandler primarySuccessHandler;
 
@@ -70,7 +64,8 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		
 		Optional<User> user  = userRepository.findByUsername(authentication.getName());
 		
-		if(user.isPresent()) {
+		if(user.isPresent()) 
+		{
 			User u = user.get();
 			request.getSession().setAttribute(Constants._SESSION_USER_NAME, u.getUserProfile().getFirstname() + " " +u.getUserProfile().getLastname());
 			request.getSession().setAttribute(Constants._SESSION_USER_EMAIL, u.getUsername());

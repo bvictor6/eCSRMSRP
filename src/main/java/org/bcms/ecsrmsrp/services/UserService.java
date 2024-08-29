@@ -77,13 +77,15 @@ public class UserService {
 			u.setTwoFactorTime(LocalDateTime.now());
 			userRepository.save(u);
 			//
+			String template = "token";
 	        String subject = "Verify Your Email!";
 	        String body = "Your authentication code to login to the  Supplier Portal is " + token + ". The code is valid for 5 minutes!";
 	        Results results = composeEmailService.composeEmailMessage(u.getUsername(), 
             		u.getUserProfile().getFirstname() + " " + u.getUserProfile().getLastname(),
             		subject,
             		body,
-            		"");
+            		"",
+            		template);
 	        logger.info(results.getMessage());
 			return new Account(u.getUsername(), u.getPassword(), u.getTwoFactorSecret(), false);
 		}else {

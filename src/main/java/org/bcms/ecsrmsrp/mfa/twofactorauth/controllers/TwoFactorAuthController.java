@@ -95,7 +95,7 @@ public class TwoFactorAuthController {
 			Authentication authentication = (TwoFactorAuthentication) SecurityContextHolder.getContext().getAuthentication();
 			AccountUserDetails accountUserDetails = (AccountUserDetails) authentication.getPrincipal();
 			String token  = tokenGenerationService.generateVerificationCode();
-			logger.info("User Token - " + token + " -- " +accountUserDetails.getUsername());
+			logger.info("User Token generated for -- " +accountUserDetails.getUsername());
 			//
 			Account account =  this.accountService.update2FaToken(accountUserDetails.getAccount(), token);
 			if(account == null) {

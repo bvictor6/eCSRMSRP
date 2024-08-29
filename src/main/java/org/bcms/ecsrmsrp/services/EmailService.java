@@ -36,12 +36,12 @@ public class EmailService {
 	}
 
 	public void sendMessageUsingThymeleafTemplate(String to, String subject,
-												  Map<String, Object> templateModel)
+												  Map<String, Object> templateModel, String template)
 			throws IOException, MessagingException {
 		Context context = new Context();  //Thymeleaf context
 		context.setVariables(templateModel);
 
-		String htmlBody = thymeleafTemplateEngine.process("email", context);
+		String htmlBody = thymeleafTemplateEngine.process(template, context);
 		sendHtmlMessage(to, subject, htmlBody);
 	}
 

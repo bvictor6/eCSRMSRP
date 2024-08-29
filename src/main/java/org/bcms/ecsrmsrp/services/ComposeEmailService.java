@@ -6,6 +6,7 @@
 package org.bcms.ecsrmsrp.services;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,8 @@ public class ComposeEmailService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired EmailService emailService;
 	
-	public Results composeEmailMessage(String to, String recipient, String subject, String body, String link) {
+	public Results composeEmailMessage(String to, String recipient, String subject, String body,
+			String link, String template) {
 		Results results = new Results();
 		try 
 		{
@@ -37,9 +39,10 @@ public class ComposeEmailService {
             mailObject.setRecipientName(recipient);
             mailObject.setSubject(subject);
             mailObject.setText(body);
-            mailObject.setTemplateEngine("email");
+            mailObject.setTemplateEngine(template);
             mailObject.setSenderName("eCSRM System.");
             mailObject.setVerificationLink(link);
+            mailObject.setMailCopyrightYear(" "+LocalDate.now().getYear());
 
             logger.info("Send verification email to " + to);
 
@@ -50,7 +53,7 @@ public class ComposeEmailService {
             templateModel.put("copyrightYear", mailObject.getMailCopyrightYear());
             templateModel.put("verificationLink", mailObject.getVerificationLink());
 
-            if (mailObject.getTemplateEngine().equalsIgnoreCase("email")) 
+            if (mailObject.getTemplateEngine().toString().trim() != null) 
             {
                 logger.info("Send email for - " + mailObject.getTemplateEngine().toUpperCase());
                 try 
@@ -58,7 +61,8 @@ public class ComposeEmailService {
                     emailService.sendMessageUsingThymeleafTemplate(
                             mailObject.getTo(),
                             mailObject.getSubject(),
-                            templateModel);
+                            templateModel,
+                            template);
                     logger.info(mailObject.getTemplateEngine().toUpperCase() + ": successfully sent email to " + mailObject.getTo() + " at " + LocalDateTime.now() + ", with subject " + mailObject.getSubject());
                     
                     results.setStatus(ResultStatus.SUCCESS);

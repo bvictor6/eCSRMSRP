@@ -43,7 +43,7 @@ public class User extends BaseEntity implements Serializable
 	private Boolean isPrimaryDesignator;
 	private String twoFactorToken;
 	private LocalDateTime twoFactorTime;
-	
+	private String supplierCode;
 	/*@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "role_id")
 	private Role role;*/

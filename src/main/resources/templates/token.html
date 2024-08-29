@@ -686,31 +686,17 @@
 
         <!-- START CENTERED WHITE CONTAINER -->
         <!--This is preheader text. Some clients will show this text as a preview.-->
-        <span class="preheader">Welcome to the eCSRM system!</span>
+        <span class="preheader">eCSRM system otp!</span>
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="main">
 
           <!-- START MAIN CONTENT AREA -->
           <tr>
             <td class="wrapper">
               <p th:text="'Greetings, ' + ${recipientName}"></p>
-              <h3>WELCOME TO eCSRM</h3>
+              <h3>eCSRM OTP</h3>
               <p th:text="${text}"></p>
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
-                <tbody>
-                <tr>
-                  <td align="center">
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                      <tbody>
-                      <tr>
-                        <td> <a th:href="@{${verificationLink}}" target="_blank">Click to Verify Email.</a> </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-              <p>When you are finished, you'll be able to access the eCSRM system based on your assigned user roles and privileges.</p>
+              
+              <p></p>
               <p>Sincerely, </p>
               <p>
                 <em th:text="${senderName}"></em> <br />
@@ -728,7 +714,6 @@
             <tr>
               <td class="content-block">
                 <span class="apple-link">Central Medical Stores, Molapare Road, Gaborone</span>
-                <br> Don't like these emails? <a th:href="@{${loginUrl}}">Login to update settings.</a>.
               </td>
             </tr>
             <tr>

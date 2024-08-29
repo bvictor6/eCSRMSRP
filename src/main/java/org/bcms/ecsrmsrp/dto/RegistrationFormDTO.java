@@ -37,5 +37,6 @@ public class RegistrationFormDTO {
 	private String contactPersonPhone;
 	private String contactPersonAddress;
 	private Boolean isPrimaryDesignator;
+	private String code;
 
 }
