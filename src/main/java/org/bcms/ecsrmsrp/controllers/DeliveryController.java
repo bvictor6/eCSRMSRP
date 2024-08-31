@@ -40,7 +40,7 @@ public class DeliveryController {
 	
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		logger.info(user + " supplier deliveries access!");
@@ -91,7 +91,7 @@ public class DeliveryController {
 	@GetMapping(path = "/view")
 	public String view(Model model, HttpServletRequest request, @RequestParam("id") String id) {
 		
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		logger.info(user + " delivery products access!");
@@ -142,7 +142,7 @@ public class DeliveryController {
 	@GetMapping(path = "/schedule")
 	public String schedule(Model model, HttpServletRequest request) 
 	{
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		logger.info(user + " supplier deliveries scheduler access!");

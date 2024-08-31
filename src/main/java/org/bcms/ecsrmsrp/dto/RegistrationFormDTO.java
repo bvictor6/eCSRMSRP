@@ -36,7 +36,7 @@ public class RegistrationFormDTO {
 	private Boolean terms;
 	private String contactPersonPhone;
 	private String contactPersonAddress;
-	private Boolean isPrimaryDesignator;
+	private Boolean isPrimaryDesignator;//is_primary_designator
 	private String code;
 
 }

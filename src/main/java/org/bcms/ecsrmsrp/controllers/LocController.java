@@ -45,7 +45,7 @@ public class LocController {
 	
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		logger.info(user + " LOC list access!");
@@ -86,7 +86,7 @@ public class LocController {
 	@GetMapping(path = "/view")
 	public String view(Model model, HttpServletRequest request, @RequestParam("id") String id) 
 	{
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		logger.info(user + " View LOC - " + id);

@@ -5,9 +5,13 @@
  */
 package org.bcms.ecsrmsrp.controllers;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.bcms.ecsrmsrp.classes.Constants;
 import org.bcms.ecsrmsrp.classes.Results;
 import org.bcms.ecsrmsrp.dto.RegistrationFormDTO;
+import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.services.CountryService;
 import org.bcms.ecsrmsrp.services.ProfileService;
 import org.slf4j.Logger;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -36,6 +41,18 @@ public class ProfileController
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired CountryService countryService;
 	@Autowired ProfileService profileService;
+	
+	@GetMapping(path = "/view")
+	public String view(HttpServletRequest request, Model model, @RequestParam("id") String id) {
+		logger.info("Fetch profile for user " + id);
+		Optional<User> user = profileService.getUserProfile(UUID.fromString(id));
+		if(user.isPresent()) {
+			model.addAttribute("user", user.get());
+		}else {
+			model.addAttribute("user", null);
+		}
+		return "profile/view";
+	}
 
 	@GetMapping(path = "/register")
 	public String create(Model model) {

@@ -6,18 +6,16 @@
 package org.bcms.ecsrmsrp.components;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.bcms.ecsrmsrp.classes.Constants;
 import org.bcms.ecsrmsrp.entities.User;
-import org.bcms.ecsrmsrp.enums.Role;
 import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthentication;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
 import org.bcms.ecsrmsrp.services.TokenGenerationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -38,20 +36,21 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 	Logger logger = LoggerFactory.getLogger(getClass());
 	private final UserRepository userRepository;
 	@Autowired TokenGenerationService tokenGenerationService;
-	
-	private final AuthenticationSuccessHandler primarySuccessHandler;
-
+	private final LoginFailureHandler failureHandler;
+	private final AuthenticationSuccessHandler primarySuccessHandler;	
 	private AuthenticationSuccessHandler secondarySuccessHandler;
 	
 	/**
 	 * 
 	 */
 	public LoginSuccessHandler(String secondAuthUrl, 
-			AuthenticationSuccessHandler primarySuccessHandler, UserRepository userRepository) {
+			AuthenticationSuccessHandler primarySuccessHandler, UserRepository userRepository,
+			LoginFailureHandler failureHandler) {
 		logger.warn("Primary success handler " + secondAuthUrl);
 		this.primarySuccessHandler = primarySuccessHandler;
 		this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler(secondAuthUrl);
 		this.userRepository = userRepository;
+		this.failureHandler = failureHandler;
 	}
 	
 	@Override
@@ -60,80 +59,59 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 	{
 		WebAuthenticationDetails d = (WebAuthenticationDetails) authentication.getDetails();
 		logger.info("Succesfull login for user - " + authentication.getName() + " from " +  d.getRemoteAddress());
-		logger.info("Initialize session variables for " + authentication.getName());
-		
+				
 		Optional<User> user  = userRepository.findByUsername(authentication.getName());
 		
 		if(user.isPresent()) 
 		{
-			User u = user.get();
-			request.getSession().setAttribute(Constants._SESSION_USER_NAME, u.getUserProfile().getFirstname() + " " +u.getUserProfile().getLastname());
-			request.getSession().setAttribute(Constants._SESSION_USER_EMAIL, u.getUsername());
-			request.getSession().setAttribute(Constants._SESSION_USER_ROLE, Role.GUEST); //set to guest mode until OTP verification is done
-			request.getSession().setAttribute(Constants._SESSION_USER_USER_ID, u.getId());
-			request.getSession().setAttribute(Constants._SESSION_USER_ECSRM_ID, u.getVendorProfile().getEcsrmId());
-			request.getSession().setAttribute(Constants._SESSION_USER_SUPPLIER_NAME, u.getVendorProfile().getName());
-			request.getSession().setMaxInactiveInterval(900);//15min
-	        //update user's last login time
-			if(u.getTwoFactorSecret() == null)
-				u.setTwoFactorSecret(TimeBasedOneTimePasswordUtil.generateBase32Secret());
-			u.setLastLogin(LocalDateTime.now());
-			userRepository.save(u);
-		}
-		
-		//set our response to OK status
-        //response.setStatus(HttpServletResponse.SC_OK);
-
-        //since we have created our custom success handler, its up to us, to where
-        //we will redirect the user after successfully login
-        /*SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
-        
-		UrlPathHelper helper = new UrlPathHelper();
-		String contextPath = helper.getContextPath(request);
-		logger.info("context path = " + contextPath);
-		String requestUrl = new String();
-		if(request.getSession().getAttribute(Constants._SESSION_USER_ROLE).equals(Role.GUEST)) 
-		{
-			requestUrl = "/auth/otp?otp=true&email=" + request.getSession().getAttribute(Constants._SESSION_USER_EMAIL);
-			String token = tokenGenerationService.generateVerificationCode();
+			User u = user.get();			
+			if(u.getTwoFactorSecret() == null) 
+			{
+				try 
+				{
+					logger.info(u.getUsername() + " - Enabling 2FA !");
+					u.setTwoFactorSecret(TimeBasedOneTimePasswordUtil.generateBase32Secret());
+					userRepository.save(u);
+				}catch (Exception e) {
+					logger.error(u.getUsername() + " :: Error, unable to set 2FA secret! - " + e.getLocalizedMessage());;
+				}
+				
+			}
 			//
-			authLoginTokenService.createLoginToken(token, 
-					request.getSession().getAttribute(Constants._SESSION_USER_USER_ID).toString());			
-		}else {
-			if(savedRequest != null) {
-	        	requestUrl = savedRequest.getRedirectUrl();
-	        	logger.info("saved request = " + savedRequest.getRedirectUrl());
-	        } else {
-	        	requestUrl = "/dashboard";
-	        }
+			if(u.getIsVerified())
+			{
+				if(u.getIsEnabled())
+				{
+					//Two factor stuff
+					logger.error("2FA Enabled: " +u.getTwoFactorEnabled());
+					if(u.getTwoFactorEnabled()) 
+					{
+						SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
+						logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
+						this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
+					} else {
+						SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
+						logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
+						logger.error("Two factor authentication disabled for user " + authentication);
+						//force user to enroll
+						this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler("/enable-2fa");
+						this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
+					}
+				}
+				else //user is not enabled, logout user
+				{
+					logger.error(u.getUsername() + " Account not enabled - signing out user!");
+					SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
+					this.failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException("Account Disabled!"));				
+				}
+			}
+			else
+			{
+				logger.error(u.getUsername() + " Account not verified - signing out user!");
+				SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
+				this.failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException("Account Not Verified, Check email to verify your accout!"));				
+			}
 		}
-        
-        logger.info("request url = " + requestUrl);
-		
-		
-        response.sendRedirect(requestUrl); */
-        
-        //super.onAuthenticationSuccess(request, response, authentication);
-		
-		//Two factor stuff
-		logger.error("2FA Enabled: " +user.get().getTwoFactorEnabled());
-		if(user.get().getTwoFactorEnabled()) 
-		{
-			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
-			logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
-			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
-		} else {
-			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
-			logger.warn("Security context holder:  " + authentication.getPrincipal().toString());
-			logger.error("Two factor authentication disabled for user " + authentication);
-			//force user to enroll
-			this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler("/enable-2fa");
-			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
-			//response.sendRedirect("/enable-2fa");
-			//successful authentication
-			//this.primarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
-		}
-		
 		
     }
 

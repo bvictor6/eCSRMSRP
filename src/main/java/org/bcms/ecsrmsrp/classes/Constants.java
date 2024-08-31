@@ -17,8 +17,8 @@ public interface Constants {
     String _SESSION_USER_NAME = "name";
     String _SESSION_USER_USERNAME = "userName";
     String _SESSION_USER_EMAIL = "email";
-    String _SESSION_USER_DESC = "desc";
-    String _SESSION_USER_LAST_LOGIN = "lastLogin";
+    String _SESSION_USER_IS_PRIMARY_DESIGNATOR = "isPrimaryDesignator";
+    String _SESSION_USER_SUPPLIER_CODE = "supplierCode";
     String _SESSION_USER_ROLE = "role";
     String _SESSION_USER_USER_ID = "userID";
     String _SESSION_USER_ECSRM_ID = "ecsrmID";
