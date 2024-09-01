@@ -139,10 +139,10 @@
 									</div>
 									<div class="text-left push-10">
 										<span th:if="${user.isLocked}">
-											<i class="fa-solid fa-user-check text-success"></i>  <small class="text-muted text-success">Account Unlocked</small>
-										</span>
-										<span th:unless="${user.isLocked}">
 											<i class="fa-solid fa-user-lock text-danger"></i>  <small class="text-muted text-danger">Account Locked</small>
+										</span>
+										<span th:unless="${user.isLocked}">											
+											<i class="fa-solid fa-unlock text-success"></i>  <small class="text-muted text-success">Account Unlocked</small>
 										</span>
 									</div>
 									<div class="text-left push-10">

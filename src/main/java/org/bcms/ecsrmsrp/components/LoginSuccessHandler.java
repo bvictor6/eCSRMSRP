@@ -37,7 +37,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 	private final UserRepository userRepository;
 	@Autowired TokenGenerationService tokenGenerationService;
 	private final LoginFailureHandler failureHandler;
-	private final AuthenticationSuccessHandler primarySuccessHandler;	
+	//private final AuthenticationSuccessHandler primarySuccessHandler;	
 	private AuthenticationSuccessHandler secondarySuccessHandler;
 	
 	/**
@@ -47,7 +47,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 			AuthenticationSuccessHandler primarySuccessHandler, UserRepository userRepository,
 			LoginFailureHandler failureHandler) {
 		logger.warn("Primary success handler " + secondAuthUrl);
-		this.primarySuccessHandler = primarySuccessHandler;
+		//this.primarySuccessHandler = primarySuccessHandler;
 		this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler(secondAuthUrl);
 		this.userRepository = userRepository;
 		this.failureHandler = failureHandler;
@@ -111,6 +111,12 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 				SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
 				this.failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException("Account Not Verified, Check email to verify your accout!"));				
 			}
+		}
+		else //if user cant be found throw error, logout
+		{
+			logger.error(authentication.getName() + " User not found - signing out user!");
+			SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthentication(authentication));
+			this.failureHandler.onAuthenticationFailure(request, response, new BadCredentialsException("Account Not Found!"));				
 		}
 		
     }
