@@ -50,7 +50,7 @@ public class PagesController {
 		if(principal == null)
 			return "redirect:/login";
 		//
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		logger.info(user + " dashboard access!");

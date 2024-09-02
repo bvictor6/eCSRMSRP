@@ -45,7 +45,7 @@ public class ContractController {
 	
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {		
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		List<ContractDTO> contracts = new ArrayList<>();
@@ -93,7 +93,7 @@ public class ContractController {
 	
 	@GetMapping(path = "/view")
 	public String view(Model model, HttpServletRequest request, @RequestParam("id") String id) {	
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		

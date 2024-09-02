@@ -129,9 +129,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 			//force user to enroll
 			this.secondarySuccessHandler = new SimpleUrlAuthenticationSuccessHandler("/enable-2fa");
 			this.secondarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
-			//response.sendRedirect("/enable-2fa");
-			//successful authentication
-			//this.primarySuccessHandler.onAuthenticationSuccess(request, response, authentication);
+			
 		}
 		
 		

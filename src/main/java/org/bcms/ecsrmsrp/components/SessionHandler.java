@@ -22,7 +22,8 @@ import lombok.NoArgsConstructor;
 @Component
 @Data
 @NoArgsConstructor
-public class SessionHandler {
+public class SessionHandler 
+{
 	Logger logger = LoggerFactory.getLogger(getClass());
 	String name;
 	String userName;
@@ -34,13 +35,14 @@ public class SessionHandler {
 	String ecsrmID;
 	String supplierName;
 	
-	public void setUserSessionValues(HttpServletRequest request) {
-		Enumeration<String> keys = request.getSession().getAttributeNames();
+	public void getUserSessionValues(HttpServletRequest request) 
+	{
+		/*Enumeration<String> keys = request.getSession().getAttributeNames();
 		while (keys.hasMoreElements())
 		{
 		  String key = (String)keys.nextElement();
 		  logger.warn(key + " Our Session :: " + request.getSession().getAttribute(key).toString() );;
-		}
+		}*/
 		
 		this.ecsrmID = request.getSession().getAttribute(Constants._SESSION_USER_ECSRM_ID).toString();
 		this.userName = request.getSession().getAttribute(Constants._SESSION_USER_EMAIL).toString();		

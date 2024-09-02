@@ -36,7 +36,7 @@ public class PurchaseOrderController {
 	
 	@GetMapping(path = "/index")
 	public String index(Model model, HttpServletRequest request) {
-		sessionHandler.setUserSessionValues(request);
+		sessionHandler.getUserSessionValues(request);
 		final String supplierID = sessionHandler.getEcsrmID();
 		final String user = sessionHandler.getUserName();
 		logger.info(user + " Purchase orders list access!");
