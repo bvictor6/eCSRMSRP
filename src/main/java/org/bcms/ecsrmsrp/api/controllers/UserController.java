@@ -6,8 +6,11 @@
 package org.bcms.ecsrmsrp.api.controllers;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.bcms.ecsrmsrp.api.interfaces.UserDetailsInterface;
+import org.bcms.ecsrmsrp.entities.User;
 import org.bcms.ecsrmsrp.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,5 +37,23 @@ public class UserController {
 		List<UserDetailsInterface> users = userRepository.findBySupplierCodeAndIsEnabled(code, false);
 		
 		return new ResponseEntity<>(users, HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "/user/{id}/{status}")
+	public ResponseEntity<?> updateUserDetails(@PathVariable("id") String id, @PathVariable("status") Boolean status){
+		Optional<User> user  = userRepository.findById(UUID.fromString(id));
+		//logger.info("Update user status for " + userDTO.getId());
+		if(user.isPresent()) 
+		{
+			logger.info("Update user status for " + user.get().getUsername());
+			User u = user.get();
+			u.setIsEnabled(status);
+			userRepository.save(u);
+			
+			return new ResponseEntity<>("User updated!", HttpStatus.OK);
+		}else {
+			logger.info("Failed to update user status for " + user.get().getUsername());
+			return new ResponseEntity<>("Error updating user details!", HttpStatus.NOT_FOUND);
+		}
 	}
 }

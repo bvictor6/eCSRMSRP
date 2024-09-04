@@ -77,7 +77,7 @@ public class SecurityConfig {
                         		"/login","/assets/**", "/fa/**","/favicon.ico").permitAll()
                         .requestMatchers("/auth/success","/auth/error","/auth/verify/**",
                         		"/profile/error","/profile/success").permitAll()
-                        .requestMatchers("/api/v1/**").permitAll()
+                        .requestMatchers("/api/v1/**","/api/v1/user").permitAll()
                         .requestMatchers("/api-docs/**", "/swagger-ui/**", 
                 				"/swagger-ui.html", "/actuator/**",
                 				"/api-documentation").permitAll()
