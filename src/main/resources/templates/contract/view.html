@@ -230,12 +230,12 @@
 				                        <tr th:each="d,counter :${documents}">
 				                            <td class="text-center font-s12" th:text="${counter.index + 1}">1</td>
 				                            <td class="font-w300" >
-												<i class="fa fa-file-pdf-o text-danger"></i> <span th:text="${d.name}"></span>
+												<i th:classappend="${d.icon}"></i> <span th:text="${d.name}"></span>
 											</td>
-				                            <td class="font-s12" th:text="${#numbers.formatDecimal(d.size, 0,'COMMA',2,'POINT')}"></td>
+				                            <td class="font-s12" th:text="${#numbers.formatDecimal(d.size, 0,'COMMA',0,'POINT') + ' MB'}"></td>
 				                            <td class="text-center">
 				                                <div class="btn-group">
-				                                	<a th:href ="@{/contracts/download(name=${d.path})}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+				                                	<a th:href ="@{/contracts/download(id=${d.id})}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
 				                                </div>
 				                            </td>
 				                        </tr>                                            

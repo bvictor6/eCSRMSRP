@@ -5,6 +5,7 @@
  */
 package org.bcms.ecsrmsrp.controllers;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,6 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * 
  */
-@SuppressWarnings("unused")
 @Controller
 @RequestMapping(path = "/contracts")
 public class ContractController {
@@ -133,11 +133,22 @@ public class ContractController {
 		return "/contract/view";
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @param request
+	 * @param response
+	 */
 	@GetMapping(path = "/download")
-	public void download(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) {
-		logger.info("Downloading ... "+ name);
+	public void download(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) {
+		logger.info("Downloading ... "+ id);
 		
-		documentService.downloadDocument(response, name);		
+		try {
+			documentService.downloadDocument(id, response);
+		} catch (IOException e) {
+			logger.error("Error downloading document with id - " + id);
+			e.printStackTrace();
+		}		
 	}
 
 	/**
@@ -229,7 +240,7 @@ public class ContractController {
 					d.setName(o.isNull("name")? "" : o.getString("name"));
 					d.setMimeType(o.isNull("mimeType")? "" : o.getString("mimeType"));
 					d.setPath(o.isNull("path")? "" : o.getString("path"));
-					d.setSize(o.isNull("size")? 0 : o.getLong("size"));
+					d.setSize(o.isNull("size")? 0 : o.getLong("size")/1024);
 					d.setTransactionId(o.isNull("transactionId")? "" : o.getString("transactionId"));
 					d.setVersion(o.isNull("version")? "" : o.getString("version"));
 					//

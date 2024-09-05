@@ -187,7 +187,7 @@ public class LocController {
 	public void download(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) {
 		logger.info("Downloading ... "+ name);
 		
-		documentService.downloadDocument(response, name);		
+		//documentService.downloadDocument(response, name);		
 	}
 
 }
