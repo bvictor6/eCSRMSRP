@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.bcms.ecsrmsrp.classes.Document;
 import org.bcms.ecsrmsrp.classes.Product;
+import org.bcms.ecsrmsrp.components.ApplicationTypeHandler;
 import org.bcms.ecsrmsrp.components.SessionHandler;
 import org.bcms.ecsrmsrp.dto.ContractDTO;
 import org.bcms.ecsrmsrp.dto.ContractProductDTO;
@@ -231,6 +232,9 @@ public class ContractController {
 					d.setSize(o.isNull("size")? 0 : o.getLong("size"));
 					d.setTransactionId(o.isNull("transactionId")? "" : o.getString("transactionId"));
 					d.setVersion(o.isNull("version")? "" : o.getString("version"));
+					//
+					ApplicationTypeHandler applicationTypeHandler = new ApplicationTypeHandler(o.isNull("mimeType")? "" : o.getString("mimeType"));
+					d.setDocType(applicationTypeHandler.getDocumentType());
 					//
 					contractDocuments.add(d);
 				}

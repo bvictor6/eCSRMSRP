@@ -32,7 +32,8 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 		String remote_ip_addr = request.getRemoteAddr();
 		
 		logger.info(username +" :: Failed login from IP " +remote_ip_addr + " -- "+exception.getMessage());
-		
+		if(request.getSession() != null)
+			request.getSession().invalidate();
 		String redirectUrl = "/login?error=true&reason=" + exception.getLocalizedMessage();
 		
 		super.setDefaultFailureUrl(redirectUrl);
