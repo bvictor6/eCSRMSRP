@@ -48,9 +48,14 @@ public class SessionHandler
 		  String key = (String)keys.nextElement();
 		  logger.warn(key + " Our Session :: " + request.getSession().getAttribute(key).toString() );;
 		}*/
-		
-		this.ecsrmID = request.getSession().getAttribute(Constants._SESSION_USER_ECSRM_ID).toString();
-		this.userName = request.getSession().getAttribute(Constants._SESSION_USER_EMAIL).toString();		
+		try {
+			this.ecsrmID = request.getSession().getAttribute(Constants._SESSION_USER_ECSRM_ID).toString();
+			this.userName = request.getSession().getAttribute(Constants._SESSION_USER_EMAIL).toString();		
+		}catch (Exception e) {
+			logger.error("Error setting session values: " + e.getLocalizedMessage());
+			this.ecsrmID = "";
+			this.userName = "";
+		}
 	}
 	
 	public void setUserSessionValues(HttpServletRequest request, String username) {

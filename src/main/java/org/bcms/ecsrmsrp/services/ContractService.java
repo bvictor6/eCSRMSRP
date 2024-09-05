@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class ContractService {
+public class ContractService 
+{
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired RestClientHandler restClientHandler;
 	

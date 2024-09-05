@@ -12,8 +12,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 
+import org.bcms.ecsrmsrp.classes.Constants;
+import org.bcms.ecsrmsrp.components.RestClientHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -26,6 +29,15 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class DocumentService {
 	Logger logger = LoggerFactory.getLogger(getClass());
+	@Autowired RestClientHandler restClientHandler;
+	
+	public String fetchContractDocuments(String supplierID,String contractID, String user) {
+		logger.info(user +" :: request documents for - " + contractID + " for supplier - " + supplierID);
+		
+		String endpoint  = Constants._ECSRM_BRIDGE_API + "/contracts/documents/"+contractID;
+		
+		return restClientHandler.getApiRequest(endpoint, user);		
+	}
 	
 	public void downloadDocument(HttpServletResponse response, String name) {
 		File file = null;

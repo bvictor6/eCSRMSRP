@@ -15,6 +15,7 @@ import org.bcms.ecsrmsrp.components.SessionHandler;
 import org.bcms.ecsrmsrp.dto.ContractDTO;
 import org.bcms.ecsrmsrp.dto.ContractProductDTO;
 import org.bcms.ecsrmsrp.dto.DashboardContractDTO;
+import org.bcms.ecsrmsrp.dto.DocumentDTO;
 import org.bcms.ecsrmsrp.services.ContractService;
 import org.bcms.ecsrmsrp.services.DocumentService;
 import org.json.JSONArray;
@@ -118,78 +119,15 @@ public class ContractController {
 			model.addAttribute("description", jsonObject.isNull("description") ? "" : jsonObject.getString("description"));
 			model.addAttribute("title", jsonObject.getString("title"));
 			
-			 //Retrieve contract Products
-			try {
-				String products  = contractService.contractProducts(id, user);
-				JSONArray jsonArray = new JSONArray(products);
-				if(jsonArray.length()>0)
-				{
-					logger.warn(user + " received contract products for contract " + id + " of length " + jsonArray.length());
-					List<ContractProductDTO> contractProducts = new ArrayList<>();
-					
-					for(int i =0; i<jsonArray.length(); i++)
-					{
-						ContractProductDTO contractProduct = new ContractProductDTO();
-						JSONObject p = jsonArray.getJSONObject(i);
-						
-						contractProduct.setBatchNo(p.isNull("batchNo")? "" : p.getString("batchNo"));
-						contractProduct.setCategory(p.isNull("category")? "" : p.getString("category"));
-						contractProduct.setContractId(p.isNull("contractId")? "" : p.getString("contractId"));
-						contractProduct.setDescription(p.isNull("description")? "" : p.getString("description"));
-						contractProduct.setGrandTotal(p.isNull("grandTotal")? 0.00 : p.getDouble("grandTotal"));
-						contractProduct.setId(p.isNull("id")? "" : p.getString("id"));
-						contractProduct.setLocProductId(p.isNull("locProductId")? "" : p.getString("locProductId"));
-						contractProduct.setProductId(p.isNull("productId")? "" : p.getString("productId"));
-						contractProduct.setQuantity(p.isNull("quantity")? 0 : p.getInt("quantity"));
-						contractProduct.setQuantitySupplied(p.isNull("quantitySupplied")? 0 : p.getInt("quantitySupplied"));
-						contractProduct.setRemainingQuantity(p.isNull("remainingQuantity")? 0 : p.getInt("remainingQuantity"));
-						contractProduct.setSkuCode(p.isNull("skuCode")? "" : p.getString("skuCode"));
-						contractProduct.setSkuDescription(p.isNull("skuDescription")? "" : p.getString("skuDescription"));
-						contractProduct.setSkuType(p.isNull("skuType")? "" : p.getString("skuType"));
-						contractProduct.setTotalProductCost(p.isNull("totalProductCost")? 0.00 : p.getDouble("totalProductCost"));
-						contractProduct.setUnit(p.isNull("unit")? "" : p.getString("unit"));
-						contractProduct.setUnitPrice(p.isNull("unitPrice")? 0.00 : p.getDouble("unitPrice"));
-						contractProduct.setSerialNumber(p.isNull("serialNumber")? "" : p.getString("serialNumber"));
-						contractProduct.setPackSize(p.isNull("packSize")? "" : p.getString("packSize"));
-						contractProduct.setCurrency(p.isNull("currency") ? "BWP" : p.getString("currency"));
-						//
-						contractProducts.add(contractProduct);
-					}
-					//
-					model.addAttribute("products", contractProducts);
-					
-				}else {
-					logger.warn(user + " no contract products retrieved for contract " + id);
-				}
-			}catch (Exception e) {
-				logger.error(user + " :: errors encountered while retrieving products for contract - " +id + ", supplier - "+supplierID +" :: " + e.getLocalizedMessage());
-			}
+			
 			
 		}catch (Exception e) {
 			logger.error(user + " :: errors encountered while retrieving contract details for contract - " +id + ", supplier - "+supplierID +" :: " + e.getLocalizedMessage());
 		}
-		
-		
-		List<Document> documents  = new ArrayList<>();
-		Document document = new Document();
-		document.setName("ONCE_OFF_CONTRACT");
-		document.setType("Contract Document");
-		document.setPath("ONCE_OFF_CONTRACT.pdf");
-		documents.add(document);
-		
-		Document document1 = new Document();
-		document1.setName("FRAMEWORK_CONTRACT");
-		document1.setType("Contract Document");
-		document1.setPath("FRAMEWORK_CONTRACT.pdf");
-		documents.add(document1);
-		
-		Document document2 = new Document();
-		document2.setName("LOC_TEMPLATE");
-		document2.setType("LOC Document");
-		document2.setPath("LOC_TEMPLATE.pdf");
-		documents.add(document2);
-		
-		model.addAttribute("documents", documents);			
+		//Retrieve contract Products
+		model.addAttribute("products", fetchContractProducts(id, user, supplierID));
+		//Retrieve contract documents
+		model.addAttribute("documents", fetchContractDocuments(id, user, supplierID));			
 		
 		return "/contract/view";
 	}
@@ -201,4 +139,109 @@ public class ContractController {
 		documentService.downloadDocument(response, name);		
 	}
 
+	/**
+	 * fetch contract products list
+	 * @param id
+	 * @param user
+	 * @param supplierId
+	 * @return
+	 */
+	private List<ContractProductDTO> fetchContractProducts(String id, String user, String supplierId) {
+		try 
+		{
+			String products  = contractService.contractProducts(id, user);
+			JSONArray jsonArray = new JSONArray(products);
+			if(jsonArray.length()>0)
+			{
+				logger.warn(user + " received contract products for contract " + id + " of length " + jsonArray.length());
+				List<ContractProductDTO> contractProducts = new ArrayList<>();
+				
+				for(int i =0; i<jsonArray.length(); i++)
+				{
+					ContractProductDTO contractProduct = new ContractProductDTO();
+					JSONObject p = jsonArray.getJSONObject(i);
+					
+					contractProduct.setBatchNo(p.isNull("batchNo")? "" : p.getString("batchNo"));
+					contractProduct.setCategory(p.isNull("category")? "" : p.getString("category"));
+					contractProduct.setContractId(p.isNull("contractId")? "" : p.getString("contractId"));
+					contractProduct.setDescription(p.isNull("description")? "" : p.getString("description"));
+					contractProduct.setGrandTotal(p.isNull("grandTotal")? 0.00 : p.getDouble("grandTotal"));
+					contractProduct.setId(p.isNull("id")? "" : p.getString("id"));
+					contractProduct.setLocProductId(p.isNull("locProductId")? "" : p.getString("locProductId"));
+					contractProduct.setProductId(p.isNull("productId")? "" : p.getString("productId"));
+					contractProduct.setQuantity(p.isNull("quantity")? 0 : p.getInt("quantity"));
+					contractProduct.setQuantitySupplied(p.isNull("quantitySupplied")? 0 : p.getInt("quantitySupplied"));
+					contractProduct.setRemainingQuantity(p.isNull("remainingQuantity")? 0 : p.getInt("remainingQuantity"));
+					contractProduct.setSkuCode(p.isNull("skuCode")? "" : p.getString("skuCode"));
+					contractProduct.setSkuDescription(p.isNull("skuDescription")? "" : p.getString("skuDescription"));
+					contractProduct.setSkuType(p.isNull("skuType")? "" : p.getString("skuType"));
+					contractProduct.setTotalProductCost(p.isNull("totalProductCost")? 0.00 : p.getDouble("totalProductCost"));
+					contractProduct.setUnit(p.isNull("unit")? "" : p.getString("unit"));
+					contractProduct.setUnitPrice(p.isNull("unitPrice")? 0.00 : p.getDouble("unitPrice"));
+					contractProduct.setSerialNumber(p.isNull("serialNumber")? "" : p.getString("serialNumber"));
+					contractProduct.setPackSize(p.isNull("packSize")? "" : p.getString("packSize"));
+					contractProduct.setCurrency(p.isNull("currency") ? "BWP" : p.getString("currency"));
+					//
+					contractProducts.add(contractProduct);
+				}
+				//
+				return contractProducts;
+				
+			}else {
+				logger.warn(user + " no contract products retrieved for contract " + id);
+				return null;
+			}
+		}catch (Exception e) {
+			logger.error(user + " :: errors encountered while retrieving products for contract - " +id + ", supplier - "+ supplierId +" :: " + e.getLocalizedMessage());
+			return null;
+		}
+	}
+	
+	/**
+	 * fetch contract documents
+	 * @param id
+	 * @param user
+	 * @param supplierId
+	 * @return
+	 */
+	private List<DocumentDTO> fetchContractDocuments(String id, String user, String supplierId) {
+		try 
+		{
+			logger.info(user + " - fetch documents for contract " + id);
+			String documents  = documentService.fetchContractDocuments(supplierId, id, user);
+			JSONArray jsonArray = new JSONArray(documents);
+			
+			if(jsonArray.length() > 0)
+			{
+				List<DocumentDTO> contractDocuments = new ArrayList<>();
+				for(int i = 0; i < jsonArray.length(); i++)
+				{
+					JSONObject o = jsonArray.getJSONObject(i);
+					DocumentDTO d = new DocumentDTO();
+					//
+					
+					d.setContractNo(o.isNull("contractNo")? "" : o.getString("contractNo"));
+					d.setDmsId(o.isNull("dmsId")? "" : 
+						o.getString("dmsId").substring(0, o.getString("dmsId").indexOf(";")-1)
+						);
+					d.setId(o.isNull("id")? "" : o.getString("id"));
+					d.setName(o.isNull("name")? "" : o.getString("name"));
+					d.setMimeType(o.isNull("mimeType")? "" : o.getString("mimeType"));
+					d.setPath(o.isNull("path")? "" : o.getString("path"));
+					d.setSize(o.isNull("size")? 0 : o.getLong("size"));
+					d.setTransactionId(o.isNull("transactionId")? "" : o.getString("transactionId"));
+					d.setVersion(o.isNull("version")? "" : o.getString("version"));
+					//
+					contractDocuments.add(d);
+				}
+				return contractDocuments;
+			}else {
+				return null;
+			}
+			
+		}catch (Exception e) {
+			logger.error("Error encountered while fetching documents ffor contract " + id + " ,for supplier " + supplierId);
+			return null;
+		}
+	}
 }
