@@ -3,6 +3,7 @@ package org.bcms.ecsrmsrp.mfa.twofactorauth.controllers;
 import java.io.IOException;
 
 import org.bcms.ecsrmsrp.components.LoginFailureHandler;
+import org.bcms.ecsrmsrp.components.SessionHandler;
 import org.bcms.ecsrmsrp.mfa.account.Account;
 import org.bcms.ecsrmsrp.mfa.account.AccountUserDetails;
 import org.bcms.ecsrmsrp.mfa.twofactorauth.TwoFactorAuthenticated;
@@ -35,7 +36,7 @@ public class TwoFactorAuthController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	private final UserService accountService;
 	private final TokenGenerationService tokenGenerationService;
-	
+	private final SessionHandler sessionHandler;
 	private final TwoFactorAuthenticationCodeVerifier codeVerifier;
 
 	private final QrCode qrCode;
@@ -46,13 +47,14 @@ public class TwoFactorAuthController {
 
 	public TwoFactorAuthController(UserService accountService, TwoFactorAuthenticationCodeVerifier codeVerifier,
 			QrCode qrCode, AuthenticationSuccessHandler successHandler, LoginFailureHandler failureHandler, 
-			TokenGenerationService tokenGenerationService) {
+			TokenGenerationService tokenGenerationService, SessionHandler sessionHandler) {
 		this.accountService = accountService;
 		this.codeVerifier = codeVerifier;
 		this.qrCode = qrCode;
 		this.successHandler = successHandler;
 		this.failureHandler = failureHandler;
 		this.tokenGenerationService = tokenGenerationService;
+		this.sessionHandler = sessionHandler;
 	}
 
 	@GetMapping(path = "/enable-2fa")
@@ -126,6 +128,7 @@ public class TwoFactorAuthController {
 				//
 				logger.warn("Code verified " + twoFactorAuthenticated);
 				SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthenticated(auth));
+				this.sessionHandler.setUserSessionValues(request, account.username());//initialize session variables
 				//
 				this.successHandler.onAuthenticationSuccess(request, response, auth);
 			}
@@ -144,6 +147,7 @@ public class TwoFactorAuthController {
 				//
 				logger.warn("Code verified " + twoFactorAuthenticated);
 				SecurityContextHolder.getContext().setAuthentication(new TwoFactorAuthenticated(auth));
+				this.sessionHandler.setUserSessionValues(request, account.username());//initialize session variables
 				//
 				this.successHandler.onAuthenticationSuccess(request, response, auth);				
 			}

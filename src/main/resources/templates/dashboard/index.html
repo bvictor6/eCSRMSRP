@@ -44,7 +44,7 @@
 		<link href="../assets/css/fontawesome.css" rel="stylesheet" />
 		<link href="../assets/css/brands.css" rel="stylesheet" />
 		<link href="../assets/css/solid.css" rel="stylesheet" />
-			<!--End fontawesome css-->
+		<!--End fontawesome css-->
         <!-- OneUI CSS framework -->
         <link rel="stylesheet" id="css-main" href="../assets/css/oneui.css">
 
@@ -73,16 +73,19 @@
                 <!-- Page Header -->
                 <div class="content bg-image overflow-hidden" style="background-color: #09c;">
                     <div class="push-10-t push-15">
-                        <h1 class="h2 text-white animated zoomIn">Dashboard</h1>
+                        <h1 class="h2 text-white animated zoomIn">Dashboard</h1>						
                         <h2 class="h5 text-white-op animated zoomIn">
-                        	<div sec:authorize="isAuthenticated()">
-								Welcome, <span th:text="*{session.name +' ( '+ session.supplierName + ' )'}">AN Other</span>
-							</div>
-							<!--div>
-								Welcome, A.N Other</span>
-							</div-->
+							<div class="" sec:authorize="isAuthenticated()">
+								<div class="pull-left">
+									Welcome, <span th:text="*{session.name +' ( '+ session.supplierName + ' )'}">AN Other</span>
+								</div>
+								<div class="pull-right">
+									<strong th:text="*{session.supplierCode}">0001</strong>
+								</div>
+							</div>                        	
                         </h2>
                     </div>
+					<div class="push-10-t">&nbsp;</div>
                 </div>
                 <!-- END Page Header -->
 				

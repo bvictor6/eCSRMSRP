@@ -7,6 +7,7 @@ package org.bcms.ecsrmsrp.services;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -74,6 +75,7 @@ public class ProfileService {
 		user.setTwoFactorSecret(TimeBasedOneTimePasswordUtil.generateBase32Secret());
 		user.setTwoFactorEnabled(false);
 		user.setSupplierCode(data.getCode());
+		user.setIsPrimaryDesignator(data.getIsPrimaryDesignator());
 		//
 		if(!userExists(user.getUsername())) 
 		{
@@ -201,6 +203,15 @@ public class ProfileService {
 		}else {
 			return false;
 		}
+	}
+	
+	public Optional<User> getUserProfile(UUID id){
+		
+		return userRepository.findById(id);
+	}
+	
+	public List<User> getAllOrgUsers(String supplierCode){
+		return userRepository.findBySupplierCode(supplierCode);
 	}
 
 }
