@@ -234,7 +234,7 @@ public class ContractController {
 					d.setVersion(o.isNull("version")? "" : o.getString("version"));
 					//
 					ApplicationTypeHandler applicationTypeHandler = new ApplicationTypeHandler(o.isNull("mimeType")? "" : o.getString("mimeType"));
-					d.setDocType(applicationTypeHandler.getDocumentType());
+					d.setIcon(applicationTypeHandler.getDocumentIcon());
 					//
 					contractDocuments.add(d);
 				}

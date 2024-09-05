@@ -5,8 +5,6 @@
 */
 package org.bcms.ecsrmsrp.components;
 
-import org.bcms.ecsrmsrp.enums.DocumentType;
-
 /**
  * 
  */
@@ -18,32 +16,35 @@ public class ApplicationTypeHandler {
 		this.documentType = documentType;
 	}
 	
-	public DocumentType getDocumentType() 
+	public String getDocumentIcon() 
 	{
 		switch (documentType) {
 		case "application/pdf": {
-			return DocumentType.PDF;
+			return "<i class=\"fa fa-file-pdf-o\" aria-hidden=\"true\"></i>";
 		}
 		case ("application/x-tika-ooxml") : {
-			return DocumentType.EXCEL;
+			return "<i class=\"fa fa-file-excel-o\" aria-hidden=\"true\"></i>";
+		}
+		case "application/vnd.ms-excel": {
+			return "<i class=\"fa fa-file-excel-o\" aria-hidden=\"true\"></i>";
 		}
 		case "image/jpeg": {
-			return DocumentType.JPG;
+			return "<i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i>";
 		}
 		case "image/png": {
-			return DocumentType.PNG;
+			return "<i class=\"fa fa-file-image-o\" aria-hidden=\"true\"></i>";
 		}
 		case "text/plain": {
-			return DocumentType.TXT;
+			return "<i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i>";
 		}
 		case "application/msword": {
-			return DocumentType.WORD;
+			return "<i class=\"fa fa-file-word-o\" aria-hidden=\"true\"></i>";
 		}
 		case "application/x-ms-owner": {
-			return DocumentType.WORD;
+			return "<i class=\"fa fa-file-word-o\" aria-hidden=\"true\"></i>";
 		}
 		default:
-			return DocumentType.OTHER;
+			return "<i class=\"fa fa-file-o\" aria-hidden=\"true\"></i>";
 		}
 	}
 

@@ -5,8 +5,6 @@
 */
 package org.bcms.ecsrmsrp.dto;
 
-import org.bcms.ecsrmsrp.enums.DocumentType;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +23,5 @@ public class DocumentDTO {
 	private String path;
 	private Long size;
 	private String mimeType;
-	private DocumentType docType;
+	private String icon;
 }
