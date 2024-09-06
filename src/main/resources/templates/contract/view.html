@@ -235,7 +235,7 @@
 				                            <td class="font-s12" th:text="${#numbers.formatDecimal(d.size, 0,'COMMA',0,'POINT') + ' MB'}"></td>
 				                            <td class="text-center">
 				                                <div class="btn-group">
-				                                	<a th:href ="@{/contracts/download(id=${d.id})}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+				                                	<a th:href ="@{/contracts/download(id=${d.id},mime=${d.mimeType})}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="Download" target="_blank"><i class="fa fa-download"></i></a>
 				                                </div>
 				                            </td>
 				                        </tr>                                            

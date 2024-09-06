@@ -25,6 +25,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -140,14 +142,16 @@ public class ContractController {
 	 * @param response
 	 */
 	@GetMapping(path = "/download")
-	public void download(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Resource> download(@RequestParam("id") String id, @RequestParam("mime") String mime,
+			HttpServletRequest request, HttpServletResponse response) {
 		logger.info("Downloading ... "+ id);
 		
 		try {
-			documentService.downloadDocument(id, response);
-		} catch (IOException e) {
+			return documentService.downloadDocument(id, mime, response);
+		} catch (Exception e) {
 			logger.error("Error downloading document with id - " + id);
 			e.printStackTrace();
+			return ResponseEntity.notFound().build();
 		}		
 	}
 
@@ -255,7 +259,7 @@ public class ContractController {
 			}
 			
 		}catch (Exception e) {
-			logger.error("Error encountered while fetching documents ffor contract " + id + " ,for supplier " + supplierId);
+			logger.error("Error encountered while fetching documents ffor contract " + id + " ,for supplier " + supplierId + " :: "+e.getLocalizedMessage());
 			return null;
 		}
 	}
