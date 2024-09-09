@@ -48,6 +48,15 @@ public class DocumentService {
 
 		return restClientHandler.getApiRequest(endpoint, user);
 	}
+	
+	
+	public String fetchLocDocuments(String supplierID, String locID, String user) {
+		logger.info(user + " :: request documents for - " + locID + " for supplier - " + supplierID);
+
+		String endpoint = Constants._ECSRM_BRIDGE_API + "/loc/documents/" + locID;
+
+		return restClientHandler.getApiRequest(endpoint, user);
+	}
 
 	/**
 	 * 
@@ -61,7 +70,7 @@ public class DocumentService {
 			HttpServletResponse response) throws IOException 
 	{
 		logger.warn("Downlod document with ID - " + id);
-		Resource resource = getNodeContent.getNodeContent(id);
+		Resource resource = getNodeContent.getNodeContent("4c47351e-b50e-4f22-9b07-d9c68c596523");
 
 		if (resource == null) {
 			return ResponseEntity.notFound().build();

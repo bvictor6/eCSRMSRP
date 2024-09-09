@@ -5,18 +5,14 @@
  */
 package org.bcms.ecsrmsrp.controllers;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bcms.ecsrmsrp.classes.Document;
-import org.bcms.ecsrmsrp.classes.Product;
 import org.bcms.ecsrmsrp.components.ApplicationTypeHandler;
 import org.bcms.ecsrmsrp.components.SessionHandler;
 import org.bcms.ecsrmsrp.dto.ContractDTO;
 import org.bcms.ecsrmsrp.dto.ContractProductDTO;
-import org.bcms.ecsrmsrp.dto.DashboardContractDTO;
 import org.bcms.ecsrmsrp.dto.DocumentDTO;
 import org.bcms.ecsrmsrp.services.ContractService;
 import org.bcms.ecsrmsrp.services.DocumentService;
@@ -136,7 +132,7 @@ public class ContractController {
 	}
 	
 	/**
-	 * 
+	 * Download a document from Alfresco repository
 	 * @param name
 	 * @param request
 	 * @param response
@@ -220,7 +216,8 @@ public class ContractController {
 	 * @param supplierId
 	 * @return
 	 */
-	private List<DocumentDTO> fetchContractDocuments(String id, String user, String supplierId) {
+	private List<DocumentDTO> fetchContractDocuments(String id, String user, String supplierId) 
+	{
 		try 
 		{
 			logger.info(user + " - fetch documents for contract " + id);

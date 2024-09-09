@@ -182,7 +182,7 @@
 				                        <tr>
 				                            <th class="text-center" style="width: 5%;">#</th>
 				                            <th class="font-s13">Name</th>
-				                            <th class="font-s13">Type</th>
+				                            <th class="font-s13">Size</th>
 				                            <th class="text-center" style="width: 10%;">Actions</th>
 				                        </tr>
 				                    </thead>
@@ -190,12 +190,12 @@
 				                        <tr th:each="d,counter :${documents}">
 				                            <td class="text-center font-s12" th:text="${counter.index + 1}">1</td>
 				                            <td class="font-w300" >
-												<i class="fa fa-file-pdf-o text-danger"></i> <span th:text="${d.name}"></span>
+												<i th:classappend="${d.icon}"></i> <span th:text="${d.name}"></span>
 											</td>
-				                            <td class="font-s12" th:text="${{d.type}}"></td>
+				                            <td class="font-s12" th:text="${#numbers.formatDecimal(d.size, 0,'COMMA',0,'POINT') + ' MB'}"></td>
 				                            <td class="text-center">
-				                                <div class="btn-group">
-				                                	<a th:href ="@{/loc/download(name=${d.path})}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="Download"><i class="fa fa-download"></i></a>
+												<div class="btn-group">
+				                                	<a th:href ="@{/loc/download(id=${d.id},mime=${d.mimeType})}" class="btn btn-xs btn-info" type="button" data-toggle="tooltip" title="Download" target="_blank"><i class="fa fa-download"></i></a>
 				                                </div>
 				                            </td>
 				                        </tr>                                            

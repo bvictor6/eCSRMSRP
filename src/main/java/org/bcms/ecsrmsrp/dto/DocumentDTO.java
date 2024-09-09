@@ -24,4 +24,5 @@ public class DocumentDTO {
 	private Long size;
 	private String mimeType;
 	private String icon;
+	private String locNumber;
 }
